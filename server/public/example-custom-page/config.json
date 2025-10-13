@@ -1,0 +1,22 @@
+{
+  "pageInfo": {
+    "title": "互動式數學遊戲",
+    "description": "透過遊戲學習數學概念",
+    "version": "1.0.0",
+    "author": "PlayBoard 團隊"
+  },
+  "settings": {
+    "entryFile": "index.html",
+    "allowFullscreen": false,
+    "allowNavigation": true,
+    "autoProgress": false,
+    "progressTrigger": "completion",
+    "progressDelay": 0,
+    "completionCriteria": "完成所有數學題目"
+  },
+  "requirements": {
+    "minWidth": 800,
+    "minHeight": 600,
+    "browserSupport": ["chrome", "firefox", "safari", "edge"]
+  }
+}

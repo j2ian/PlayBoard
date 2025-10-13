@@ -1,0 +1,20 @@
+{
+  "pageInfo": {
+    "title": "簡單測驗範例",
+    "description": "這是一個基本的互動測驗頁面範例，展示如何創建客製化頁面",
+    "version": "1.0.0",
+    "author": "PlayBoard Team"
+  },
+  "settings": {
+    "entryFile": "index.html",
+    "autoProgress": false,
+    "progressTrigger": "manual",
+    "allowFullscreen": true,
+    "enableKeyboard": true
+  },
+  "requirements": {
+    "minWidth": 800,
+    "minHeight": 600,
+    "supportedBrowsers": ["chrome", "firefox", "safari", "edge"]
+  }
+}

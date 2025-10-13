@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>互動式數學遊戲</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        .game-area {
+            margin: 30px 0;
+        }
+        
+        .question {
+            font-size: 1.5em;
+            margin: 20px 0;
+            color: #555;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .option {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2em;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background-color: #f0f4ff;
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .option.correct {
+            border-color: #4CAF50;
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .option.incorrect {
+            border-color: #f44336;
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .score {
+            font-size: 1.3em;
+            margin: 20px 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .progress {
+            width: 100%;
+            height: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+        
+        .result.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .result.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .completion {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .completion h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .completion p {
+            font-size: 1.2em;
+            color: #666;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 互動式數學遊戲</h1>
+        
+        <div id="gameArea" class="game-area">
+            <div class="score">分數: <span id="score">0</span></div>
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="question" id="question">準備開始遊戲...</div>
+            <div class="options" id="options"></div>
+            <div id="result" class="result" style="display: none;"></div>
+            <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display: none;">下一題</button>
+            <button class="btn" id="startBtn" onclick="startGame()">開始遊戲</button>
+        </div>
+        
+        <div id="completion" class="completion" style="display: none;">
+            <h2>🎉 恭喜完成！</h2>
+            <p>你的最終分數: <span id="finalScore"></span></p>
+            <p>正確率: <span id="accuracy"></span>%</p>
+            <p>完成時間: <span id="completionTime"></span> 秒</p>
+            <button class="btn" onclick="restartGame()">重新開始</button>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 0;
+        let score = 0;
+        let startTime = null;
+        let selectedAnswer = null;
+        
+        const questions = [
+            {
+                question: "2 + 3 = ?",
+                options: ["4", "5", "6", "7"],
+                correct: 1
+            },
+            {
+                question: "10 - 4 = ?",
+                options: ["5", "6", "7", "8"],
+                correct: 1
+            },
+            {
+                question: "3 × 4 = ?",
+                options: ["10", "11", "12", "13"],
+                correct: 2
+            },
+            {
+                question: "15 ÷ 3 = ?",
+                options: ["4", "5", "6", "7"],
+                correct: 1
+            },
+            {
+                question: "7 + 8 = ?",
+                options: ["14", "15", "16", "17"],
+                correct: 1
+            }
+        ];
+        
+        function startGame() {
+            startTime = Date.now();
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('completion').style.display = 'none';
+            showQuestion();
+        }
+        
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('question').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            updateProgress();
+        }
+        
+        function selectAnswer(index) {
+            selectedAnswer = index;
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, i) => {
+                option.classList.remove('selected');
+                if (i === index) {
+                    option.classList.add('selected');
+                }
+            });
+        }
+        
+        function nextQuestion() {
+            if (selectedAnswer === null) return;
+            
+            const question = questions[currentQuestion];
+            const isCorrect = selectedAnswer === question.correct;
+            
+            if (isCorrect) {
+                score += 10;
+                showResult('正確！', 'correct');
+            } else {
+                showResult('錯誤！正確答案是: ' + question.options[question.correct], 'incorrect');
+            }
+            
+            // 標記選項
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.onclick = null;
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedAnswer && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            document.getElementById('score').textContent = score;
+            document.getElementById('nextBtn').style.display = 'inline-block';
+            
+            currentQuestion++;
+            selectedAnswer = null;
+            
+            if (currentQuestion >= questions.length) {
+                setTimeout(completeGame, 2000);
+            }
+        }
+        
+        function showResult(message, type) {
+            const result = document.getElementById('result');
+            result.textContent = message;
+            result.className = 'result ' + type;
+            result.style.display = 'block';
+        }
+        
+        function updateProgress() {
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function completeGame() {
+            const endTime = Date.now();
+            const timeSpent = Math.round((endTime - startTime) / 1000);
+            const accuracy = Math.round((score / (questions.length * 10)) * 100);
+            
+            document.getElementById('gameArea').style.display = 'none';
+            document.getElementById('completion').style.display = 'block';
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('accuracy').textContent = accuracy;
+            document.getElementById('completionTime').textContent = timeSpent;
+            
+            // 通知父頁面遊戲完成
+            if (window.parent) {
+                window.parent.postMessage({
+                    type: 'CUSTOM_PAGE_PROGRESS',
+                    action: 'complete',
+                    data: {
+                        score: score,
+                        accuracy: accuracy,
+                        timeSpent: timeSpent,
+                        questionsAnswered: questions.length,
+                        customData: {
+                            gameType: 'math',
+                            difficulty: 'beginner'
+                        }
+                    }
+                }, '*');
+            }
+        }
+        
+        function restartGame() {
+            document.getElementById('gameArea').style.display = 'block';
+            document.getElementById('completion').style.display = 'none';
+            startGame();
+        }
+        
+        // 頁面載入完成後通知父頁面
+        window.addEventListener('load', function() {
+            if (window.parent) {
+                window.parent.postMessage({
+                    type: 'CUSTOM_PAGE_PROGRESS',
+                    action: 'ready'
+                }, '*');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/* Design tokens and Element Plus theme variables */
+:root {
+  /* Brand colors */
+  --pb-color-primary: #A15C38;
+  --pb-color-primary-600: #8F5233;
+  --pb-color-primary-700: #7A472C;
+
+  /* Neutrals */
+  --pb-text-primary: #262220;
+  --pb-text-secondary: rgba(38, 34, 32, 0.7);
+  --pb-border-color: rgba(38, 34, 32, 0.12);
+
+  /* Surfaces */
+  --pb-surface: #FFFFFF;
+  --pb-surface-subtle: #F7F1F0;
+  --pb-surface-emphasis: #C3A6A0;
+
+  /* Element Plus mapping */
+  --el-color-primary: var(--pb-color-primary);
+  --el-color-primary-light-3: #C37A59;
+  --el-color-primary-light-5: #D69A80;
+  --el-color-primary-light-7: #E6BBA8;
+  --el-color-primary-light-9: #F5E6E0;
+
+  --el-text-color-primary: var(--pb-text-primary);
+  --el-text-color-regular: var(--pb-text-secondary);
+  --el-border-color: var(--pb-border-color);
+  --el-bg-color: var(--pb-surface);
+  --el-bg-color-page: var(--pb-surface-subtle);
+
+  /* Element Plus radius */
+  --el-border-radius-base: 6px;
+  --el-border-radius-small: 6px;
+}
+
+/* Base page styles */
+html, body, #app {
+  height: 100%;
+}
+
+body {
+  color: var(--pb-text-primary);
+  background-color: var(--pb-surface-subtle);
+}
+
+/* Utility helpers (kept minimal) */
+.pb-card {
+  background-color: var(--pb-surface);
+  border: 1px solid var(--pb-border-color);
+  border-radius: 6px;
+}
+
+.pb-link {
+  color: var(--pb-color-primary);
+}
+
+.pb-link:hover {
+  color: var(--pb-color-primary-600);
+}
