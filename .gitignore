@@ -39,4 +39,5 @@ Thumbs.db
 # Other
 /coverage
 /server/public/uploads
+/server/public/custom-pages
 /server/zsh.exe.stackdump
