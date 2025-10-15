@@ -36,6 +36,10 @@ const PlayBookStepPlayer = () => import('../views/PlayBookStepPlayer.vue')
 const PlayBookStepContentView = () => import('../views/PlayBookStepContentView.vue')
 const PlayBookCompletedView = () => import('../views/PlayBookCompletedView.vue')
 const CustomPageList = () => import('../views/admin/CustomPageList.vue')
+const UserList = () => import('../views/admin/UserList.vue')
+const UserCreate = () => import('../views/admin/UserCreate.vue')
+const UserEdit = () => import('../views/admin/UserEdit.vue')
+const UserRead = () => import('../views/admin/UserRead.vue')
 
 // 路由配置
 const routes = [
@@ -264,6 +268,30 @@ const routes = [
     name: 'CustomPagePlayer',
     component: () => import('../views/CustomPagePlayer.vue'),
     meta: { title: '客製化頁面 - PlayBoard' }
+  },
+  {
+    path: '/admin/users',
+    name: 'UserList',
+    component: UserList,
+    meta: { title: '使用者管理 - PlayBoard', requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/admin/users/create',
+    name: 'UserCreate',
+    component: UserCreate,
+    meta: { title: '新增使用者 - PlayBoard', requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/admin/users/:id/edit',
+    name: 'UserEdit',
+    component: UserEdit,
+    meta: { title: '編輯使用者 - PlayBoard', requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/admin/users/:id',
+    name: 'UserRead',
+    component: UserRead,
+    meta: { title: '使用者詳情 - PlayBoard', requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/:pathMatch(.*)*',

@@ -35,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // 載入路由文件
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 const examRoutes = require('./routes/examRoutes');
 const questionRoutes = require('./routes/questionRoutes');
 const surveyRoutes = require('./routes/surveyRoutes');
@@ -44,6 +45,7 @@ const customPageRoutes = require('./routes/customPageRoutes');
 
 // 使用路由
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/exams', examRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/surveys', surveyRoutes);

@@ -25,50 +25,61 @@
       <template #title>用戶管理</template>
     </el-menu-item>
 
-    <el-menu-item index="3" @click="navigateTo('admin/games')">
+
+    <el-menu-item index="4-5" @click="navigateTo('admin/playbooks')">
       <el-icon>
-        <VideoPlay />
+        <Collection />
       </el-icon>
-      <template #title>遊戲管理</template>
+      <template #title>PlayBook管理</template>
     </el-menu-item>
 
     <el-sub-menu index="4">
       <template #title>
-        <el-icon><Collection /></el-icon>
-        <span>內容管理</span>
+        <el-icon>
+          <Collection />
+        </el-icon>
+        <span>測驗</span>
       </template>
-      <el-menu-item index="4-1" @click="navigateTo('admin/contents')">
-        <el-icon><Document /></el-icon>
-        <template #title>一般內容</template>
-      </el-menu-item>
       <el-menu-item index="4-2" @click="navigateTo('admin/exams')">
-        <el-icon><Reading /></el-icon>
+        <el-icon>
+          <Reading />
+        </el-icon>
         <template #title>測驗管理</template>
       </el-menu-item>
       <el-menu-item index="4-3" @click="navigateTo('admin/questions')">
-        <el-icon><EditPen /></el-icon>
+        <el-icon>
+          <EditPen />
+        </el-icon>
         <template #title>題目管理</template>
       </el-menu-item>
-      <el-menu-item index="4-4" @click="navigateTo('admin/surveys')">
-        <el-icon><DataAnalysis /></el-icon>
-        <template #title>滿意度調查</template>
-      </el-menu-item>
-      <el-menu-item index="4-5" @click="navigateTo('admin/playbooks')">
-        <el-icon><Collection /></el-icon>
-        <template #title>PlayBook管理</template>
+    </el-sub-menu>
+    <el-sub-menu index="3">
+      <template #title>
+        <el-icon>
+          <Collection />
+        </el-icon>
+        <span>內容管理</span>
+      </template>
+      <el-menu-item index="4-1" @click="navigateTo('admin/contents')">
+        <el-icon>
+          <Document />
+        </el-icon>
+        <template #title>一般內容</template>
       </el-menu-item>
       <el-menu-item index="4-6" @click="navigateTo('admin/custom-pages')">
-        <el-icon><Document /></el-icon>
+        <el-icon>
+          <Document />
+        </el-icon>
         <template #title>客製化頁面</template>
+      </el-menu-item>
+      <el-menu-item index="4-4" @click="navigateTo('admin/surveys')">
+        <el-icon>
+          <DataAnalysis />
+        </el-icon>
+        <template #title>滿意度調查</template>
       </el-menu-item>
     </el-sub-menu>
 
-    <el-menu-item index="5" @click="navigateTo('admin/settings')">
-      <el-icon>
-        <Setting />
-      </el-icon>
-      <template #title>系統設置</template>
-    </el-menu-item>
 
     <el-menu-item index="6" @click="handleLogout" class="mt-auto">
       <el-icon class="text-red-400">

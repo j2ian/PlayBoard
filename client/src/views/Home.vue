@@ -7,10 +7,16 @@
           <h1 class="text-3xl md:text-4xl font-semibold leading-snug">歡迎來到 PlayBoard</h1>
           <p class="text-[color:var(--pb-text-secondary)] mt-2">您的學習路徑與互動內容中心</p>
         </div>
-        <div class="shrink-0">
-          <router-link to="/login">
+        <div class="shrink-0 flex gap-3">
+          <router-link to="/admin" v-if="isLoggedIn">
             <el-button type="primary" size="large">後台管理</el-button>
           </router-link>
+          <router-link to="/login" v-else>
+            <el-button type="primary" size="large">後台管理</el-button>
+          </router-link>
+          <el-button v-if="isLoggedIn" type="danger" size="large" @click="handleLogout">
+            登出
+          </el-button>
         </div>
       </div>
     </header>
@@ -44,8 +50,41 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'HomeView'
-};
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import AuthService from '@/services/auth.service'
+
+const router = useRouter()
+const isLoggedIn = ref(false)
+
+// 檢查登入狀態
+const checkLoginStatus = () => {
+  isLoggedIn.value = AuthService.isLoggedIn()
+}
+
+// 登出處理
+const handleLogout = () => {
+  ElMessageBox.confirm(
+    '確定要登出嗎？',
+    '登出確認',
+    {
+      confirmButtonText: '確定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }
+  ).then(() => {
+    AuthService.logout()
+    isLoggedIn.value = false
+    ElMessage.success('已成功登出')
+    router.push('/')
+  }).catch(() => {
+    // 用戶取消操作
+  })
+}
+
+onMounted(() => {
+  checkLoginStatus()
+})
 </script>
