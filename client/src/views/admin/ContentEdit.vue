@@ -566,10 +566,33 @@ const removeImage = (index) => {
 // 複製圖片URL
 const copyImageUrl = async (url) => {
   try {
-    await navigator.clipboard.writeText(url)
-    ElMessage.success('圖片URL已複製到剪貼簿')
+    // 優先使用現代 Clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(url)
+      ElMessage.success('圖片URL已複製到剪貼簿')
+    } else {
+      // 降級到傳統方法
+      const textArea = document.createElement('textarea')
+      textArea.value = url
+      textArea.style.position = 'fixed'
+      textArea.style.left = '-999999px'
+      textArea.style.top = '-999999px'
+      document.body.appendChild(textArea)
+      textArea.focus()
+      textArea.select()
+      
+      const successful = document.execCommand('copy')
+      document.body.removeChild(textArea)
+      
+      if (successful) {
+        ElMessage.success('圖片URL已複製到剪貼簿')
+      } else {
+        throw new Error('複製命令失敗')
+      }
+    }
   } catch (error) {
-    ElMessage.error('複製失敗')
+    console.error('複製失敗:', error)
+    ElMessage.error('複製失敗，請手動複製')
   }
 }
 

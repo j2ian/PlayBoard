@@ -379,7 +379,8 @@ const viewStats = (playbook) => {
 
 // 開啟公開連結
 const openPublicLink = (playbook) => {
-  const url = `/playbook/${playbook.slug}`
+  const baseUrl = window.location.origin
+  const url = `${baseUrl}/PlayBoard/playbook/${playbook.slug}`
   window.open(url, '_blank')
 }
 

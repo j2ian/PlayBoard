@@ -120,7 +120,7 @@ const isCorrect = (question, option) => {
 }
 
 const openExamUrl = () => {
-  const url = `${window.location.origin}/exams/${route.params.id}/take`
+  const url = `${window.location.origin}/PlayBoard/exams/${route.params.id}/take`
   window.open(url, '_blank')
 }
 </script> 

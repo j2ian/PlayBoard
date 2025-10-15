@@ -152,7 +152,7 @@ PlayBookSchema.virtual('isPublished').get(function() {
 
 // 虛擬字段：公開URL
 PlayBookSchema.virtual('publicUrl').get(function() {
-  return `/playbook/${this.slug}`;
+  return `/PlayBoard/playbook/${this.slug}`;
 });
 
 // 虛擬字段：完成率

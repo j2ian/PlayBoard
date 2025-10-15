@@ -260,8 +260,8 @@ export default {
         return;
       }
       
-      // 使用 API 基礎 URL 構建完整的查看 URL
-      const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+      // 使用當前域名構建完整的查看 URL
+      const baseUrl = window.location.origin;
       const url = `${baseUrl}/api/custom-pages/public/${customPage.slug}`;
       window.open(url, '_blank');
     };

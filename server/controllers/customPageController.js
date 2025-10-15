@@ -8,7 +8,12 @@ const multer = require('multer');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadDir = path.join(__dirname, '../public/uploads/custom-pages');
-    cb(null, uploadDir);
+    // 確保目錄存在
+    fs.mkdir(uploadDir, { recursive: true }).then(() => {
+      cb(null, uploadDir);
+    }).catch(err => {
+      cb(err);
+    });
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -376,12 +381,30 @@ const serveCustomPage = async (req, res) => {
     await customPage.save();
 
     // 讀取並返回 HTML 檔案
-    const filePath = path.join(
+    // 首先嘗試在根目錄查找
+    let filePath = path.join(
       __dirname, 
       '../public/custom-pages', 
       customPage.slug, 
       customPage.entryFile
     );
+    
+    // 如果根目錄沒有找到，嘗試在子目錄中查找
+    if (!require('fs').existsSync(filePath)) {
+      const extractDir = path.join(__dirname, '../public/custom-pages', customPage.slug);
+      const files = await fs.readdir(extractDir, { withFileTypes: true });
+      
+      for (const file of files) {
+        if (file.isDirectory()) {
+          const subDirPath = path.join(extractDir, file.name);
+          const potentialPath = path.join(subDirPath, customPage.entryFile);
+          if (require('fs').existsSync(potentialPath)) {
+            filePath = potentialPath;
+            break;
+          }
+        }
+      }
+    }
 
     console.log('客製化頁面調試信息:');
     console.log('Slug:', customPage.slug);
@@ -447,12 +470,24 @@ const serveCustomPageAsset = async (req, res) => {
     }
 
     // 構建資源檔案路徑
-    const filePath = path.join(
-      __dirname, 
-      '../public/custom-pages', 
-      customPage.slug, 
-      assetPath
-    );
+    const extractDir = path.join(__dirname, '../public/custom-pages', customPage.slug);
+    let filePath = path.join(extractDir, assetPath);
+    
+    // 如果直接路徑不存在，嘗試在子目錄中查找
+    if (!require('fs').existsSync(filePath)) {
+      const files = await fs.readdir(extractDir, { withFileTypes: true });
+      
+      for (const file of files) {
+        if (file.isDirectory()) {
+          const subDirPath = path.join(extractDir, file.name);
+          const potentialPath = path.join(subDirPath, assetPath);
+          if (require('fs').existsSync(potentialPath)) {
+            filePath = potentialPath;
+            break;
+          }
+        }
+      }
+    }
 
     console.log('資源檔案調試信息:');
     console.log('Slug:', slug);

@@ -117,7 +117,7 @@ ContentSchema.index({ category: 1 });
 
 // 虛擬字段：公開URL
 ContentSchema.virtual('publicUrl').get(function() {
-  return `/content/${this.slug}`;
+  return `/PlayBoard/content/${this.slug}`;
 });
 
 // 虛擬字段：是否已發布
@@ -149,8 +149,7 @@ ContentSchema.pre('save', function(next) {
 // 靜態方法：獲取公開內容
 ContentSchema.statics.getPublicContent = function() {
   return this.find({ 
-    status: 'published', 
-    isPublic: true 
+    status: 'published'
   }).sort({ publishedAt: -1 });
 };
 
@@ -158,8 +157,7 @@ ContentSchema.statics.getPublicContent = function() {
 ContentSchema.statics.getPublicBySlug = function(slug) {
   return this.findOne({ 
     slug, 
-    status: 'published', 
-    isPublic: true 
+    status: 'published'
   }).populate('createdBy', 'username');
 };
 
@@ -167,8 +165,7 @@ ContentSchema.statics.getPublicBySlug = function(slug) {
 ContentSchema.statics.getPublicById = function(id) {
   return this.findOne({ 
     _id: id, 
-    status: 'published', 
-    isPublic: true 
+    status: 'published'
   }).populate('createdBy', 'username');
 };
 

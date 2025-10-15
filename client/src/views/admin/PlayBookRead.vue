@@ -293,7 +293,7 @@ onMounted(async () => {
 const publicUrl = computed(() => {
   if (!playbook.value) return ''
   const baseUrl = window.location.origin
-  return `${baseUrl}/playbook/${playbook.value.slug}`
+  return `${baseUrl}/PlayBoard/playbook/${playbook.value.slug}`
 })
 
 // 獲取PlayBook資料
@@ -402,10 +402,33 @@ const viewResource = (step) => {
 // 複製URL
 const copyUrl = async () => {
   try {
-    await navigator.clipboard.writeText(publicUrl.value)
-    ElMessage.success('連結已複製到剪貼簿')
+    // 優先使用現代 Clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(publicUrl.value)
+      ElMessage.success('連結已複製到剪貼簿')
+    } else {
+      // 降級到傳統方法
+      const textArea = document.createElement('textarea')
+      textArea.value = publicUrl.value
+      textArea.style.position = 'fixed'
+      textArea.style.left = '-999999px'
+      textArea.style.top = '-999999px'
+      document.body.appendChild(textArea)
+      textArea.focus()
+      textArea.select()
+      
+      const successful = document.execCommand('copy')
+      document.body.removeChild(textArea)
+      
+      if (successful) {
+        ElMessage.success('連結已複製到剪貼簿')
+      } else {
+        throw new Error('複製命令失敗')
+      }
+    }
   } catch (error) {
-    ElMessage.error('複製連結失敗')
+    console.error('複製連結失敗:', error)
+    ElMessage.error('複製連結失敗，請手動複製')
   }
 }
 

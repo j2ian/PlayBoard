@@ -188,7 +188,7 @@
             <div class="flex flex-wrap gap-1">
               <!-- 公開連結（只在已發布且公開時顯示） -->
               <el-button 
-                v-if="row.status === 'published' && row.isPublic"
+                v-if="row.status === 'published'"
                 size="small" 
                 type="success" 
                 @click="openPublicLink(row)"
@@ -368,7 +368,7 @@ const editContent = (content) => {
 
 // 開啟公開連結
 const openPublicLink = (content) => {
-  const url = `/content/${content.slug}`
+  const url = `${window.location.origin}/PlayBoard/content/${content.slug}`
   window.open(url, '_blank')
 }
 

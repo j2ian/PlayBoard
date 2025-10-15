@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
+  base: '/PlayBoard/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -12,9 +13,15 @@ export default defineConfig({
   },
   server: {
     port: 8080,
+    host: '0.0.0.0',
+    allowedHosts: true,
+    hmr: {
+      port: 8080,
+      host: '0.0.0.0'
+    },
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://playboard-backend:3001',
         changeOrigin: true
       }
     }

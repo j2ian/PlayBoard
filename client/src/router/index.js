@@ -303,7 +303,7 @@ const routes = [
 
 // 創建路由實例
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/PlayBoard/'),
   routes,
   scrollBehavior() {
     // 始終滾動到頂部

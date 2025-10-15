@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // API基礎URL - 使用相對路徑以便通過Vite代理訪問
-const API_URL = '/api/auth/';
+const API_URL = import.meta.env.VITE_API_URL + 'auth/';
 
 class AuthService {
   /**

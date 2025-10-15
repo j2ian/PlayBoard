@@ -7,7 +7,13 @@ const multer = require('multer');
 // 設定檔案上傳
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../public/uploads/content/'))
+    const uploadDir = path.join(__dirname, '../public/uploads/content/');
+    // 確保目錄存在
+    fs.mkdir(uploadDir, { recursive: true }).then(() => {
+      cb(null, uploadDir);
+    }).catch(err => {
+      cb(err);
+    });
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)

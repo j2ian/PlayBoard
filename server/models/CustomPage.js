@@ -150,7 +150,7 @@ CustomPageSchema.index({ category: 1 });
 
 // 虛擬欄位
 CustomPageSchema.virtual('publicUrl').get(function() {
-  return `/custom-pages/${this.slug}`;
+  return `/PlayBoard/custom-pages/${this.slug}`;
 });
 
 CustomPageSchema.virtual('isReady').get(function() {
