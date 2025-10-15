@@ -157,7 +157,12 @@ ContentSchema.statics.getPublicContent = function() {
 ContentSchema.statics.getPublicBySlug = function(slug) {
   return this.findOne({ 
     slug, 
-    status: 'published'
+    status: 'published',
+    $or: [
+      { isPublic: true },
+      { isPublic: { $exists: false } },
+      { isPublic: null }
+    ]
   }).populate('createdBy', 'username');
 };
 
@@ -165,7 +170,12 @@ ContentSchema.statics.getPublicBySlug = function(slug) {
 ContentSchema.statics.getPublicById = function(id) {
   return this.findOne({ 
     _id: id, 
-    status: 'published'
+    status: 'published',
+    $or: [
+      { isPublic: true },
+      { isPublic: { $exists: false } },
+      { isPublic: null }
+    ]
   }).populate('createdBy', 'username');
 };
 
