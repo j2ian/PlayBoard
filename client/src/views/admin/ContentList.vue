@@ -368,8 +368,32 @@ const editContent = (content) => {
 
 // 開啟公開連結
 const openPublicLink = (content) => {
-  const url = `/content/${content.slug}`
-  window.open(url, '_blank')
+  const fullUrl = `${window.location.origin}/content/${content.slug}`
+
+  ElMessageBox.confirm(
+    `公開連結：${fullUrl}`,
+    '內容連結',
+    {
+      confirmButtonText: '複製連結',
+      cancelButtonText: '在新視窗開啟',
+      distinguishCancelAndClose: true,
+      type: 'info'
+    }
+  )
+  .then(() => {
+    // 複製到剪貼板
+    navigator.clipboard.writeText(fullUrl).then(() => {
+      ElMessage.success('連結已複製到剪貼板')
+    }).catch(() => {
+      ElMessage.error('複製失敗，請手動複製')
+    })
+  })
+  .catch((action) => {
+    if (action === 'cancel') {
+      // 在新視窗開啟
+      window.open(`/content/${content.slug}`, '_blank')
+    }
+  })
 }
 
 // 切換發布狀態
@@ -377,7 +401,7 @@ const toggleStatus = async (content) => {
   try {
     const newStatus = content.status === 'published' ? 'draft' : 'published'
     const statusText = newStatus === 'published' ? '發布' : '取消發布'
-    
+
     await ElMessageBox.confirm(
       `確定要${statusText}「${content.title}」嗎？`,
       `確認${statusText}`,
@@ -387,8 +411,14 @@ const toggleStatus = async (content) => {
         type: 'warning',
       }
     )
-    
-    const response = await ContentService.updateContent(content._id, { status: newStatus })
+
+    const updateData = { status: newStatus }
+    // 發布時確保 isPublic 為 true
+    if (newStatus === 'published') {
+      updateData.isPublic = true
+    }
+
+    const response = await ContentService.updateContent(content._id, updateData)
     if (response.data.success) {
       ElMessage.success(`內容已${statusText}`)
       fetchContents()
