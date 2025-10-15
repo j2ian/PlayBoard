@@ -60,6 +60,10 @@ const ContentSchema = new Schema({
     default: 'draft',
     required: true
   },
+  isPublic: {
+    type: Boolean,
+    default: true
+  },
   featuredImage: {
     type: ContentImageSchema,
     default: null

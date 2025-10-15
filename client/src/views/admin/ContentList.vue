@@ -377,7 +377,7 @@ const toggleStatus = async (content) => {
   try {
     const newStatus = content.status === 'published' ? 'draft' : 'published'
     const statusText = newStatus === 'published' ? '發布' : '取消發布'
-    
+
     await ElMessageBox.confirm(
       `確定要${statusText}「${content.title}」嗎？`,
       `確認${statusText}`,
@@ -387,8 +387,14 @@ const toggleStatus = async (content) => {
         type: 'warning',
       }
     )
-    
-    const response = await ContentService.updateContent(content._id, { status: newStatus })
+
+    const updateData = { status: newStatus }
+    // 發布時確保 isPublic 為 true
+    if (newStatus === 'published') {
+      updateData.isPublic = true
+    }
+
+    const response = await ContentService.updateContent(content._id, updateData)
     if (response.data.success) {
       ElMessage.success(`內容已${statusText}`)
       fetchContents()
