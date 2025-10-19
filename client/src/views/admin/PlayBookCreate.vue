@@ -8,63 +8,34 @@
         </div>
       </template>
 
-      <el-form 
-        :model="playbook" 
-        ref="playbookForm" 
-        :rules="rules" 
-        label-width="120px" 
-        class="max-w-4xl mx-auto"
-      >
+      <el-form :model="playbook" ref="playbookForm" :rules="rules" label-width="120px" class="max-w-4xl mx-auto">
         <!-- 基本資訊 -->
         <div class="mb-6">
           <h3 class="text-lg font-medium text-gray-800 mb-4">基本資訊</h3>
-          
+
           <el-form-item label="標題" prop="title" required>
-            <el-input 
-              v-model="playbook.title" 
-              placeholder="請輸入PlayBook標題"
-              maxlength="100"
-              show-word-limit
-            />
+            <el-input v-model="playbook.title" placeholder="請輸入PlayBook標題" maxlength="100" show-word-limit />
           </el-form-item>
-          
+
           <el-form-item label="描述" prop="description">
-            <el-input 
-              v-model="playbook.description" 
-              type="textarea" 
-              :rows="3" 
-              placeholder="請輸入PlayBook描述（可選）"
-              maxlength="1000"
-              show-word-limit
-            />
+            <el-input v-model="playbook.description" type="textarea" :rows="3" placeholder="請輸入PlayBook描述（可選）"
+              maxlength="1000" show-word-limit />
           </el-form-item>
-          
+
           <el-form-item label="分類" prop="category">
-            <el-input 
-              v-model="playbook.category" 
-              placeholder="請輸入分類（例如：前端開發、數據分析等）"
-            />
+            <el-input v-model="playbook.category" placeholder="請輸入分類（例如：前端開發、數據分析等）" />
           </el-form-item>
-          
+
           <el-form-item v-if="appConfig.features.showDifficultyFields" label="難度" prop="difficulty" required>
             <el-select v-model="playbook.difficulty" placeholder="請選擇難度級別">
-              <el-option
-                v-for="difficulty in difficultyOptions"
-                :key="difficulty.value"
-                :label="difficulty.label"
-                :value="difficulty.value"
-              />
+              <el-option v-for="difficulty in difficultyOptions" :key="difficulty.value" :label="difficulty.label"
+                :value="difficulty.value" />
             </el-select>
           </el-form-item>
-          
+
           <el-form-item label="展示模式" prop="displayType" required>
             <el-select v-model="playbook.displayType" placeholder="請選擇展示模式">
-              <el-option
-                v-for="type in displayTypeOptions"
-                :key="type.value"
-                :label="type.label"
-                :value="type.value"
-              >
+              <el-option v-for="type in displayTypeOptions" :key="type.value" :label="type.label" :value="type.value">
                 <div>
                   <div>{{ type.label }}</div>
                   <div class="text-sm text-gray-500">{{ type.description }}</div>
@@ -72,13 +43,20 @@
               </el-option>
             </el-select>
           </el-form-item>
-          
+
+          <el-form-item label="主題樣式" prop="theme" required>
+            <el-select v-model="playbook.theme" placeholder="請選擇主題樣式">
+              <el-option v-for="theme in themeOptions" :key="theme.value" :label="theme.label" :value="theme.value">
+                <div>
+                  <div>{{ theme.label }}</div>
+                  <div class="text-sm text-gray-500">{{ theme.description }}</div>
+                </div>
+              </el-option>
+            </el-select>
+          </el-form-item>
+
           <el-form-item label="標籤" prop="tags">
-            <TagInput
-              v-model="playbook.tags"
-              :max-tags="10"
-              @change="onTagsChange"
-            />
+            <TagInput v-model="playbook.tags" :max-tags="10" @change="onTagsChange" />
           </el-form-item>
         </div>
 
@@ -87,72 +65,56 @@
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-medium text-gray-800">學習步驟</h3>
             <el-button type="primary" @click="addStep">
-              <el-icon><Plus /></el-icon>新增步驟
+              <el-icon>
+                <Plus />
+              </el-icon>新增步驟
             </el-button>
           </div>
-          
+
           <div v-if="playbook.steps.length === 0" class="text-center py-8 text-gray-500">
-            <el-icon size="48" class="mb-2"><DocumentAdd /></el-icon>
+            <el-icon size="48" class="mb-2">
+              <DocumentAdd />
+            </el-icon>
             <p>還沒有新增任何步驟</p>
             <p class="text-sm">點擊上方「新增步驟」按鈕開始建立學習路徑</p>
           </div>
-          
+
           <!-- 步驟列表 -->
           <div v-else class="space-y-4">
-            <div 
-              v-for="(step, index) in playbook.steps" 
-              :key="index"
-              class="border rounded-lg p-4 bg-gray-50"
-            >
+            <div v-for="(step, index) in playbook.steps" :key="index" class="border rounded-lg p-4 bg-gray-50">
               <div class="flex items-start justify-between mb-3">
                 <div class="flex items-center gap-2">
-                  <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold">
+                  <span
+                    class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold">
                     {{ index + 1 }}
                   </span>
                   <span class="font-medium">步驟 {{ index + 1 }}</span>
                 </div>
                 <div class="flex gap-2">
-                  <el-button 
-                    v-if="index > 0"
-                    size="small" 
-                    @click="moveStepUp(index)"
-                    plain
-                  >
-                    <el-icon><ArrowUp /></el-icon>
+                  <el-button v-if="index > 0" size="small" @click="moveStepUp(index)" plain>
+                    <el-icon>
+                      <ArrowUp />
+                    </el-icon>
                   </el-button>
-                  <el-button 
-                    v-if="index < playbook.steps.length - 1"
-                    size="small" 
-                    @click="moveStepDown(index)"
-                    plain
-                  >
-                    <el-icon><ArrowDown /></el-icon>
+                  <el-button v-if="index < playbook.steps.length - 1" size="small" @click="moveStepDown(index)" plain>
+                    <el-icon>
+                      <ArrowDown />
+                    </el-icon>
                   </el-button>
-                  <el-button 
-                    size="small" 
-                    type="danger" 
-                    @click="removeStep(index)"
-                    plain
-                  >
-                    <el-icon><Delete /></el-icon>
+                  <el-button size="small" type="danger" @click="removeStep(index)" plain>
+                    <el-icon>
+                      <Delete />
+                    </el-icon>
                   </el-button>
                 </div>
               </div>
-              
+
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- 步驟類型 -->
                 <el-form-item :label="`步驟${index + 1}類型`" :prop="`steps.${index}.type`" required>
-                  <el-select 
-                    v-model="step.type" 
-                    placeholder="選擇步驟類型"
-                    @change="onStepTypeChange(index)"
-                  >
-                    <el-option
-                      v-for="type in stepTypeOptions"
-                      :key="type.value"
-                      :label="type.label"
-                      :value="type.value"
-                    >
+                  <el-select v-model="step.type" placeholder="選擇步驟類型" @change="onStepTypeChange(index)">
+                    <el-option v-for="type in stepTypeOptions" :key="type.value" :label="type.label"
+                      :value="type.value">
                       <div class="flex items-center gap-2">
                         <span>{{ type.label }}</span>
                         <span class="text-sm text-gray-500">{{ type.description }}</span>
@@ -160,52 +122,31 @@
                     </el-option>
                   </el-select>
                 </el-form-item>
-                
+
                 <!-- 選擇資源 -->
                 <el-form-item :label="`選擇${getStepTypeLabel(step.type)}`" :prop="`steps.${index}.resourceId`" required>
-                  <el-select 
-                    v-model="step.resourceId" 
-                    placeholder="選擇資源"
-                    @change="onResourceChange(index)"
-                    filterable
-                  >
-                    <el-option
-                      v-for="resource in getResourceOptions(step.type)"
-                      :key="resource._id"
-                      :label="resource.title"
-                      :value="resource._id"
-                    />
+                  <el-select v-model="step.resourceId" placeholder="選擇資源" @change="onResourceChange(index)" filterable>
+                    <el-option v-for="resource in getResourceOptions(step.type)" :key="resource._id"
+                      :label="resource.title" :value="resource._id" />
                   </el-select>
                 </el-form-item>
               </div>
-              
+
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
                 <!-- 步驟標題 -->
                 <el-form-item :label="`步驟${index + 1}標題`" :prop="`steps.${index}.title`" required>
-                  <el-input 
-                    v-model="step.title" 
-                    placeholder="輸入步驟標題"
-                  />
+                  <el-input v-model="step.title" placeholder="輸入步驟標題" />
                 </el-form-item>
-                
+
                 <!-- 是否必須 -->
                 <el-form-item :label="`是否必須完成`">
-                  <el-switch
-                    v-model="step.isRequired"
-                    active-text="必須"
-                    inactive-text="選填"
-                  />
+                  <el-switch v-model="step.isRequired" active-text="必須" inactive-text="選填" />
                 </el-form-item>
               </div>
-              
+
               <!-- 步驟描述 -->
               <el-form-item :label="`步驟${index + 1}描述`">
-                <el-input 
-                  v-model="step.description" 
-                  type="textarea"
-                  :rows="2"
-                  placeholder="輸入步驟描述（可選）"
-                />
+                <el-input v-model="step.description" type="textarea" :rows="2" placeholder="輸入步驟描述（可選）" />
               </el-form-item>
             </div>
           </div>
@@ -214,19 +155,15 @@
         <!-- 發布設定 -->
         <div class="mb-6">
           <h3 class="text-lg font-medium text-gray-800 mb-4">發布設定</h3>
-          
+
           <el-form-item label="狀態" prop="status" required>
             <el-select v-model="playbook.status" placeholder="請選擇發布狀態">
-              <el-option
-                v-for="status in statusOptions"
-                :key="status.value"
-                :label="status.label"
-                :value="status.value"
-              />
+              <el-option v-for="status in statusOptions" :key="status.value" :label="status.label"
+                :value="status.value" />
             </el-select>
           </el-form-item>
-          
-          
+
+
         </div>
 
         <!-- 提交按鈕 -->
@@ -245,22 +182,19 @@
           <h2 class="text-2xl font-bold">{{ playbook.title }}</h2>
           <p v-if="playbook.description" class="text-gray-600 mt-2">{{ playbook.description }}</p>
         </div>
-        
+
         <div class="flex gap-2">
           <el-tag type="warning">{{ playbook.category || '一般' }}</el-tag>
           <el-tag v-if="appConfig.features.showDifficultyFields" :type="getDifficultyColor(playbook.difficulty)">
             {{ getDifficultyLabel(playbook.difficulty) }}
           </el-tag>
         </div>
-        
+
         <div>
           <h3 class="text-lg font-semibold mb-2">學習步驟 ({{ playbook.steps.length }})</h3>
           <div class="space-y-2">
-            <div 
-              v-for="(step, index) in playbook.steps" 
-              :key="index"
-              class="flex items-center gap-3 p-3 border rounded"
-            >
+            <div v-for="(step, index) in playbook.steps" :key="index"
+              class="flex items-center gap-3 p-3 border rounded">
               <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
                 {{ index + 1 }}
               </span>
@@ -292,6 +226,7 @@ import SurveyService from '@/services/survey.service'
 import customPageService from '@/services/customPage.service'
 import { Plus, DocumentAdd, ArrowUp, ArrowDown, Delete } from '@element-plus/icons-vue'
 import appConfig from '@/config/app.config'
+import { getThemeOptions as getThemeOptionsFromLoader } from '@/utils/themeLoader'
 
 const router = useRouter()
 const loading = ref(false)
@@ -307,6 +242,7 @@ const playbook = ref({
   difficulty: 'beginner',
   // 依設定決定預設展示模式
   displayType: appConfig.features.showOverviewOptionInPlayBookForm ? 'overview' : 'stepByStep',
+  theme: 'default',
   tags: [],
   steps: [],
   status: 'draft',
@@ -316,6 +252,7 @@ const playbook = ref({
 // 選項資料
 const difficultyOptions = ref([])
 const displayTypeOptions = ref([])
+const themeOptions = ref([])
 const statusOptions = ref([])
 const stepTypeOptions = ref([])
 
@@ -329,6 +266,7 @@ const customPageOptions = ref([])
 const rules = {
   title: [{ required: true, message: '標題為必填', trigger: 'blur' }],
   difficulty: [{ required: true, message: '難度為必填', trigger: 'change' }],
+  theme: [{ required: true, message: '主題樣式為必填', trigger: 'change' }],
   status: [{ required: true, message: '發布狀態為必填', trigger: 'change' }]
 }
 
@@ -339,9 +277,10 @@ onMounted(async () => {
   if (!displayTypeOptions.value.some(opt => opt.value === playbook.value.displayType)) {
     playbook.value.displayType = displayTypeOptions.value[0]?.value || 'stepByStep'
   }
+  themeOptions.value = getThemeOptions()
   statusOptions.value = PlayBookService.getStatusOptions()
   stepTypeOptions.value = PlayBookService.getStepTypeOptions()
-  
+
   await loadResources()
 })
 
@@ -363,14 +302,20 @@ const getDisplayTypeOptions = () => {
   return options
 }
 
+// 獲取主題選項
+const getThemeOptions = () => {
+  // 直接從 themeLoader 取得完整的主題設定
+  return getThemeOptionsFromLoader()
+}
+
 // 載入所有資源
 const loadResources = async () => {
   try {
     // 載入內容
     console.log('開始載入內容...')
-    const contentResponse = await ContentService.getAllContents({ 
-      status: 'published', 
-      pageSize: 100 
+    const contentResponse = await ContentService.getAllContents({
+      status: 'published',
+      pageSize: 100
     })
     console.log('內容回應:', contentResponse)
     if (contentResponse.data && contentResponse.data.success) {
@@ -379,7 +324,7 @@ const loadResources = async () => {
     } else {
       console.warn('內容載入失敗:', contentResponse)
     }
-    
+
     // 載入測驗
     console.log('開始載入測驗...')
     try {
@@ -395,7 +340,7 @@ const loadResources = async () => {
       console.error('載入測驗時發生錯誤:', examError)
       ElMessage.warning('載入測驗列表失敗，但不影響其他功能')
     }
-    
+
     // 載入問卷
     console.log('開始載入問卷...')
     try {
@@ -411,7 +356,7 @@ const loadResources = async () => {
       console.error('載入問卷時發生錯誤:', surveyError)
       ElMessage.warning('載入問卷列表失敗，但不影響其他功能')
     }
-    
+
     // 載入客製化頁面
     console.log('開始載入客製化頁面...')
     try {
@@ -466,7 +411,7 @@ const moveStepUp = (index) => {
     const temp = playbook.value.steps[index]
     playbook.value.steps[index] = playbook.value.steps[index - 1]
     playbook.value.steps[index - 1] = temp
-    
+
     // 重新編號
     playbook.value.steps.forEach((step, i) => {
       step.stepNumber = i + 1
@@ -480,7 +425,7 @@ const moveStepDown = (index) => {
     const temp = playbook.value.steps[index]
     playbook.value.steps[index] = playbook.value.steps[index + 1]
     playbook.value.steps[index + 1] = temp
-    
+
     // 重新編號
     playbook.value.steps.forEach((step, i) => {
       step.stepNumber = i + 1
@@ -500,7 +445,7 @@ const onResourceChange = (index) => {
   const step = playbook.value.steps[index]
   const resources = getResourceOptions(step.type)
   const selectedResource = resources.find(r => r._id === step.resourceId)
-  
+
   if (selectedResource) {
     // 自動設定步驟標題為資源標題
     step.title = selectedResource.title
@@ -514,7 +459,7 @@ const getResourceOptions = (type) => {
   console.log('examOptions:', examOptions.value.length)
   console.log('surveyOptions:', surveyOptions.value.length)
   console.log('customPageOptions:', customPageOptions.value.length)
-  
+
   switch (type) {
     case 'content':
       console.log('返回內容選項:', contentOptions.value)
@@ -559,15 +504,15 @@ const previewPlayBook = () => {
 // 提交PlayBook
 const submitPlayBook = async () => {
   if (!playbookForm.value) return
-  
+
   try {
     await playbookForm.value.validate()
-    
+
     if (playbook.value.steps.length === 0) {
       ElMessage.error('至少需要新增一個步驟')
       return
     }
-    
+
     // 驗證步驟
     for (let i = 0; i < playbook.value.steps.length; i++) {
       const step = playbook.value.steps[i]
@@ -576,13 +521,18 @@ const submitPlayBook = async () => {
         return
       }
     }
-    
+
     submitting.value = true
-    
+
+    // Debug: 檢查要提交的資料
+    console.log('準備提交的 PlayBook 資料:', playbook.value)
+    console.log('主題:', playbook.value.theme)
+
     const response = await PlayBookService.createPlayBook(playbook.value)
-    
+
     if (response.data.success) {
       ElMessage.success('PlayBook創建成功')
+      console.log('創建成功，回應資料:', response.data.data)
       router.push('/admin/playbooks')
     }
   } catch (error) {

@@ -102,6 +102,11 @@ const PlayBookSchema = new Schema({
     // overview: 顯示總覽頁面，用戶可以看到所有步驟
     // stepByStep: 直接進入步驟，逐步完成，不顯示總覽
   },
+  theme: {
+    type: String,
+    default: 'default',
+    trim: true
+  },
   viewCount: {
     type: Number,
     default: 0

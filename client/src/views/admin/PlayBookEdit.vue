@@ -98,7 +98,23 @@
               </el-option>
             </el-select>
           </el-form-item>
-          
+
+          <el-form-item label="主題樣式" prop="theme" required>
+            <el-select v-model="playbook.theme" placeholder="請選擇主題樣式">
+              <el-option
+                v-for="theme in themeOptions"
+                :key="theme.value"
+                :label="theme.label"
+                :value="theme.value"
+              >
+                <div>
+                  <div>{{ theme.label }}</div>
+                  <div class="text-sm text-gray-500">{{ theme.description }}</div>
+                </div>
+              </el-option>
+            </el-select>
+          </el-form-item>
+
           <el-form-item label="標籤" prop="tags">
             <TagInput
               v-model="playbook.tags"
@@ -349,6 +365,7 @@ import SurveyService from '@/services/survey.service'
 import customPageService from '@/services/customPage.service'
 import { Plus, DocumentAdd, ArrowUp, ArrowDown, Delete, Link } from '@element-plus/icons-vue'
 import appConfig from '@/config/app.config'
+import { getThemeOptions as getThemeOptionsFromLoader } from '@/utils/themeLoader'
 
 const router = useRouter()
 const route = useRoute()
@@ -364,6 +381,7 @@ const playbook = ref({
   description: '',
   category: '一般',
   difficulty: 'beginner',
+  theme: 'default',
   tags: [],
   steps: [],
   status: 'draft',
@@ -373,6 +391,7 @@ const playbook = ref({
 // 選項資料
 const difficultyOptions = ref([])
 const displayTypeOptions = ref([])
+const themeOptions = ref([])
 const statusOptions = ref([])
 const stepTypeOptions = ref([])
 
@@ -386,15 +405,17 @@ const customPageOptions = ref([])
 const rules = {
   title: [{ required: true, message: '標題為必填', trigger: 'blur' }],
   difficulty: [{ required: true, message: '難度為必填', trigger: 'change' }],
+  theme: [{ required: true, message: '主題樣式為必填', trigger: 'change' }],
   status: [{ required: true, message: '發布狀態為必填', trigger: 'change' }]
 }
 
 onMounted(async () => {
   difficultyOptions.value = PlayBookService.getDifficultyOptions()
   displayTypeOptions.value = getDisplayTypeOptions()
+  themeOptions.value = getThemeOptions()
   statusOptions.value = PlayBookService.getStatusOptions()
   stepTypeOptions.value = PlayBookService.getStepTypeOptions()
-  
+
   await Promise.all([
     loadResources(),
     fetchPlayBook()
@@ -417,6 +438,12 @@ const getDisplayTypeOptions = () => {
     description: '直接進入步驟，逐步完成，中間以「下一步」串接'
   })
   return options
+}
+
+// 獲取主題選項
+const getThemeOptions = () => {
+  // 直接從 themeLoader 取得完整的主題設定
+  return getThemeOptionsFromLoader()
 }
 
 // 載入所有資源
@@ -630,12 +657,17 @@ const submitPlayBook = async () => {
     }
     
     submitting.value = true
-    
+
+    // Debug: 檢查要提交的資料
+    console.log('準備更新的 PlayBook 資料:', playbook.value)
+    console.log('主題:', playbook.value.theme)
+
     const id = route.params.id
     const response = await PlayBookService.updatePlayBook(id, playbook.value)
-    
+
     if (response.data.success) {
       ElMessage.success('PlayBook更新成功')
+      console.log('更新成功，回應資料:', response.data.data)
       // 重新抓取一次，避免本地狀態覆蓋導致顯示錯亂
       await fetchPlayBook()
       router.push('/admin/playbooks')

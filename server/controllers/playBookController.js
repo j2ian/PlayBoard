@@ -129,6 +129,7 @@ const createPlayBook = async (req, res) => {
       category,
       difficulty,
       displayType,
+      theme,
       tags,
       steps,
       status,
@@ -151,6 +152,7 @@ const createPlayBook = async (req, res) => {
       category,
       difficulty,
       displayType,
+      theme,
       tags,
       steps: steps || [],
       ...(status ? { status } : {}),
@@ -205,6 +207,7 @@ const updatePlayBook = async (req, res) => {
       category,
       difficulty,
       displayType,
+      theme,
       tags,
       steps,
       status,
@@ -222,6 +225,7 @@ const updatePlayBook = async (req, res) => {
     if (category !== undefined) playbook.category = category;
     if (difficulty !== undefined) playbook.difficulty = difficulty;
     if (displayType !== undefined) playbook.displayType = displayType;
+    if (theme !== undefined) playbook.theme = theme;
     if (tags !== undefined) playbook.tags = tags;
     if (steps !== undefined) playbook.steps = steps;
     if (status !== undefined) playbook.status = status;
