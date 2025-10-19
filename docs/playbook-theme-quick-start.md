@@ -135,28 +135,64 @@ db.playbooks.findOne({ slug: 'your-slug' })
 
 ## 進階使用
 
-### 使用自訂 CSS 變數
+### 使用圖片和資源
+
+#### 1. 建立 assets 資料夾
+```bash
+mkdir -p client/src/assets/themes/my-theme/images
+mkdir -p client/src/assets/themes/my-theme/styles
+```
+
+#### 2. 放置圖片檔案
+將圖片放到 `client/src/assets/themes/my-theme/images/` 資料夾
+
+#### 3. 在 Vue 元件中使用
 ```vue
+<template>
+  <!-- 方式一：直接引用 -->
+  <img src="@/assets/themes/my-theme/images/logo.png" alt="Logo">
+
+  <!-- 方式二：背景圖 -->
+  <div class="hero-section">
+    <h1>標題</h1>
+  </div>
+</template>
+
 <style scoped>
+/* 背景圖片 */
+.hero-section {
+  background-image: url('@/assets/themes/my-theme/images/background.jpg');
+  background-size: cover;
+}
+</style>
+```
+
+### 使用主題專用 CSS
+
+建立 `client/src/assets/themes/my-theme/styles/theme.css`：
+
+```css
 :root {
   --my-primary-color: #8b5cf6;
   --my-secondary-color: #ec4899;
 }
 
-.custom-button {
+.my-theme {
+  font-family: 'Custom Font', sans-serif;
+}
+
+.my-theme .btn-primary {
   background-color: var(--my-primary-color);
 }
+```
+
+在元件中引入：
+
+```vue
+<style scoped>
+@import '@/assets/themes/my-theme/styles/theme.css';
 </style>
 ```
-
-### 使用圖片資源
-```vue
-<template>
-  <img src="@/assets/themes/my-theme/logo.png" alt="Logo">
-</template>
-```
-
-記得在 `client/src/assets/themes/` 建立對應的資料夾。
 
 ## 完整文件
 

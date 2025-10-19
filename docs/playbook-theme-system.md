@@ -267,15 +267,234 @@ const THEME_CONFIG = [
    - 各類型步驟（Content、Exam、Survey、CustomPage）
    - 完成頁面
 
+## 主題資源管理
+
+### Assets 資料夾結構
+
+建議將主題的靜態資源（圖片、字體、CSS）放在專屬的 assets 資料夾：
+
+```
+client/src/
+├── assets/
+│   └── themes/
+│       ├── default/
+│       │   ├── images/
+│       │   │   ├── logo.png
+│       │   │   ├── background.jpg
+│       │   │   └── icons/
+│       │   │       └── star.svg
+│       │   ├── fonts/
+│       │   │   └── custom-font.woff2
+│       │   └── styles/
+│       │       └── theme-variables.css
+│       └── jungle/
+│           ├── images/
+│           │   ├── logo.png
+│           │   ├── jungle-bg.jpg
+│           │   └── icons/
+│           │       └── leaf.svg
+│           └── styles/
+│               └── jungle-theme.css
+```
+
+### 使用圖片資源
+
+#### 方法 1：靜態引用（推薦用於固定資源）
+
+```vue
+<template>
+  <div class="theme-container">
+    <!-- Logo -->
+    <img
+      src="@/assets/themes/jungle/images/logo.png"
+      alt="Logo"
+      class="w-32 h-32"
+    >
+
+    <!-- 背景圖 -->
+    <div class="hero-section">
+      <h1>{{ playbook.title }}</h1>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.hero-section {
+  background-image: url('@/assets/themes/jungle/images/jungle-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 400px;
+}
+</style>
+```
+
+#### 方法 2：動態載入（適合條件性載入）
+
+```vue
+<script setup>
+import { ref, computed } from 'vue'
+
+const currentTheme = 'jungle'
+
+// 使用 computed 根據主題動態產生資源路徑
+const themeAssets = computed(() => {
+  return {
+    logo: new URL(`../../assets/themes/${currentTheme}/images/logo.png`, import.meta.url).href,
+    background: new URL(`../../assets/themes/${currentTheme}/images/jungle-bg.jpg`, import.meta.url).href
+  }
+})
+</script>
+
+<template>
+  <img :src="themeAssets.logo" alt="Logo">
+  <div :style="{ backgroundImage: `url(${themeAssets.background})` }">
+    <!-- 內容 -->
+  </div>
+</template>
+```
+
+### 使用主題 CSS 檔案
+
+建立主題專用的 CSS 變數檔案：
+
+```css
+/* client/src/assets/themes/jungle/styles/jungle-theme.css */
+
+:root {
+  /* 主色調 */
+  --jungle-primary: #2d5016;
+  --jungle-secondary: #6b8e23;
+  --jungle-accent: #9acd32;
+
+  /* 文字顏色 */
+  --jungle-text-primary: #1a1a1a;
+  --jungle-text-secondary: #4a5568;
+
+  /* 背景色 */
+  --jungle-bg-primary: #f0f8e8;
+  --jungle-bg-secondary: #ffffff;
+
+  /* 陰影 */
+  --jungle-shadow-sm: 0 2px 4px rgba(45, 80, 22, 0.1);
+  --jungle-shadow-md: 0 4px 8px rgba(45, 80, 22, 0.15);
+  --jungle-shadow-lg: 0 8px 16px rgba(45, 80, 22, 0.2);
+
+  /* 邊框圓角 */
+  --jungle-radius-sm: 0.375rem;
+  --jungle-radius-md: 0.5rem;
+  --jungle-radius-lg: 0.75rem;
+}
+
+/* 通用樣式類別 */
+.jungle-theme {
+  color: var(--jungle-text-primary);
+  background-color: var(--jungle-bg-primary);
+}
+
+.jungle-card {
+  background: var(--jungle-bg-secondary);
+  border-radius: var(--jungle-radius-md);
+  box-shadow: var(--jungle-shadow-md);
+  padding: 1.5rem;
+}
+
+.jungle-btn-primary {
+  background-color: var(--jungle-primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--jungle-radius-sm);
+  box-shadow: var(--jungle-shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.jungle-btn-primary:hover {
+  background-color: var(--jungle-secondary);
+  box-shadow: var(--jungle-shadow-md);
+  transform: translateY(-2px);
+}
+```
+
+在 Vue 元件中引入：
+
+```vue
+<template>
+  <div class="jungle-theme">
+    <div class="jungle-card">
+      <h2>{{ playbook.title }}</h2>
+      <button class="jungle-btn-primary">開始學習</button>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+/* 引入主題樣式 */
+@import '@/assets/themes/jungle/styles/jungle-theme.css';
+
+/* 元件特定樣式 */
+.custom-section {
+  /* 使用主題變數 */
+  background-color: var(--jungle-bg-secondary);
+  border-radius: var(--jungle-radius-lg);
+}
+</style>
+```
+
+### 使用 SVG 圖示
+
+SVG 圖示可以直接內嵌或作為元件引用：
+
+```vue
+<script setup>
+import LeafIcon from '@/assets/themes/jungle/images/icons/leaf.svg?component'
+</script>
+
+<template>
+  <!-- 方法 1：作為元件使用 -->
+  <LeafIcon class="w-6 h-6 text-green-600" />
+
+  <!-- 方法 2：作為圖片使用 -->
+  <img src="@/assets/themes/jungle/images/icons/leaf.svg" alt="Leaf" class="w-6 h-6">
+</template>
+```
+
+### 使用自訂字體
+
+1. 將字體檔案放到 `client/src/assets/themes/my-theme/fonts/`
+
+2. 在 CSS 中定義字體：
+
+```css
+/* client/src/assets/themes/jungle/styles/jungle-theme.css */
+
+@font-face {
+  font-family: 'Jungle Font';
+  src: url('@/assets/themes/jungle/fonts/jungle-font.woff2') format('woff2'),
+       url('@/assets/themes/jungle/fonts/jungle-font.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --jungle-font-heading: 'Jungle Font', sans-serif;
+}
+
+.jungle-theme h1,
+.jungle-theme h2,
+.jungle-theme h3 {
+  font-family: var(--jungle-font-heading);
+}
+```
+
 ## 主題開發最佳實踐
 
 ### 1. 保持一致性
 
 確保主題中的所有元件風格一致：
-- 使用相同的色彩配置
+- 使用相同的色彩配置（透過 CSS 變數）
 - 統一的字體和排版
 - 一致的按鈕和表單樣式
-- 相同的間距規則
+- 相同的間距和圓角規則
 
 ### 2. 使用 TailwindCSS
 

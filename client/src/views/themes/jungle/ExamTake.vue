@@ -40,10 +40,12 @@
             {{ score >= (exam?.passingScore || 60) ? '🎉 恭喜通過！' : '❌ 未達及格分數' }}
           </div>
 
-          <!-- PlayBook 模式的自動導航 -->
-          <div v-if="isPlayBookMode && score >= (exam?.passingScore || 60)" class="mt-6">
-            <p class="text-[color:var(--pb-color-primary)] mb-4">{{ autoNavigateCountdown > 0 ?
-              `${autoNavigateCountdown} 秒後自動進入下一步...` : '即將進入下一步...' }}</p>
+          <!-- PlayBook 模式的導航選項 -->
+          <div v-if="isPlayBookMode && (score >= (exam?.passingScore || 60) || exam?.allowFailToContinue)" class="mt-6">
+            <!-- 及格時顯示自動倒數 -->
+            <p v-if="score >= (exam?.passingScore || 60)" class="text-[color:var(--pb-color-primary)] mb-4">
+              {{ autoNavigateCountdown > 0 ? `${autoNavigateCountdown} 秒後自動進入下一步...` : '即將進入下一步...' }}
+            </p>
             <div class="flex justify-center gap-3">
               <el-button type="primary" @click="proceedToNextStep" :data-step-completed="currentStep">
                 立即進入下一步
@@ -54,13 +56,20 @@
             </div>
           </div>
 
-          <!-- 一般模式或未通過的關閉按鈕 -->
-          <div v-else class="mt-4">
-            <el-button v-if="isPlayBookMode" plain @click="backToPlayBook">
+          <!-- 未及格且不允許繼續時的按鈕 -->
+          <div v-else-if="isPlayBookMode" class="mt-4">
+            <el-button plain @click="backToPlayBook">
               返回課程
             </el-button>
             <el-button type="primary" @click="showResult = false">
-              {{ isPlayBookMode ? '重新測驗' : '關閉' }}
+              重新測驗
+            </el-button>
+          </div>
+
+          <!-- 一般模式的關閉按鈕 -->
+          <div v-else class="mt-4">
+            <el-button type="primary" @click="showResult = false">
+              關閉
             </el-button>
           </div>
         </div>
@@ -146,10 +155,19 @@ const submitExam = async () => {
   // 計算測驗花費時間
   examTimeSpent.value = calculateExamTimeSpent()
 
-  // 如果是 PlayBook 模式且通過測驗，更新進度並開始倒數
-  if (isPlayBookMode.value && score.value >= (exam.value.passingScore || 60)) {
-    await updatePlayBookProgress()
-    startAutoNavigateCountdown()
+  // 如果是 PlayBook 模式，根據設定決定是否更新進度
+  if (isPlayBookMode.value) {
+    const passed = score.value >= (exam.value.passingScore || 60)
+    const canContinue = passed || exam.value.allowFailToContinue
+
+    // 及格或允許未及格繼續時，更新進度
+    if (canContinue) {
+      await updatePlayBookProgress()
+      // 只有及格才開始自動倒數
+      if (passed) {
+        startAutoNavigateCountdown()
+      }
+    }
   }
 }
 
@@ -223,7 +241,8 @@ const backToPlayBook = () => {
   if (countdownTimer) {
     clearInterval(countdownTimer)
   }
-  router.push(`/playbook/${route.query.playbook}`)
+  const slug = route.query.playbookSlug || route.query.playbook
+  router.push(`/playbook/${slug}`)
 }
 
 // 清理定時器

@@ -32,6 +32,11 @@ const ExamSchema = new Schema({
     default: 60,
     comment: '測驗及格分數（百分比）'
   },
+  allowFailToContinue: {
+    type: Boolean,
+    default: false,
+    comment: '是否允許未及格也能繼續下一步'
+  },
   isActive: {
     type: Boolean,
     default: true,

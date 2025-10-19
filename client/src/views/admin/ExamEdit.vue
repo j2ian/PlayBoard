@@ -21,6 +21,10 @@
         <el-form-item label="及格分數 (%)" prop="passingScore">
           <el-input-number v-model="exam.passingScore" :min="0" :max="100" controls-position="right" class="w-full" />
         </el-form-item>
+        <el-form-item label="允許未及格繼續" prop="allowFailToContinue">
+          <el-switch v-model="exam.allowFailToContinue" />
+          <span class="ml-2 text-sm text-gray-500">開啟後，學員即使未達及格分數也可繼續下一步</span>
+        </el-form-item>
 
         <el-divider>測驗題目</el-divider>
         <el-form-item label="選擇題目" prop="questions" required>
@@ -79,6 +83,7 @@ const exam = ref({
   questions: [],
   timeLimit: 0,
   passingScore: 60,
+  allowFailToContinue: false,
 })
 
 const rules = {
@@ -132,6 +137,7 @@ const loadExam = async () => {
         : [],
       timeLimit: data.data.timeLimit || 0,
       passingScore: data.data.passingScore || 60,
+      allowFailToContinue: data.data.allowFailToContinue || false,
     }
   } catch (error) {
     ElMessage.error('載入測驗資料失敗')
