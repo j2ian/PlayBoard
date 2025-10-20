@@ -1,0 +1,465 @@
+/* Font Face */
+@font-face {
+    font-family: jf-openhuninn;
+    src: url('../fonts/jf-openhuninn-2.0.woff') format('woff');
+}
+
+/* Common Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+button {
+    cursor: pointer;
+}
+
+.boxGive img {
+    cursor: grab;
+}
+
+/* Main Layout */
+main {
+    display: flex;
+    position: fixed;
+    height: 100dvh;
+    width: 100dvw;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+/* Intro Page */
+#intro {
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+}
+
+#intro button {
+    bottom: 10dvh;
+    padding: 0%;
+    margin: 0%;
+    border: 0px;
+    position: absolute;
+    background-color: transparent;
+}
+
+/* Button Hover Effects */
+.hovimg {
+    display: none;
+}
+
+.button:hover .hovimg {
+    display: inline-block;
+}
+
+.button:hover .innimg {
+    display: none;
+}
+
+button img {
+    height: 12dvh;
+    width: 16dvw;
+}
+
+/* Hint */
+#hint {
+    z-index: 7;
+    margin: auto;
+    height: 25dvh;
+    width: 75dvw;
+}
+
+/* Result Pages */
+#result,
+#result2,
+#result3,
+#result4 {
+    z-index: 6;
+    display: none;
+    justify-content: center;
+}
+
+#result #card {
+    margin: auto;
+    width: 45dvw;
+    height: 55dvh;
+}
+
+#result button,
+#result2 button,
+#result3 button,
+#result4 button {
+    bottom: 10px;
+    padding: 0%;
+    margin: 0%;
+    border: 0px;
+    position: absolute;
+    background-color: transparent;
+}
+
+/* Score Display */
+#scoreDump,
+#score {
+    position: relative;
+    font-family: 'jf-openhuninn';
+    font-size: 5vw;
+    color: rgb(0, 102, 255);
+    text-align: center;
+}
+
+.Score1 {
+    position: absolute;
+    top: 55dvh;
+    left: 29.5dvw;
+    width: 15dvw;
+    height: 10dvh;
+    text-align: center;
+    align-items: center;
+}
+
+.Score2 {
+    position: absolute;
+    top: 55dvh;
+    left: 55dvw;
+    width: 15dvw;
+    height: 10dvh;
+    text-align: center;
+    align-items: center;
+}
+
+/* Video Player */
+.video {
+    display: flex;
+    position: absolute;
+    top: 18dvh;
+    width: 52.5dvw;
+    height: 61.5dvh;
+    text-align: center;
+    align-items: center;
+}
+
+#player {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#player iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Timer */
+p {
+    position: absolute;
+    left: 1dvw;
+    top: 1.5dvh;
+    background-image: url(../images/game/timer.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    font-family: 'jf-openhuninn';
+    font-size: 4dvi;
+    color: #F07B7C;
+    height: 20dvh;
+    width: 8.4dvw;
+    text-align: center;
+    line-height: 22dvh;
+}
+
+/* Box Give (產生食物的區域) */
+.boxGive {
+    background-image: url(../images/game/shop/shop_bubble.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    height: 17.5dvh;
+    width: 14dvw;
+}
+
+#give1 {
+    top: 2dvh;
+    left: 9dvw;
+}
+
+#give2 {
+    top: 2dvh;
+    left: 29dvw;
+}
+
+#give3 {
+    top: 2dvh;
+    left: 55dvw;
+}
+
+#give4 {
+    top: 0dvh;
+    left: 80.5dvw;
+}
+
+#give5 {
+    top: 30dvh;
+    left: 76dvw;
+}
+
+/* Box Receive (接收食物的區域) */
+.boxReceive {
+    position: absolute;
+    height: 8.5dvh;
+    width: 5.5dvw;
+}
+
+.boxReceive:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#box-1 {
+    top: 63dvh;
+    left: 41.2dvw;
+}
+
+#box-2 {
+    top: 63.5dvh;
+    left: 48.8dvw;
+}
+
+#box-3 {
+    top: 73.3dvh;
+    left: 41.2dvw;
+}
+
+#box-4 {
+    top: 73.3dvh;
+    left: 48.8dvw;
+}
+
+/* Draggable Items in boxGive */
+.boxGive #drag1,
+.boxGive #drag2,
+.boxGive #drag3,
+.boxGive #drag4,
+.boxGive #drag5 {
+    position: relative;
+    left: 24%;
+    top: 9%;
+    height: 50%;
+}
+
+/* Draggable Items in boxReceive */
+.boxReceive #drag1,
+.boxReceive #drag2,
+.boxReceive #drag3,
+.boxReceive #drag4,
+.boxReceive #drag5 {
+    margin-top: 5%;
+    left: 0%;
+    height: 85%;
+    width: 100%;
+}
+
+/* Drag Animations */
+#drag1,
+#drag2,
+#drag3,
+#drag4,
+#drag5 {
+    animation-name: drag;
+    animation-duration: 16s;
+    opacity: 1;
+    z-index: 2;
+}
+
+@keyframes drag {
+    0% {
+        opacity: 1;
+    }
+
+    93.75% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Drag Background (Halo) */
+.dragbackground {
+    position: absolute;
+    left: 24%;
+    top: 9%;
+    height: 50%;
+    animation-name: dragbackground;
+    animation-duration: 16s;
+    opacity: 1;
+    z-index: 1;
+}
+
+@keyframes dragbackground {
+    0% {
+        opacity: 0;
+    }
+
+    45% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    55% {
+        opacity: 0;
+    }
+
+    60% {
+        opacity: 1;
+    }
+
+    65% {
+        opacity: 0;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 0;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    82% {
+        opacity: 0;
+    }
+
+    84% {
+        opacity: 1;
+    }
+
+    86% {
+        opacity: 0;
+    }
+
+    88% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 0;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    93.75% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Drag Dump Animation */
+.dragDump {
+    position: absolute;
+    left: 24%;
+    top: 9%;
+    height: 50%;
+    animation-name: dragDump;
+    animation-duration: 16s;
+    opacity: 0;
+}
+
+@keyframes dragDump {
+    0% {
+        opacity: 0;
+    }
+
+    93.75% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Share Boxes */
+.boxShare {
+    position: absolute;
+    height: 10dvh;
+    width: 7dvw;
+}
+
+#share-1 {
+    top: 58.5dvh;
+    left: 17.4dvw;
+}
+
+#share-2 {
+    top: 58.5dvh;
+    left: 26.7dvw;
+}
+
+#share-3 {
+    top: 70.5dvh;
+    left: 17.3dvw;
+}
+
+#share-4 {
+    top: 70.5dvh;
+    left: 26.8dvw;
+}
+
+.boxShare img {
+    position: absolute;
+    height: 50%;
+    width: 100%;
+}
+
+/* Next Button (for PlayBoard) */
+.nextButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 30px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: 'jf-openhuninn';
+    cursor: pointer;
+    z-index: 1000;
+    display: none;
+}
+
+.nextButton:hover {
+    background-color: #45a049;
+}
+
+.hint-area{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.hint-area-btn{
+
+    bottom: 10dvh;
+    padding: 0%;
+    margin: 0%;
+    border: 0px;
+
+    background-color: transparent;
+}

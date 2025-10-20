@@ -1,0 +1,20 @@
+{
+  "pageInfo": {
+    "title": "集食行愛分享愛",
+    "description": "透過互動遊戲學習食物分享與減少浪費的概念",
+    "version": "1.0.0",
+    "author": "PlayBoard Team"
+  },
+  "settings": {
+    "entryFile": "index.html",
+    "autoProgress": false,
+    "progressTrigger": "manual",
+    "allowFullscreen": true,
+    "enableKeyboard": true
+  },
+  "requirements": {
+    "minWidth": 1000,
+    "minHeight": 700,
+    "supportedBrowsers": ["chrome", "firefox", "safari", "edge"]
+  }
+}

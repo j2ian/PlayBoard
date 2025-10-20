@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>集食行愛分享愛</title>
+    <meta
+      name="description"
+      content="透過互動遊戲學習食物分享與減少浪費的概念"
+    />
+
+    <!-- External CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+
+  <body>
+    <!-- 音頻元素 -->
+    <audio id="bkMusic" src="./assets/music/bgm1.mp3" preload="auto"></audio>
+    <audio
+      id="audio_intro"
+      src="./assets/intro/intro1.mp3"
+      preload="auto"
+    ></audio>
+
+    <!-- 介紹頁面 -->
+    <main
+      id="intro"
+      style="background-image: url('./assets/images/game/stage1Intro.jpg')"
+    >
+      <button class="button" aria-label="開始遊戲">
+        <img
+          class="innimg"
+          src="./assets/images/general/btn_Go.png"
+          alt="開始"
+        />
+        <img
+          class="hovimg"
+          src="./assets/images/general/btn_Go_Bright.png"
+          alt="開始（高亮）"
+        />
+      </button>
+    </main>
+
+    <!-- 遊戲頁面 -->
+    <main
+      id="game"
+      style="
+        background-image: url('./assets/images/game/background_stage1.jpg');
+      "
+    >
+      <div id="hintArea" class="hint-area">
+        <!-- 提示訊息 -->
+        <img id="hint" src="./assets/images/game/message.png" alt="遊戲提示" />
+        <button id="setGame" class="button hint-area-btn" aria-label="開始遊戲">
+          <img
+            class="innimg"
+            src="./assets/images/general/btn_Go.png"
+            alt="開始"
+          />
+          <img
+            class="hovimg"
+            src="./assets/images/general/btn_Go_Bright.png"
+            alt="開始（高亮）"
+          />
+        </button>
+      </div>
+      <!-- 計時器 -->
+      <section class="timer">
+        <p id="countdown"><b>00</b></p>
+      </section>
+
+      <!-- 食物產生區域 -->
+      <section class="container1">
+        <div class="boxGive" id="give1" aria-label="食物產生區 1"></div>
+        <div class="boxGive" id="give2" aria-label="食物產生區 2"></div>
+        <div class="boxGive" id="give3" aria-label="食物產生區 3"></div>
+        <div class="boxGive" id="give4" aria-label="食物產生區 4"></div>
+        <div class="boxGive" id="give5" aria-label="食物產生區 5"></div>
+      </section>
+
+      <!-- 接收食物區域 -->
+      <section class="container2">
+        <div
+          class="boxReceive"
+          id="box-1"
+          data-value="1"
+          aria-label="接收區 1"
+        ></div>
+        <div
+          class="boxReceive"
+          id="box-2"
+          data-value="2"
+          aria-label="接收區 2"
+        ></div>
+        <div
+          class="boxReceive"
+          id="box-3"
+          data-value="3"
+          aria-label="接收區 3"
+        ></div>
+        <div
+          class="boxReceive"
+          id="box-4"
+          data-value="4"
+          aria-label="接收區 4"
+        ></div>
+      </section>
+
+      <!-- 分享食物區域 -->
+      <section class="container3">
+        <div
+          class="boxReceive boxShare"
+          id="share-1"
+          data-value="5"
+          aria-label="分享區 1"
+        ></div>
+        <div
+          class="boxReceive boxShare"
+          id="share-2"
+          data-value="6"
+          aria-label="分享區 2"
+        ></div>
+        <div
+          class="boxReceive boxShare"
+          id="share-3"
+          data-value="7"
+          aria-label="分享區 3"
+        ></div>
+        <div
+          class="boxReceive boxShare"
+          id="share-4"
+          data-value="8"
+          aria-label="分享區 4"
+        ></div>
+      </section>
+    </main>
+
+    <!-- 結果頁面 1 -->
+    <main
+      id="result"
+      style="background-image: url('./assets/images/result/background.jpg')"
+    >
+      <img
+        id="card"
+        src="./assets/images/result/card_result.png"
+        alt="結果卡片"
+      />
+      <div class="flexbox Score1">
+        <h1 id="scoreDump">0</h1>
+      </div>
+      <div class="flexbox Score2">
+        <h1 id="score">0</h1>
+      </div>
+      <button class="button" aria-label="下一步">
+        <img
+          class="innimg"
+          src="./assets/images/general/btn_next.png"
+          alt="下一步"
+        />
+        <img
+          class="hovimg"
+          src="./assets/images/general/btn_next_bright.png"
+          alt="下一步（高亮）"
+        />
+      </button>
+    </main>
+
+    <!-- 結果頁面 2 -->
+    <main
+      id="result2"
+      style="background-image: url('./assets/images/result/result2.png')"
+    >
+      <button class="button" aria-label="下一步">
+        <img
+          class="innimg"
+          src="./assets/images/general/btn_next.png"
+          alt="下一步"
+        />
+        <img
+          class="hovimg"
+          src="./assets/images/general/btn_next_bright.png"
+          alt="下一步（高亮）"
+        />
+      </button>
+    </main>
+
+    <!-- 結果頁面 3 -->
+    <main
+      id="result3"
+      style="background-image: url('./assets/images/result/result3.png')"
+    >
+      <button id="finish_stage" class="button" aria-label="下一步">
+        <img
+          class="innimg"
+          src="./assets/images/general/btn_next.png"
+          alt="下一步"
+        />
+        <img
+          class="hovimg"
+          src="./assets/images/general/btn_next_bright.png"
+          alt="下一步（高亮）"
+        />
+      </button>
+    </main>
+
+    <!-- 結果頁面 4 (影片) -->
+    <main
+      id="result4"
+      style="background-image: url('./assets/images/result/bg_none.jpg')"
+    >
+      <button id="nextButton" class="button" aria-label="完成">
+        <img
+          class="innimg"
+          src="./assets/images/general/btn_finish.png"
+          alt="完成"
+        />
+        <img
+          class="hovimg"
+          src="./assets/images/general/btn_finish_bright.png"
+          alt="完成（高亮）"
+        />
+      </button>
+    </main>
+
+    <!-- PlayBoard 下一步按鈕 -->
+
+    <!-- JavaScript 檔案 -->
+    <script src="./assets/js/playboard.js"></script>
+    <script src="./assets/js/game.js"></script>
+  </body>
+</html>
