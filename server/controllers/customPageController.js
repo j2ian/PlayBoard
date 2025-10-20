@@ -414,22 +414,170 @@ const serveCustomPage = async (req, res) => {
 
     try {
       let htmlContent = await fs.readFile(filePath, 'utf8');
-      
-      // 修改 HTML 中的相對路徑，使其指向正確的 API 端點
-      const baseUrl = `/api/custom-pages/public/${customPage.slug}/assets`;
-      htmlContent = htmlContent.replace(
-        /(href|src)=["']([^"']+)["']/g,
-        (match, attr, url) => {
-          // 跳過已經是絕對路徑的 URL
-          if (url.startsWith('http') || url.startsWith('//') || url.startsWith('/api/')) {
-            return match;
-          }
-          // 將相對路徑轉換為 API 端點
-          const cleanUrl = url.replace(/^\.\//, '');
-          return `${attr}="${baseUrl}/${cleanUrl}"`;
+
+      // 設定 base URL，讓所有相對路徑（包括 JS 中動態新增的）都能正確解析
+      const baseUrl = `/api/custom-pages/public/${customPage.slug}/assets/`;
+
+      // 在 <head> 標籤後注入 <base> 標籤
+      if (htmlContent.includes('<head>')) {
+        htmlContent = htmlContent.replace(
+          '<head>',
+          `<head>\n    <base href="${baseUrl}">`
+        );
+      } else if (htmlContent.includes('<HEAD>')) {
+        htmlContent = htmlContent.replace(
+          '<HEAD>',
+          `<HEAD>\n    <base href="${baseUrl}">`
+        );
+      } else {
+        // 如果沒有 <head> 標籤，在 <html> 或開頭新增
+        if (htmlContent.includes('<html>') || htmlContent.includes('<HTML>')) {
+          htmlContent = htmlContent.replace(
+            /(<html[^>]*>)/i,
+            `$1\n<head>\n    <base href="${baseUrl}">\n</head>`
+          );
+        } else {
+          htmlContent = `<!DOCTYPE html>\n<html>\n<head>\n    <base href="${baseUrl}">\n</head>\n<body>\n${htmlContent}\n</body>\n</html>`;
         }
+      }
+
+      // 注入音頻自動播放處理程式碼
+      const autoplayScript = `
+<script>
+(function() {
+  let userInteracted = false;
+  const pendingAudioElements = [];
+
+  // 新增開始互動覆蓋層
+  function createStartOverlay() {
+    const overlay = document.createElement('div');
+    overlay.id = 'playboard-start-overlay';
+    overlay.style.cssText = \`
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999999;
+      cursor: pointer;
+    \`;
+
+    const button = document.createElement('div');
+    button.style.cssText = \`
+      background: #4CAF50;
+      color: white;
+      padding: 20px 40px;
+      border-radius: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    \`;
+    button.textContent = '點擊開始';
+
+    button.addEventListener('mouseenter', () => {
+      button.style.transform = 'scale(1.1)';
+    });
+    button.addEventListener('mouseleave', () => {
+      button.style.transform = 'scale(1)';
+    });
+
+    overlay.appendChild(button);
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener('click', function() {
+      userInteracted = true;
+      overlay.remove();
+      playPendingAudios();
+    });
+  }
+
+  // 播放所有待播放的音頻
+  function playPendingAudios() {
+    // 播放所有 audio 元素
+    const audioElements = document.querySelectorAll('audio');
+    audioElements.forEach(audio => {
+      if (audio.autoplay || audio.dataset.autoplay) {
+        audio.play().catch(err => {
+          console.log('音頻播放失敗:', err);
+        });
+      }
+    });
+
+    // 播放待處理的音頻
+    pendingAudioElements.forEach(audio => {
+      audio.play().catch(err => {
+        console.log('音頻播放失敗:', err);
+      });
+    });
+    pendingAudioElements.length = 0;
+  }
+
+  // 攔截 Audio.prototype.play
+  const originalPlay = Audio.prototype.play;
+  Audio.prototype.play = function() {
+    if (!userInteracted) {
+      pendingAudioElements.push(this);
+      return Promise.reject(new DOMException('User interaction required'));
+    }
+    return originalPlay.apply(this, arguments);
+  };
+
+  // 攔截 HTMLMediaElement.prototype.play
+  const originalMediaPlay = HTMLMediaElement.prototype.play;
+  HTMLMediaElement.prototype.play = function() {
+    if (!userInteracted) {
+      pendingAudioElements.push(this);
+      return Promise.reject(new DOMException('User interaction required'));
+    }
+    return originalMediaPlay.apply(this, arguments);
+  };
+
+  // 頁面載入完成後檢查是否需要顯示覆蓋層
+  window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+      const audioElements = document.querySelectorAll('audio');
+      const hasAutoplayAudio = Array.from(audioElements).some(audio =>
+        audio.autoplay || audio.dataset.autoplay
       );
-      
+
+      // 如果有自動播放的音頻，顯示覆蓋層
+      if (hasAutoplayAudio || pendingAudioElements.length > 0) {
+        createStartOverlay();
+      }
+    }, 100);
+  });
+
+  // 如果頁面已經載入完成
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(() => {
+      const audioElements = document.querySelectorAll('audio');
+      const hasAutoplayAudio = Array.from(audioElements).some(audio =>
+        audio.autoplay || audio.dataset.autoplay
+      );
+
+      if (hasAutoplayAudio || pendingAudioElements.length > 0) {
+        createStartOverlay();
+      }
+    }, 100);
+  }
+})();
+</script>
+`;
+
+      // 在 </body> 前注入腳本
+      if (htmlContent.includes('</body>')) {
+        htmlContent = htmlContent.replace('</body>', `${autoplayScript}\n</body>`);
+      } else if (htmlContent.includes('</BODY>')) {
+        htmlContent = htmlContent.replace('</BODY>', `${autoplayScript}\n</BODY>`);
+      } else {
+        htmlContent += autoplayScript;
+      }
+
       res.setHeader('Content-Type', 'text/html');
       res.send(htmlContent);
     } catch (fileError) {
@@ -456,13 +604,14 @@ const serveCustomPageAsset = async (req, res) => {
   try {
     const { slug } = req.params;
     const assetPath = req.assetPath; // 使用中間件設定的 assetPath
-    
-    const customPage = await CustomPage.findOne({ 
-      slug: slug, 
-      status: 'ready' 
+
+    const customPage = await CustomPage.findOne({
+      slug: slug,
+      status: 'ready'
     });
 
     if (!customPage) {
+      console.log('找不到客製化頁面:', slug);
       return res.status(404).json({
         success: false,
         message: '找不到客製化頁面'
@@ -471,40 +620,62 @@ const serveCustomPageAsset = async (req, res) => {
 
     // 構建資源檔案路徑
     const extractDir = path.join(__dirname, '../public/custom-pages', customPage.slug);
-    let filePath = path.join(extractDir, assetPath);
-    
-    // 如果直接路徑不存在，嘗試在子目錄中查找
-    if (!require('fs').existsSync(filePath)) {
-      const files = await fs.readdir(extractDir, { withFileTypes: true });
-      
-      for (const file of files) {
-        if (file.isDirectory()) {
-          const subDirPath = path.join(extractDir, file.name);
-          const potentialPath = path.join(subDirPath, assetPath);
-          if (require('fs').existsSync(potentialPath)) {
-            filePath = potentialPath;
-            break;
+
+    // 遞迴搜尋檔案的輔助函數
+    const findFileRecursive = async (dir, targetFile) => {
+      try {
+        const entries = await fs.readdir(dir, { withFileTypes: true });
+
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+
+          if (entry.isDirectory()) {
+            // 遞迴搜尋子目錄
+            const found = await findFileRecursive(fullPath, targetFile);
+            if (found) return found;
+          } else if (entry.isFile()) {
+            // 檢查檔案名稱是否符合（不分大小寫）
+            const relativePath = path.relative(extractDir, fullPath);
+            if (relativePath.toLowerCase() === targetFile.toLowerCase() ||
+                entry.name.toLowerCase() === path.basename(targetFile).toLowerCase()) {
+              return fullPath;
+            }
           }
         }
+        return null;
+      } catch (err) {
+        console.error('搜尋檔案錯誤:', err);
+        return null;
       }
+    };
+
+    // 先嘗試直接路徑
+    let filePath = path.join(extractDir, assetPath);
+
+    // 如果直接路徑不存在，遞迴搜尋整個目錄
+    if (!require('fs').existsSync(filePath)) {
+      console.log('直接路徑不存在，開始遞迴搜尋:', assetPath);
+      filePath = await findFileRecursive(extractDir, assetPath);
     }
 
     console.log('資源檔案調試信息:');
     console.log('Slug:', slug);
     console.log('Asset Path:', assetPath);
-    console.log('File Path:', filePath);
-    console.log('File exists:', require('fs').existsSync(filePath));
+    console.log('Extract Dir:', extractDir);
+    console.log('Final File Path:', filePath);
+    console.log('File exists:', filePath ? require('fs').existsSync(filePath) : false);
 
     // 檢查檔案是否存在
-    if (!require('fs').existsSync(filePath)) {
+    if (!filePath || !require('fs').existsSync(filePath)) {
+      console.error('找不到資源檔案:', assetPath);
       return res.status(404).json({
         success: false,
-        message: '找不到資源檔案'
+        message: '找不到資源檔案: ' + assetPath
       });
     }
 
     // 根據檔案擴展名設定正確的 Content-Type
-    const ext = path.extname(assetPath).toLowerCase();
+    const ext = path.extname(filePath).toLowerCase();
     const mimeTypes = {
       '.css': 'text/css',
       '.js': 'application/javascript',
@@ -515,11 +686,21 @@ const serveCustomPageAsset = async (req, res) => {
       '.jpeg': 'image/jpeg',
       '.gif': 'image/gif',
       '.svg': 'image/svg+xml',
-      '.ico': 'image/x-icon'
+      '.ico': 'image/x-icon',
+      '.webp': 'image/webp',
+      '.mp3': 'audio/mpeg',
+      '.wav': 'audio/wav',
+      '.woff': 'font/woff',
+      '.woff2': 'font/woff2',
+      '.ttf': 'font/ttf',
+      '.otf': 'font/otf'
     };
 
     const contentType = mimeTypes[ext] || 'application/octet-stream';
     res.setHeader('Content-Type', contentType);
+
+    // 設定快取標頭（1天）
+    res.setHeader('Cache-Control', 'public, max-age=86400');
 
     // 讀取並返回檔案內容
     const fileContent = await fs.readFile(filePath);

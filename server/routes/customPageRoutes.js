@@ -27,13 +27,11 @@ router.get('/public/:slug', serveCustomPage);
 // 靜態資源路由（支援相對路徑資源）
 // 使用 use 綁定到固定前綴，避免在路由字串使用萬用字元語法
 router.use('/public/:slug/assets', (req, res, next) => {
-  const slug = req.params.slug || ''
-  const prefix = `/public/${slug}/assets`
-  // 從 path 去掉前綴取得實際資源相對路徑
-  req.assetPath = req.path.startsWith(prefix)
-    ? req.path.slice(prefix.length)
-    : req.path
-  return serveCustomPageAsset(req, res, next)
+  // router.use 已經移除了 '/public/:slug/assets' 前綴
+  // req.path 現在只包含剩餘的路徑，例如 '/stage1Intro.jpg'
+  // 移除開頭的 '/'
+  req.assetPath = req.path.startsWith('/') ? req.path.slice(1) : req.path;
+  return serveCustomPageAsset(req, res, next);
 });
 
 module.exports = router;
