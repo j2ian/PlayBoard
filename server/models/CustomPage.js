@@ -53,7 +53,7 @@ const CustomPageSchema = new Schema({
     },
     fileType: {
       type: String,
-      enum: ['html', 'css', 'js', 'image', 'font', 'other'],
+      enum: ['html', 'css', 'js', 'image', 'font', 'audio', 'video', 'data', 'text', 'other'],
       required: true
     },
     size: {

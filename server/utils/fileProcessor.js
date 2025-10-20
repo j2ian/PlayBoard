@@ -45,6 +45,10 @@ async function validateZipFile(zipPath) {
       ".txt",
       ".md",
       ".mp3",
+      ".wav",
+      ".ogg",
+      ".mp4",
+      ".webm",
     ];
     const extractedFiles = [];
 
@@ -224,6 +228,14 @@ function getFileType(ext) {
     ".woff2": "font",
     ".ttf": "font",
     ".otf": "font",
+    ".mp3": "audio",
+    ".wav": "audio",
+    ".ogg": "audio",
+    ".mp4": "video",
+    ".webm": "video",
+    ".json": "data",
+    ".txt": "text",
+    ".md": "text",
   };
 
   return typeMap[ext] || "other";
