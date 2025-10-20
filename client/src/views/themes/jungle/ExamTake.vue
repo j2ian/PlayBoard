@@ -1,79 +1,76 @@
 <template>
-  <div class="max-w-2xl mx-auto py-8">
-    <div v-if="loading" class="text-center py-10 text-gray-500">載入中...</div>
-    <div v-else-if="!exam">
-      <el-empty description="查無此測驗" />
-    </div>
-    <div v-else>
-      <h2 class="text-2xl font-bold mb-2 text-[color:var(--pb-color-primary)]">jungle</h2>
-      <h2 class="text-2xl font-bold mb-2 text-[color:var(--pb-color-primary)]">{{ exam.title }}</h2>
-      <div class="mb-4 text-gray-600">{{ exam.description }}</div>
-      <div class="mb-4 text-sm text-gray-500">
-        <span>題目數：{{ exam.questions.length }}</span>
-        <span class="ml-4">及格分數：{{ exam.passingScore }}%</span>
-        <span class="ml-4">時間限制：{{ exam.timeLimit > 0 ? exam.timeLimit + ' 分鐘' : '無限制' }}</span>
-      </div>
-      <el-divider />
-      <form @submit.prevent="submitExam">
-        <div v-for="(q, idx) in exam.questions" :key="q._id" class="mb-8">
-          <div class="mb-2 font-semibold">{{ idx + 1 }}. {{ q.text }}</div>
-          <el-radio-group v-if="q.type === 'single'" v-model="answers[q._id]">
-            <el-radio v-for="opt in q.options" :key="opt._id" :label="opt._id">
-              {{ opt.text }}
-            </el-radio>
-          </el-radio-group>
-          <el-checkbox-group v-else v-model="answers[q._id]">
-            <el-checkbox v-for="opt in q.options" :key="opt._id" :label="opt._id">
-              {{ opt.text }}
-            </el-checkbox>
-          </el-checkbox-group>
-        </div>
-        <el-button type="primary" native-type="submit" :loading="submitting">送出測驗</el-button>
-      </form>
-      <el-dialog v-model="showResult" title="測驗結果" width="500px" :close-on-click-modal="false">
-        <div class="text-center">
-          <div class="text-3xl font-bold mb-4"
-            :class="score >= (exam?.passingScore || 60) ? 'text-green-600' : 'text-red-600'">
-            {{ score }} / 100
-          </div>
-          <div class="text-lg mb-4" :class="score >= (exam?.passingScore || 60) ? 'text-green-600' : 'text-red-600'">
-            {{ score >= (exam?.passingScore || 60) ? '🎉 恭喜通過！' : '❌ 未達及格分數' }}
-          </div>
+  <div class="h-screen w-screen py-10 jungle-bg-none flex items-center justify-center">
 
-          <!-- PlayBook 模式的導航選項 -->
-          <div v-if="isPlayBookMode && (score >= (exam?.passingScore || 60) || exam?.allowFailToContinue)" class="mt-6">
-            <!-- 及格時顯示自動倒數 -->
-            <p v-if="score >= (exam?.passingScore || 60)" class="text-[color:var(--pb-color-primary)] mb-4">
-              {{ autoNavigateCountdown > 0 ? `${autoNavigateCountdown} 秒後自動進入下一步...` : '即將進入下一步...' }}
-            </p>
-            <div class="flex justify-center gap-3">
-              <el-button type="primary" @click="proceedToNextStep" :data-step-completed="currentStep">
-                立即進入下一步
-              </el-button>
+    <div class="max-w-4xl w-full max-h-full p-8 overflow-y-auto jungle-exam-content jungle-scrollbar">
+      <div v-if="loading" class="text-center py-10 text-gray-500">載入中...</div>
+      <div v-else-if="!exam">
+        <el-empty description="查無此測驗" />
+      </div>
+      <div v-else>
+        <h2 class="text-2xl font-bold mb-2 text-[color:var(--pb-color-primary)]">{{ exam.title }}</h2>
+        <div class="mb-4">{{ exam.description }}</div>
+        <form @submit.prevent="submitExam">
+          <div v-for="(q, idx) in exam.questions" :key="q._id" class="mb-8">
+            <div class="mb-2 font-semibold">{{ idx + 1 }}. {{ q.text }}</div>
+            <el-radio-group v-if="q.type === 'single'" v-model="answers[q._id]">
+              <el-radio v-for="opt in q.options" :key="opt._id" :label="opt._id">
+                {{ opt.text }}
+              </el-radio>
+            </el-radio-group>
+            <el-checkbox-group v-else v-model="answers[q._id]">
+              <el-checkbox v-for="opt in q.options" :key="opt._id" :label="opt._id">
+                {{ opt.text }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </div>
+          <el-button type="primary" native-type="submit" :loading="submitting">送出測驗</el-button>
+        </form>
+        <el-dialog v-model="showResult" title="測驗結果" width="500px" :close-on-click-modal="false">
+          <div class="text-center">
+            <div class="text-3xl font-bold mb-4"
+              :class="score >= (exam?.passingScore || 60) ? 'text-green-600' : 'text-red-600'">
+              {{ score }} / 100
+            </div>
+            <div class="text-lg mb-4" :class="score >= (exam?.passingScore || 60) ? 'text-green-600' : 'text-red-600'">
+              {{ score >= (exam?.passingScore || 60) ? '🎉 恭喜通過！' : '❌ 未達及格分數' }}
+            </div>
+
+            <!-- PlayBook 模式的導航選項 -->
+            <div v-if="isPlayBookMode && (score >= (exam?.passingScore || 60) || exam?.allowFailToContinue)"
+              class="mt-6">
+              <!-- 及格時顯示自動倒數 -->
+              <p v-if="score >= (exam?.passingScore || 60)" class="text-[color:var(--pb-color-primary)] mb-4">
+                {{ autoNavigateCountdown > 0 ? `${autoNavigateCountdown} 秒後自動進入下一步...` : '即將進入下一步...' }}
+              </p>
+              <div class="flex justify-center gap-3">
+                <el-button type="primary" @click="proceedToNextStep" :data-step-completed="currentStep">
+                  立即進入下一步
+                </el-button>
+                <el-button plain @click="backToPlayBook">
+                  返回課程
+                </el-button>
+              </div>
+            </div>
+
+            <!-- 未及格且不允許繼續時的按鈕 -->
+            <div v-else-if="isPlayBookMode" class="mt-4">
               <el-button plain @click="backToPlayBook">
                 返回課程
               </el-button>
+              <el-button type="primary" @click="showResult = false">
+                重新測驗
+              </el-button>
+            </div>
+
+            <!-- 一般模式的關閉按鈕 -->
+            <div v-else class="mt-4">
+              <el-button type="primary" @click="showResult = false">
+                關閉
+              </el-button>
             </div>
           </div>
-
-          <!-- 未及格且不允許繼續時的按鈕 -->
-          <div v-else-if="isPlayBookMode" class="mt-4">
-            <el-button plain @click="backToPlayBook">
-              返回課程
-            </el-button>
-            <el-button type="primary" @click="showResult = false">
-              重新測驗
-            </el-button>
-          </div>
-
-          <!-- 一般模式的關閉按鈕 -->
-          <div v-else class="mt-4">
-            <el-button type="primary" @click="showResult = false">
-              關閉
-            </el-button>
-          </div>
-        </div>
-      </el-dialog>
+        </el-dialog>
+      </div>
     </div>
   </div>
 </template>
@@ -252,3 +249,8 @@ onUnmounted(() => {
   }
 })
 </script>
+
+<style>
+/* 引入 Jungle 主題樣式 */
+@import './styles/theme.css';
+</style>

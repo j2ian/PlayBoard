@@ -19,19 +19,29 @@ client/src/
 │   ├── SurveyTake.vue                  # 包裝器元件
 │   └── themes/
 │       ├── default/                    # 預設主題
+│       │   ├── images/                 # 主題圖片資源
+│       │   ├── styles/                 # 主題樣式檔案
 │       │   ├── PlayBookPlayer.vue
 │       │   ├── PlayBookStepPlayer.vue
 │       │   ├── PlayBookStepContentView.vue
 │       │   ├── PlayBookCompletedView.vue
 │       │   ├── ExamTake.vue
-│       │   └── SurveyTake.vue
+│       │   ├── SurveyTake.vue
+│       │   └── README.md
 │       └── jungle/                     # 叢林主題（範例）
+│           ├── images/                 # 主題圖片資源
+│           │   ├── bg_none.jpg
+│           │   ├── bg_menu.jpg
+│           │   └── bg_full.jpg
+│           ├── styles/                 # 主題樣式檔案
+│           │   └── theme.css
 │           ├── PlayBookPlayer.vue
 │           ├── PlayBookStepPlayer.vue
 │           ├── PlayBookStepContentView.vue
 │           ├── PlayBookCompletedView.vue
 │           ├── ExamTake.vue
-│           └── SurveyTake.vue
+│           ├── SurveyTake.vue
+│           └── README.md
 └── utils/
     └── themeLoader.js                  # 主題管理工具
 ```
@@ -269,44 +279,63 @@ const THEME_CONFIG = [
 
 ## 主題資源管理
 
-### Assets 資料夾結構
+### 資源資料夾結構
 
-建議將主題的靜態資源（圖片、字體、CSS）放在專屬的 assets 資料夾：
+**所有主題資源都應放在主題資料夾內**，便於管理、複製和刪除：
 
 ```
-client/src/
-├── assets/
-│   └── themes/
-│       ├── default/
-│       │   ├── images/
-│       │   │   ├── logo.png
-│       │   │   ├── background.jpg
-│       │   │   └── icons/
-│       │   │       └── star.svg
-│       │   ├── fonts/
-│       │   │   └── custom-font.woff2
-│       │   └── styles/
-│       │       └── theme-variables.css
-│       └── jungle/
-│           ├── images/
-│           │   ├── logo.png
-│           │   ├── jungle-bg.jpg
-│           │   └── icons/
-│           │       └── leaf.svg
-│           └── styles/
-│               └── jungle-theme.css
+client/src/views/themes/
+├── default/
+│   ├── images/                          # 主題圖片資源
+│   │   ├── logo.png
+│   │   ├── background.jpg
+│   │   └── icons/
+│   │       └── star.svg
+│   ├── styles/                          # 主題樣式
+│   │   └── theme.css
+│   ├── PlayBookPlayer.vue
+│   ├── PlayBookStepPlayer.vue
+│   ├── PlayBookStepContentView.vue
+│   ├── PlayBookCompletedView.vue
+│   ├── ExamTake.vue
+│   ├── SurveyTake.vue
+│   └── README.md
+└── jungle/
+    ├── images/                          # 主題圖片資源
+    │   ├── bg_none.jpg
+    │   ├── bg_menu.jpg
+    │   ├── bg_full.jpg
+    │   └── icons/
+    │       └── leaf.svg
+    ├── styles/                          # 主題樣式
+    │   └── theme.css
+    ├── PlayBookPlayer.vue
+    ├── PlayBookStepPlayer.vue
+    ├── PlayBookStepContentView.vue
+    ├── PlayBookCompletedView.vue
+    ├── ExamTake.vue
+    ├── SurveyTake.vue
+    └── README.md
 ```
+
+**優點：**
+- ✅ 刪除主題時只需刪除一個資料夾
+- ✅ 複製主題時所有資源一併複製
+- ✅ 資源路徑相對化，不依賴外部路徑
+- ✅ 主題更加獨立和可攜帶
 
 ### 使用圖片資源
 
-#### 方法 1：靜態引用（推薦用於固定資源）
+#### 在 Vue 組件中引用圖片
+
+**使用相對路徑** `./images/`：
 
 ```vue
 <template>
   <div class="theme-container">
     <!-- Logo -->
     <img
-      src="@/assets/themes/jungle/images/logo.png"
+      src="./images/logo.png"
       alt="Logo"
       class="w-32 h-32"
     >
@@ -320,37 +349,29 @@ client/src/
 
 <style scoped>
 .hero-section {
-  background-image: url('@/assets/themes/jungle/images/jungle-bg.jpg');
+  background-image: url('./images/bg_full.jpg');
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   min-height: 400px;
 }
 </style>
 ```
 
-#### 方法 2：動態載入（適合條件性載入）
+#### 在 styles/theme.css 中引用圖片
 
-```vue
-<script setup>
-import { ref, computed } from 'vue'
+**使用相對路徑** `../images/`：
 
-const currentTheme = 'jungle'
+```css
+/* client/src/views/themes/jungle/styles/theme.css */
 
-// 使用 computed 根據主題動態產生資源路徑
-const themeAssets = computed(() => {
-  return {
-    logo: new URL(`../../assets/themes/${currentTheme}/images/logo.png`, import.meta.url).href,
-    background: new URL(`../../assets/themes/${currentTheme}/images/jungle-bg.jpg`, import.meta.url).href
-  }
-})
-</script>
-
-<template>
-  <img :src="themeAssets.logo" alt="Logo">
-  <div :style="{ backgroundImage: `url(${themeAssets.background})` }">
-    <!-- 內容 -->
-  </div>
-</template>
+.jungle-bg {
+  background-image: url('../images/bg_menu.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 ```
 
 ### 使用主題 CSS 檔案
@@ -358,7 +379,7 @@ const themeAssets = computed(() => {
 建立主題專用的 CSS 變數檔案：
 
 ```css
-/* client/src/assets/themes/jungle/styles/jungle-theme.css */
+/* client/src/views/themes/jungle/styles/theme.css */
 
 :root {
   /* 主色調 */
@@ -414,7 +435,7 @@ const themeAssets = computed(() => {
 }
 ```
 
-在 Vue 元件中引入：
+在 Vue 元件中引入（使用相對路徑）：
 
 ```vue
 <template>
@@ -427,8 +448,8 @@ const themeAssets = computed(() => {
 </template>
 
 <style scoped>
-/* 引入主題樣式 */
-@import '@/assets/themes/jungle/styles/jungle-theme.css';
+/* 引入主題樣式 - 使用相對路徑 */
+@import './styles/theme.css';
 
 /* 元件特定樣式 */
 .custom-section {
@@ -441,35 +462,41 @@ const themeAssets = computed(() => {
 
 ### 使用 SVG 圖示
 
-SVG 圖示可以直接內嵌或作為元件引用：
+SVG 圖示可以直接內嵌或作為圖片使用：
 
 ```vue
-<script setup>
-import LeafIcon from '@/assets/themes/jungle/images/icons/leaf.svg?component'
-</script>
-
 <template>
-  <!-- 方法 1：作為元件使用 -->
-  <LeafIcon class="w-6 h-6 text-green-600" />
+  <!-- 作為圖片使用 -->
+  <img src="./images/icons/leaf.svg" alt="Leaf" class="w-6 h-6">
 
-  <!-- 方法 2：作為圖片使用 -->
-  <img src="@/assets/themes/jungle/images/icons/leaf.svg" alt="Leaf" class="w-6 h-6">
+  <!-- 或在 CSS 中使用 -->
+  <div class="icon-leaf"></div>
 </template>
+
+<style scoped>
+.icon-leaf {
+  width: 24px;
+  height: 24px;
+  background-image: url('./images/icons/leaf.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+</style>
 ```
 
 ### 使用自訂字體
 
-1. 將字體檔案放到 `client/src/assets/themes/my-theme/fonts/`
+1. 將字體檔案放到主題資料夾內，例如 `client/src/views/themes/jungle/fonts/`
 
-2. 在 CSS 中定義字體：
+2. 在 CSS 中定義字體（使用相對路徑）：
 
 ```css
-/* client/src/assets/themes/jungle/styles/jungle-theme.css */
+/* client/src/views/themes/jungle/styles/theme.css */
 
 @font-face {
   font-family: 'Jungle Font';
-  src: url('@/assets/themes/jungle/fonts/jungle-font.woff2') format('woff2'),
-       url('@/assets/themes/jungle/fonts/jungle-font.woff') format('woff');
+  src: url('../fonts/jungle-font.woff2') format('woff2'),
+       url('../fonts/jungle-font.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -485,6 +512,40 @@ import LeafIcon from '@/assets/themes/jungle/images/icons/leaf.svg?component'
   font-family: var(--jungle-font-heading);
 }
 ```
+
+**注意事項：**
+- 所有資源路徑都使用相對路徑
+- Vue 組件中：`./images/`、`./fonts/`
+- CSS 檔案中（在 styles/ 目錄下）：`../images/`、`../fonts/`
+- 這樣主題資料夾可以獨立複製和刪除
+
+### 資源管理最佳實踐總結
+
+#### ✅ 正確做法
+
+```
+✓ 主題資料夾內建立 images/、styles/、fonts/ 等子資料夾
+✓ Vue 組件使用相對路徑：url('./images/bg.jpg')
+✓ CSS 檔案使用相對路徑：url('../images/bg.jpg')
+✓ 所有資源集中在主題資料夾內
+✓ 建立 README.md 說明主題資源結構
+```
+
+#### ❌ 避免做法
+
+```
+✗ 不要使用絕對路徑：url('@/assets/themes/...')
+✗ 不要將資源放在主題資料夾外部
+✗ 不要使用外部 CDN 資源（除非必要）
+✗ 不要在多個主題間共用圖片（應各自複製）
+```
+
+#### 優點
+
+- **刪除方便**：刪除整個主題資料夾即可
+- **複製方便**：複製資料夾即可建立新主題
+- **移植方便**：可以輕鬆移動到其他專案
+- **維護方便**：所有相關資源都在一個地方
 
 ## 主題開發最佳實踐
 

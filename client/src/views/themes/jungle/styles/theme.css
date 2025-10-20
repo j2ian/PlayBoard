@@ -1,0 +1,560 @@
+/* 顏色定義 
+
+
+  - 主文字：#634A20 (深棕色)
+  - 背景：#e5f0d1 (淡綠色)
+  - 表單背景：#D2E6B3 (淺綠色)
+  - 邊框：#337a38 (深綠色)
+*/
+
+/* ========== 背景樣式 ========== */
+.jungle-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.jungle-bg-menu {
+  background-image: url('../images/bg_menu.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.jungle-bg-full {
+  background-image: url('../images/bg_full.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.jungle-bg-none {
+  background-image: url('../images/bg_none.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.jungle-bg-color{
+  background-color: #D2E6B3 !important;
+}
+
+.jungle-bg-color-primary{
+  background-color: #337a38 !important;
+}
+
+.jungle-bg-color-second{
+  background-color: #e5f0d1 !important;
+}
+
+/* ========== 主要容器 ========== */
+main.jungle-main {
+  font-size: 25px;
+  color: #634A20;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+/* ========== 問卷/內容容器 ========== */
+.jungle-container {
+  position: absolute;
+  top: 18vh;
+  left: 25vw;
+  height: 62vh;
+  width: 50vw;
+  overflow: overlay;
+}
+
+.jungle-survey-container {
+  padding: 2rem;
+  background-color: #e5f0d1;
+  border: 20px solid #337a38;
+  border-radius: 1rem;
+  color: #634A20 !important;
+  font-size: 25px !important;
+
+  /* 覆蓋 Element Plus CSS 變數 */
+  --el-radio-font-size: 25px;
+  --el-checkbox-font-size: 25px;
+  --el-radio-text-color: #634A20;
+  --el-checkbox-text-color: #634A20;
+  --el-input-font-size: 25px;
+  --el-textarea-font-size: 25px;
+  --el-button-font-size: 20px;
+}
+
+.jungle-survey-container .text-2xl {
+  font-size: 25px !important;
+}
+
+.jungle-survey-container .mb-2 {
+  font-size: 25px !important;
+}
+
+/* Element Plus 表單元素樣式覆蓋（for Survey） */
+.jungle-survey-container .el-radio-group,
+.jungle-survey-container .el-checkbox-group {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.75rem !important;
+}
+
+.jungle-survey-container .el-radio,
+.jungle-survey-container .el-checkbox {
+  font-size: 25px !important;
+  color: #634A20 !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  line-height: 1 !important;
+  padding: 0.5rem 0 !important;
+}
+
+.jungle-survey-container .el-radio .el-radio__label,
+.jungle-survey-container .el-checkbox .el-checkbox__label {
+  font-size: 25px !important;
+  color: #634A20 !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  line-height: 1 !important;
+}
+
+/* 更強力的覆蓋 */
+.jungle-survey-container .el-radio-group .el-radio .el-radio__label,
+.jungle-survey-container .el-checkbox-group .el-checkbox .el-checkbox__label {
+  font-size: 25px !important;
+  color: #634A20 !important;
+}
+
+.jungle-survey-container .el-radio__input.is-checked .el-radio__inner {
+  border-color: #634A20 !important;
+  background-color: #D2E6B3 !important;
+}
+
+.jungle-survey-container .el-checkbox__input.is-checked .el-checkbox__inner {
+  border-color: #634A20 !important;
+  background-color: #D2E6B3 !important;
+}
+
+.jungle-survey-container .el-radio__inner {
+  border-color: #634A20 !important;
+  background-color: #D2E6B3 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.jungle-survey-container .el-radio__input {
+  margin-top: 0 !important;
+  align-self: flex-start !important;
+  line-height: 1 !important;
+}
+
+.jungle-survey-container .el-checkbox__inner {
+  border-color: #634A20 !important;
+  background-color: #D2E6B3 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.jungle-survey-container .el-checkbox__input {
+  margin-top: 0 !important;
+  align-self: flex-start !important;
+  line-height: 1 !important;
+}
+
+.jungle-survey-container .el-input__inner,
+.jungle-survey-container .el-textarea__inner {
+  font-size: 25px !important;
+  color: #634A20 !important;
+  background-color: #D2E6B3 !important;
+  border-color: #634A20 !important;
+}
+
+.jungle-survey-container .el-button {
+  font-size: 20px !important;
+}
+
+.jungle-survey-container .el-button--primary {
+  background-color: #337a38 !important;
+  border-color: #337a38 !important;
+  color: #ffffff !important;
+}
+
+.jungle-survey-container .el-button--primary:hover {
+  background-color: #82ab44 !important;
+  border-color: #82ab44 !important;
+}
+
+.jungle-survey-container .el-button--primary:active {
+  background-color: #2d6630 !important;
+  border-color: #2d6630 !important;
+}
+
+.jungle-survey-container .el-button.is-plain {
+  background-color: #D2E6B3 !important;
+  border-color: #337a38 !important;
+  color: #634A20 !important;
+}
+
+.jungle-survey-container .el-button.is-plain:hover {
+  background-color: #82ab44 !important;
+  border-color: #82ab44 !important;
+  color: #ffffff !important;
+}
+
+/* Dialog 結果顯示 (Survey) */
+.jungle-survey-container .el-dialog__header,
+.jungle-survey-container .el-dialog__body {
+  font-size: 20px !important;
+  color: #634A20 !important;
+}
+
+.jungle-survey-container .el-dialog__title {
+  font-size: 25px !important;
+  color: #634A20 !important;
+}
+
+.jungle-survey-container .text-3xl {
+  font-size: 2.5rem !important;
+}
+
+.jungle-survey-container .text-lg {
+  font-size: 1.5rem !important;
+}
+
+.jungle-exam-content {
+  background-color: #D2E6B3;
+  border: 20px solid #337a38;
+  border-radius: 1rem;
+  color: #634A20 !important;
+  font-size: 25px !important;
+
+  /* 覆蓋 Element Plus CSS 變數 */
+  --el-radio-font-size: 25px;
+  --el-checkbox-font-size: 25px;
+  --el-radio-text-color: #634A20;
+  --el-checkbox-text-color: #634A20;
+  --el-input-font-size: 25px;
+  --el-textarea-font-size: 25px;
+  --el-button-font-size: 20px;
+}
+
+.jungle-exam-content .text-2xl {
+  font-size: 25px !important;
+}
+
+.jungle-exam-content .mb-2 {
+  font-size: 25px !important;
+}
+
+/* ========== 按鈕樣式 ========== */
+/* 全域 Jungle 主題按鈕配色 */
+.jungle-bg,
+.jungle-bg-menu,
+.jungle-bg-full,
+.jungle-bg-none {
+  --el-color-primary: #337a38;
+  --el-color-primary-light-3: #82ab44;
+  --el-color-primary-light-5: #D2E6B3;
+  --el-color-primary-light-7: #e5f0d1;
+  --el-color-primary-light-8: #f0f8e8;
+  --el-color-primary-light-9: #f7fbf3;
+  --el-color-primary-dark-2: #2d6630;
+  --el-color-success: #82ab44;
+  --el-color-success-light-3: #a3c266;
+  --el-color-success-dark-2: #6b8e23;
+}
+
+.jungle-button {
+  position: absolute;
+  top: 85vh;
+  left: 42.5vw;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.jungle-button img {
+  height: 12vh;
+  width: 16vw;
+  transition: opacity 0.3s ease;
+}
+
+.jungle-button .hov-img {
+  display: none;
+}
+
+.jungle-button:hover .hov-img {
+  display: inline-block;
+}
+
+.jungle-button:hover .inn-img {
+  display: none;
+}
+
+/* ========== 表單元素 ========== */
+.jungle-form-control {
+  font-size: 1.05vw;
+  color: #634A20;
+  background-color: #D2E6B3;
+  border-color: #634A20;
+}
+
+.jungle-form-control:focus {
+  color: #634A20;
+  background-color: #D2E6B3;
+  border-color: #634A20;
+  box-shadow: 0 0 0 0.25rem rgba(99, 74, 32, 0.25);
+}
+
+.jungle-form-check-input {
+  cursor: pointer;
+  border-color: #634A20;
+  background-color: #D2E6B3;
+}
+
+.jungle-form-check-input:checked {
+  border-color: #634A20;
+  background-color: #D2E6B3;
+}
+
+.jungle-form-check-input:checked[type=radio] {
+  --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23000'/%3e%3c/svg%3e");
+}
+
+.jungle-form-check-input:checked[type=checkbox] {
+  --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+/* Element Plus 表單元素樣式覆蓋（for Exam/Survey） */
+.jungle-exam-content .el-radio-group,
+.jungle-exam-content .el-checkbox-group {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.75rem !important;
+}
+
+.jungle-exam-content .el-radio,
+.jungle-exam-content .el-checkbox {
+  font-size: 25px !important;
+  color: #634A20 !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  line-height: 1 !important;
+  padding: 0.5rem 0 !important;
+}
+
+.jungle-exam-content .el-radio .el-radio__label,
+.jungle-exam-content .el-checkbox .el-checkbox__label {
+  font-size: 25px !important;
+  color: #634A20 !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  line-height: 1 !important;
+}
+
+/* 更強力的覆蓋 */
+.jungle-exam-content .el-radio-group .el-radio .el-radio__label,
+.jungle-exam-content .el-checkbox-group .el-checkbox .el-checkbox__label {
+  font-size: 25px !important;
+  color: #634A20 !important;
+}
+
+.jungle-exam-content .el-radio__input.is-checked .el-radio__inner {
+  border-color: #634A20 !important;
+  background-color: #D2E6B3 !important;
+}
+
+.jungle-exam-content .el-checkbox__input.is-checked .el-checkbox__inner {
+  border-color: #634A20 !important;
+  background-color: #D2E6B3 !important;
+}
+
+.jungle-exam-content .el-radio__inner {
+  border-color: #634A20 !important;
+  background-color: #D2E6B3 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.jungle-exam-content .el-radio__input {
+  margin-top: 0 !important;
+  align-self: flex-start !important;
+  line-height: 1 !important;
+}
+
+.jungle-exam-content .el-checkbox__inner {
+  border-color: #634A20 !important;
+  background-color: #D2E6B3 !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.jungle-exam-content .el-checkbox__input {
+  margin-top: 0 !important;
+  align-self: flex-start !important;
+  line-height: 1 !important;
+}
+
+.jungle-exam-content .el-input__inner,
+.jungle-exam-content .el-textarea__inner {
+  font-size: 25px !important;
+  color: #634A20 !important;
+  background-color: #D2E6B3 !important;
+  border-color: #634A20 !important;
+}
+
+.jungle-exam-content .el-button {
+  font-size: 20px !important;
+}
+
+.jungle-exam-content .el-button--primary {
+  background-color: #337a38 !important;
+  border-color: #337a38 !important;
+  color: #ffffff !important;
+}
+
+.jungle-exam-content .el-button--primary:hover {
+  background-color: #82ab44 !important;
+  border-color: #82ab44 !important;
+}
+
+.jungle-exam-content .el-button--primary:active {
+  background-color: #2d6630 !important;
+  border-color: #2d6630 !important;
+}
+
+.jungle-exam-content .el-button.is-plain {
+  background-color: #D2E6B3 !important;
+  border-color: #337a38 !important;
+  color: #634A20 !important;
+}
+
+.jungle-exam-content .el-button.is-plain:hover {
+  background-color: #82ab44 !important;
+  border-color: #82ab44 !important;
+  color: #ffffff !important;
+}
+
+.jungle-exam-content .el-button--success {
+  background-color: #82ab44 !important;
+  border-color: #82ab44 !important;
+  color: #ffffff !important;
+}
+
+.jungle-exam-content .el-button--success:hover {
+  background-color: #6b8e23 !important;
+  border-color: #6b8e23 !important;
+}
+
+/* Dialog 結果顯示 */
+.jungle-exam-content .el-dialog__header,
+.jungle-exam-content .el-dialog__body {
+  font-size: 20px !important;
+  color: #634A20 !important;
+}
+
+.jungle-exam-content .el-dialog__title {
+  font-size: 25px !important;
+  color: #634A20 !important;
+}
+
+.jungle-exam-content .text-3xl {
+  font-size: 2.5rem !important;
+}
+
+.jungle-exam-content .text-lg {
+  font-size: 1.5rem !important;
+}
+
+/* ========== 音樂控制器 ========== */
+.jungle-music-control {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.jungle-music-control input[type="range"] {
+  top: 0;
+  left: 30px;
+  margin: 5px;
+  width: 5%;
+  line-height: 20px;
+}
+
+.jungle-music-control .play-icon,
+.jungle-music-control .mute-icon {
+  margin: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #82ab44;
+}
+
+/* ========== 自定義滾動條 ========== */
+.jungle-scrollbar::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  background-color: #D2E6B3;
+}
+
+.jungle-scrollbar::-webkit-scrollbar {
+  width: 15px;
+  background-color: #F5F5F5;
+}
+
+.jungle-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: #82ab44;
+  background-image: -webkit-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, .2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, .2) 50%,
+    rgba(255, 255, 255, .2) 75%,
+    transparent 75%,
+    transparent
+  );
+}
+
+/* ========== 播放器 ========== */
+.jungle-player {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.jungle-player iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* ========== 工具類 ========== */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+button.jungle-style {
+  cursor: pointer;
+}
+
+.jungle-box-give img {
+  cursor: grab;
+}

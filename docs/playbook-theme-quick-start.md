@@ -137,20 +137,26 @@ db.playbooks.findOne({ slug: 'your-slug' })
 
 ### 使用圖片和資源
 
-#### 1. 建立 assets 資料夾
+#### 1. 建立資源資料夾
+在主題資料夾內建立 images 和 styles 資料夾：
 ```bash
-mkdir -p client/src/assets/themes/my-theme/images
-mkdir -p client/src/assets/themes/my-theme/styles
+# Windows
+mkdir client\src\views\themes\my-theme\images
+mkdir client\src\views\themes\my-theme\styles
+
+# Linux/Mac
+mkdir -p client/src/views/themes/my-theme/images
+mkdir -p client/src/views/themes/my-theme/styles
 ```
 
 #### 2. 放置圖片檔案
-將圖片放到 `client/src/assets/themes/my-theme/images/` 資料夾
+將圖片放到 `client/src/views/themes/my-theme/images/` 資料夾
 
 #### 3. 在 Vue 元件中使用
 ```vue
 <template>
   <!-- 方式一：直接引用 -->
-  <img src="@/assets/themes/my-theme/images/logo.png" alt="Logo">
+  <img src="./images/logo.png" alt="Logo">
 
   <!-- 方式二：背景圖 -->
   <div class="hero-section">
@@ -159,17 +165,19 @@ mkdir -p client/src/assets/themes/my-theme/styles
 </template>
 
 <style scoped>
-/* 背景圖片 */
+/* 背景圖片 - 在 Vue 組件中使用相對路徑 */
 .hero-section {
-  background-image: url('@/assets/themes/my-theme/images/background.jpg');
+  background-image: url('./images/background.jpg');
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 </style>
 ```
 
 ### 使用主題專用 CSS
 
-建立 `client/src/assets/themes/my-theme/styles/theme.css`：
+建立 `client/src/views/themes/my-theme/styles/theme.css`：
 
 ```css
 :root {
@@ -190,9 +198,15 @@ mkdir -p client/src/assets/themes/my-theme/styles
 
 ```vue
 <style scoped>
-@import '@/assets/themes/my-theme/styles/theme.css';
+@import './styles/theme.css';
 </style>
 ```
+
+**重要提示：**
+- 所有主題資源（圖片、CSS、字體等）都應放在主題資料夾內
+- Vue 組件中使用 `./images/` 相對路徑
+- styles/ 目錄中的 CSS 引用圖片時使用 `../images/`
+- 這樣方便主題的複製、刪除和管理
 
 ## 完整文件
 

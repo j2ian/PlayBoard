@@ -1,159 +1,100 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
-    <!-- 頂部導航 -->
-    <div class="bg-white shadow-sm border-b border-gray-200">
-      <div class="max-w-4xl mx-auto px-4 py-3">
-        <div class="flex items-center justify-between">
-          <router-link to="/" class="text-lg font-semibold text-blue-600">
-            PlayBoard
-          </router-link>
-          <div class="text-sm text-gray-600">
-            {{ playbook?.title || '載入中...' }}
+  <div class="h-screen w-screen py-10 jungle-bg-full flex items-center justify-center">
+    <div class="max-w-4xl w-full max-h-full  overflow-y-auto jungle-exam-content jungle-scrollbar">
+
+
+
+      <!-- 載入中 -->
+      <div v-if="loading" class="max-w-4xl mx-auto px-4 py-8">
+        <el-skeleton :rows="6" animated />
+      </div>
+
+      <!-- 完成慶祝 -->
+      <div v-else-if="playbook" class="p-2">
+        <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+          <!-- 慶祝動畫 -->
+          <div class="mb-6">
+            <div class="celebration-icon">
+              <el-icon size="80" class="text-green-500 mb-4">
+                <Trophy />
+              </el-icon>
+            </div>
+            <div class="flex justify-center items-center gap-2 mb-4">
+              <span class="text-4xl">🎉</span>
+              <h1 class="text-4xl font-bold text-green-800">恭喜完成！</h1>
+              <span class="text-4xl">🎉</span>
+            </div>
           </div>
+
+          <p class="text-xl text-green-600 mb-8">
+            您已成功完成「{{ playbook.title }}」的所有學習步驟
+          </p>
+
+          <!-- 完成統計 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-green-50 rounded-lg p-6 border border-green-200">
+              <div class="text-3xl font-bold text-green-600 mb-2">
+                {{ playbook.totalSteps || playbook.steps?.length || 0 }}
+              </div>
+              <div class="text-sm text-green-600 font-medium">完成步驟</div>
+            </div>
+
+            <div class="bg-blue-50 rounded-lg p-6 border border-blue-200">
+              <div class="text-3xl font-bold text-blue-600 mb-2">
+                {{ formatDuration(totalTimeSpent) }}
+              </div>
+              <div class="text-sm text-blue-600 font-medium">學習時間</div>
+            </div>
+
+            <div class="bg-purple-50 rounded-lg p-6 border border-purple-200">
+              <div class="text-3xl font-bold text-purple-600 mb-2">100%</div>
+              <div class="text-sm text-purple-600 font-medium">完成率</div>
+            </div>
+          </div>
+
+
+
+          <!-- 操作按鈕 -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <el-button type="primary" size="large" @click="backToOverview" :data-playbook-id="playbook._id"
+              :data-action="'back-to-overview'" class="completion-action-btn">
+              <el-icon>
+                <View />
+              </el-icon>
+              查看學習記錄
+            </el-button>
+
+            <el-button type="success" size="large" @click="restartPlayBook" :data-playbook-id="playbook._id"
+              :data-action="'restart'" class="completion-action-btn">
+              <el-icon>
+                <RefreshRight />
+              </el-icon>
+              重新學習
+            </el-button>
+
+            <el-button size="large" @click="shareSuccess" :data-playbook-id="playbook._id" :data-action="'share'"
+              class="completion-action-btn">
+              <el-icon>
+                <Share />
+              </el-icon>
+              分享
+            </el-button>
+          </div>
+
+
         </div>
       </div>
-    </div>
 
-    <!-- 載入中 -->
-    <div v-if="loading" class="max-w-4xl mx-auto px-4 py-8">
-      <el-skeleton :rows="6" animated />
-    </div>
-
-    <!-- 完成慶祝 -->
-    <div v-else-if="playbook" class="max-w-4xl mx-auto px-4 py-8">
-      <div class="bg-white rounded-lg shadow-lg p-8 text-center">
-        <!-- 慶祝動畫 -->
-        <div class="mb-6">
-          <div class="celebration-icon">
-            <el-icon size="80" class="text-green-500 mb-4"><Trophy /></el-icon>
-          </div>
-          <div class="flex justify-center items-center gap-2 mb-4">
-            <span class="text-4xl">🎉</span>
-            <h1 class="text-4xl font-bold text-green-800">恭喜完成！</h1>
-            <span class="text-4xl">🎉</span>
-          </div>
+      <!-- 錯誤狀態 -->
+      <div v-else class="max-w-4xl mx-auto px-4 py-8">
+        <div class="text-center py-16">
+          <el-icon size="64" class="text-gray-400 mb-4">
+            <Warning />
+          </el-icon>
+          <h2 class="text-2xl font-semibold text-gray-800 mb-2">載入失敗</h2>
+          <p class="text-gray-600 mb-6">無法載入完成資訊</p>
+          <el-button type="primary" @click="backToHome">返回首頁</el-button>
         </div>
-        
-        <p class="text-xl text-green-600 mb-8">
-          您已成功完成「{{ playbook.title }}」的所有學習步驟
-        </p>
-        
-        <!-- 完成統計 -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div class="bg-green-50 rounded-lg p-6 border border-green-200">
-            <div class="text-3xl font-bold text-green-600 mb-2">
-              {{ playbook.totalSteps || playbook.steps?.length || 0 }}
-            </div>
-            <div class="text-sm text-green-600 font-medium">完成步驟</div>
-          </div>
-          
-          <div class="bg-blue-50 rounded-lg p-6 border border-blue-200">
-            <div class="text-3xl font-bold text-blue-600 mb-2">
-              {{ formatDuration(totalTimeSpent) }}
-            </div>
-            <div class="text-sm text-blue-600 font-medium">學習時間</div>
-          </div>
-          
-          <div class="bg-purple-50 rounded-lg p-6 border border-purple-200">
-            <div class="text-3xl font-bold text-purple-600 mb-2">100%</div>
-            <div class="text-sm text-purple-600 font-medium">完成率</div>
-          </div>
-        </div>
-        
-        <!-- 學習成果摘要 -->
-        <div v-if="completedSteps.length > 0" class="text-left mb-8">
-          <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">學習成果</h3>
-          <div class="bg-gray-50 rounded-lg p-6">
-            <div class="grid gap-4">
-              <div 
-                v-for="step in completedSteps" 
-                :key="step.stepNumber"
-                class="flex items-center gap-3 p-3 bg-white rounded border"
-              >
-                <div class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-semibold">
-                  <el-icon><Check /></el-icon>
-                </div>
-                <div class="flex-1">
-                  <div class="font-medium text-gray-800">{{ step.title }}</div>
-                  <div class="text-sm text-gray-500">
-                    {{ getStepTypeLabel(step.type) }}
-                    <span v-if="step.completedAt" class="ml-2">
-                      - {{ formatDate(step.completedAt) }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- 操作按鈕 -->
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <el-button 
-            type="primary" 
-            size="large"
-            @click="backToOverview"
-            :data-playbook-id="playbook._id"
-            :data-action="'back-to-overview'"
-            class="completion-action-btn"
-          >
-            <el-icon><View /></el-icon>
-            查看學習記錄
-          </el-button>
-          
-          <el-button 
-            type="success" 
-            size="large"
-            @click="restartPlayBook"
-            :data-playbook-id="playbook._id"
-            :data-action="'restart'"
-            class="completion-action-btn"
-          >
-            <el-icon><RefreshRight /></el-icon>
-            重新學習
-          </el-button>
-          
-          <el-button 
-            size="large"
-            @click="shareSuccess"
-            :data-playbook-id="playbook._id"
-            :data-action="'share'"
-            class="completion-action-btn"
-          >
-            <el-icon><Share /></el-icon>
-            分享成果
-          </el-button>
-        </div>
-        
-        <!-- 建議後續學習 -->
-        <div v-if="suggestedPlayBooks.length > 0" class="mt-8 pt-6 border-t border-gray-200">
-          <h3 class="text-lg font-semibold text-gray-800 mb-4">推薦繼續學習</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div 
-              v-for="suggested in suggestedPlayBooks" 
-              :key="suggested._id"
-              class="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
-              @click="goToPlayBook(suggested)"
-            >
-              <h4 class="font-medium text-gray-800 mb-2">{{ suggested.title }}</h4>
-              <p class="text-sm text-gray-600 line-clamp-2">{{ suggested.description }}</p>
-              <div class="flex items-center justify-between mt-3">
-                <span class="text-xs text-gray-500">{{ suggested.totalSteps }} 步驟</span>
-                <el-button size="small" type="primary" plain>開始學習</el-button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 錯誤狀態 -->
-    <div v-else class="max-w-4xl mx-auto px-4 py-8">
-      <div class="text-center py-16">
-        <el-icon size="64" class="text-gray-400 mb-4"><Warning /></el-icon>
-        <h2 class="text-2xl font-semibold text-gray-800 mb-2">載入失敗</h2>
-        <p class="text-gray-600 mb-6">無法載入完成資訊</p>
-        <el-button type="primary" @click="backToHome">返回首頁</el-button>
       </div>
     </div>
   </div>
@@ -164,7 +105,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import PlayBookService from '@/services/playbook.service'
-import { 
+import {
   Trophy, Check, View, RefreshRight, Share, Warning
 } from '@element-plus/icons-vue'
 
@@ -181,7 +122,7 @@ const userId = ref('')
 // 完成的步驟
 const completedSteps = computed(() => {
   if (!playbook.value?.steps || !userProgress.value?.completedSteps) return []
-  
+
   return playbook.value.steps
     .filter(step => userProgress.value.completedSteps.includes(step.stepNumber))
     .map(step => ({
@@ -204,17 +145,17 @@ onMounted(async () => {
 const fetchData = async () => {
   try {
     loading.value = true
-    
+
     // 獲取PlayBook資料
     await fetchPlayBook()
-    
+
     if (playbook.value) {
       // 獲取用戶進度
       await fetchUserProgress()
-      
+
       // 標記PlayBook為完成
       await markPlayBookCompleted()
-      
+
       // 獲取推薦PlayBook
       await fetchSuggestedPlayBooks()
     }
@@ -230,7 +171,7 @@ const fetchData = async () => {
 const fetchPlayBook = async () => {
   const slug = route.params.slug
   const response = await PlayBookService.getPublicPlayBook(slug)
-  
+
   if (response.data && response.data.success) {
     playbook.value = response.data.data
   } else {
@@ -246,10 +187,10 @@ const fetchUserProgress = async () => {
       userId.value,
       PlayBookService.getUserName() || '匿名用戶'
     )
-    
+
     if (response.data && response.data.success) {
       userProgress.value = response.data.data
-      
+
       // 確保 completedSteps 是陣列
       if (!Array.isArray(userProgress.value.completedSteps)) {
         userProgress.value.completedSteps = []
@@ -257,7 +198,7 @@ const fetchUserProgress = async () => {
     }
   } catch (error) {
     console.error('獲取用戶進度失敗:', error)
-    
+
     // 嘗試從本地載入
     const localProgress = PlayBookService.getLocalProgress(playbook.value._id)
     if (localProgress) {
@@ -277,7 +218,7 @@ const markPlayBookCompleted = async () => {
       // 暫時更新本地狀態
       userProgress.value.isCompleted = true
       userProgress.value.completedAt = new Date()
-      
+
       // 保存到本地
       PlayBookService.savePlayBookProgress(playbook.value._id, userProgress.value)
     }
@@ -293,7 +234,7 @@ const fetchSuggestedPlayBooks = async () => {
       limit: 3,
       category: playbook.value.category
     })
-    
+
     if (response.data && response.data.success) {
       // 排除當前PlayBook
       suggestedPlayBooks.value = response.data.data.filter(pb => pb._id !== playbook.value._id)
@@ -329,7 +270,7 @@ const formatDuration = (seconds) => {
   if (minutes < 60) return `${minutes} 分鐘`
   const hours = Math.floor(minutes / 60)
   const remainingMinutes = minutes % 60
-  return remainingMinutes > 0 
+  return remainingMinutes > 0
     ? `${hours} 小時 ${remainingMinutes} 分鐘`
     : `${hours} 小時`
 }
@@ -360,7 +301,7 @@ const restartPlayBook = async () => {
 const shareSuccess = async () => {
   const shareText = `我剛完成了「${playbook.value.title}」的學習！`
   const shareUrl = window.location.origin + `/PlayBoard/playbook/${route.params.slug}`
-  
+
   if (navigator.share) {
     navigator.share({
       title: playbook.value.title,
@@ -383,10 +324,10 @@ const shareSuccess = async () => {
         document.body.appendChild(textArea)
         textArea.focus()
         textArea.select()
-        
+
         const successful = document.execCommand('copy')
         document.body.removeChild(textArea)
-        
+
         if (successful) {
           ElMessage.success('分享連結已複製到剪貼簿')
         } else {
@@ -410,17 +351,26 @@ const backToHome = () => {
 </script>
 
 <style scoped>
+@import './styles/theme.css';
+
 .celebration-icon {
   animation: bounce 2s infinite;
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
+
   40% {
     transform: translateY(-20px);
   }
+
   60% {
     transform: translateY(-10px);
   }

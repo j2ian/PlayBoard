@@ -1,21 +1,6 @@
+<!-- 第一頁 -->
 <template>
-  <div class="min-h-screen">
-    <!-- 頂部導航 -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
-      <div class="max-w-4xl mx-auto px-4 py-4">
-        <div class="flex items-center justify-between">
-          <router-link to="/" class="text-xl font-bold text-[color:var(--pb-color-primary)]">
-            PlayBoard Jungle
-          </router-link>
-          <div class="flex items-center gap-4">
-            <div v-if="playbook" class="text-sm text-gray-600">
-              {{ playbook.title }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-
+  <div class="min-h-screen jungle-bg-menu">
     <!-- 載入中 -->
     <div v-if="loading" class="max-w-4xl mx-auto px-4 py-8">
       <el-skeleton :rows="8" animated />
@@ -34,9 +19,9 @@
     </div>
 
     <!-- PlayBook內容 -->
-    <div v-else class="max-w-4xl mx-auto px-4 py-8">
+    <div v-else class="max-w-2xl mx-auto px-4 py-8 fixed bottom-0 left-0 right-0">
       <!-- PlayBook標題區域 -->
-      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+      <div class="bg-white **opacity-50** rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-start justify-between mb-4">
           <div class="flex-1">
             <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ playbook.title }}</h1>
@@ -46,47 +31,12 @@
 
             <!-- PlayBook資訊 -->
             <div class="flex flex-wrap gap-4 text-sm text-gray-600">
-              <div class="flex items-center gap-1">
-                <el-icon>
-                  <Clock />
-                </el-icon>
-                <span>{{ formatDuration(playbook.estimatedTime) }}</span>
-              </div>
-              <div class="flex items-center gap-1">
-                <el-icon>
-                  <List />
-                </el-icon>
-                <span>{{ playbook.totalSteps }} 個步驟</span>
-              </div>
-              <div class="flex items-center gap-1">
-                <el-icon>
-                  <User />
-                </el-icon>
-                <span>{{ playbook.createdBy?.username || '匿名作者' }}</span>
-              </div>
+
             </div>
 
-            <!-- 分類和難度 -->
-            <div class="flex gap-2 mt-4">
-              <el-tag type="warning" effect="plain">{{ playbook.category }}</el-tag>
-              <el-tag v-if="appConfig?.features?.showDifficultyFields" :type="getDifficultyColor(playbook.difficulty)">
-                {{ getDifficultyLabel(playbook.difficulty) }}
-              </el-tag>
-            </div>
+
           </div>
         </div>
-
-        <!-- 進度條 -->
-        <div v-if="userProgress" class="mb-4">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-sm font-medium text-gray-700">學習進度</span>
-            <span class="text-sm text-gray-500">
-              {{ userProgress.completedSteps.length }} / {{ userProgress.totalSteps }}
-            </span>
-          </div>
-          <el-progress :percentage="userProgress.progressPercentage" :stroke-width="8" :show-text="false" />
-        </div>
-
         <!-- 開始/繼續按鈕 -->
         <div class="flex gap-3">
           <el-button v-if="!userProgress || userProgress.isNewUser" type="primary" size="large" @click="startPlayBook"
@@ -665,11 +615,7 @@ const goHome = () => {
 }
 </script>
 
-<style scoped>
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+<style>
+/* 引入 Jungle 主題樣式 */
+@import './styles/theme.css';
 </style>

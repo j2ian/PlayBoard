@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen py-8">
-    <div class="max-w-4xl mx-auto px-4">
+  <div class="min-h-screen py-8 jungle-bg-none flex items-center justify-center">
+    <div class="max-w-4xl w-full max-h-full p-8 overflow-y-auto jungle-survey-container jungle-scrollbar">
       <!-- 載入中 -->
       <el-card v-if="loading" class="text-center" v-loading="true" element-loading-text="載入中...">
         <div class="py-8">
@@ -469,3 +469,8 @@ onUnmounted(() => {
   }
 })
 </script>
+
+<style>
+/* 引入 Jungle 主題樣式 */
+@import './styles/theme.css';
+</style>
