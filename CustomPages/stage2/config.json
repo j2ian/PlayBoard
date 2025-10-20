@@ -1,0 +1,27 @@
+﻿{
+    "pageInfo":  {
+                     "title":  "聰明購物0浪費",
+                     "description":  "透過互動遊戲學習聰明購物與減少食材浪費的概念",
+                     "author":  "",
+                     "version":  "1.0.0"
+                 },
+    "requirements":  {
+                         "browserSupport":  [
+                                                "chrome",
+                                                "firefox",
+                                                "safari",
+                                                "edge"
+                                            ],
+                         "minHeight":  600,
+                         "minWidth":  800
+                     },
+    "settings":  {
+                     "allowNavigation":  true,
+                     "autoProgress":  false,
+                     "progressDelay":  0,
+                     "completionCriteria":  "",
+                     "entryFile":  "index.html",
+                     "allowFullscreen":  false,
+                     "progressTrigger":  "manual"
+                 }
+}

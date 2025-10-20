@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>聰明購物0浪費</title>
+    <meta
+      name="description"
+      content="透過互動遊戲學習聰明購物與減少食材浪費的概念"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <!-- 音頻元素 -->
+    <audio id="bkMusic" src="./assets/music/2.mp3" preload="auto"></audio>
+    <audio id="audio_intro" src="./assets/intro/2.mp3" preload="auto"></audio>
+
+    <!-- 介紹頁面 -->
+    <main
+      id="intro"
+      style="background-image: url('./assets/images/game/stage2Intro.jpg')"
+    >
+      <img
+        class=""
+        id="mainHint"
+        src="./assets/images/game/message.jpg"
+        style="display: none"
+        alt="遊戲說明"
+      />
+      <button
+        id="btnSetGame"
+        data-hint="0"
+        class="button"
+        aria-label="開始遊戲"
+      >
+        <img
+          class="innimg"
+          src="./assets/images/general/btn_Go.png"
+          alt="開始"
+        />
+        <img
+          class="hovimg"
+          src="./assets/images/general/btn_Go_Bright.png"
+          alt="開始（高亮）"
+        />
+      </button>
+    </main>
+
+    <!-- 遊戲頁面 -->
+    <main
+      id="game"
+      style="background-image: url('./assets/images/game/background.jpg')"
+    >
+      <!-- 提示容器 -->
+      <section class="hintContainer" id="hintContainer">
+        <img
+          class="hint"
+          id="hint1"
+          src="./assets/images/game/hints/hint1.png"
+          style="display: none"
+          alt="第一道料理提示"
+        />
+        <img
+          class="hint"
+          id="hint2"
+          src="./assets/images/game/hints/hint2.png"
+          style="display: none"
+          alt="第二道料理提示"
+        />
+        <img
+          class="hint"
+          id="hint3"
+          src="./assets/images/game/hints/hint3.png"
+          style="display: none"
+          alt="第三道料理提示"
+        />
+        <img
+          class="hint"
+          id="hint4"
+          src="./assets/images/game/hints/hint4.png"
+          style="display: none"
+          alt="第四道料理提示"
+        />
+        <img
+          class="hint"
+          id="hint5"
+          src="./assets/images/game/hints/hint5.png"
+          style="display: none"
+          alt="第五道料理提示"
+        />
+      </section>
+
+      <!-- 計時器 -->
+      <section class="timer">
+        <p id="countdown"><b>45</b></p>
+      </section>
+
+      <!-- 食材按鈕區域 -->
+      <section class="container1">
+        <!-- 第一排食材 -->
+        <button class="button food-row-1 food-col-1" data-food="11">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/11.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/11.png"
+          />
+        </button>
+        <button class="button food-row-1 food-col-2" data-food="12">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/12.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/12.png"
+          />
+        </button>
+        <button class="button food-row-1 food-col-3" data-food="13">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/13.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/13.png"
+          />
+        </button>
+        <button class="button food-row-1 food-col-4" data-food="14">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/14.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/14.png"
+          />
+        </button>
+        <button class="button food-row-1 food-col-5" data-food="15">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/15.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/15.png"
+          />
+        </button>
+        <!-- 第二排食材 -->
+        <button class="button food-row-2 food-col-1" data-food="21">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/21.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/21.png"
+          />
+        </button>
+        <button class="button food-row-2 food-col-2" data-food="22">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/22.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/22.png"
+          />
+        </button>
+        <button class="button food-row-2 food-col-3" data-food="23">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/23.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/23.png"
+          />
+        </button>
+        <button class="button food-row-2 food-col-4" data-food="24">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/24.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/24.png"
+          />
+        </button>
+        <button class="button food-row-2 food-col-5" data-food="25">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/25.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/25.png"
+          />
+        </button>
+        <!-- 第三排食材 -->
+        <button class="button food-row-3 food-col-1" data-food="31">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/31.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/31.png"
+          />
+        </button>
+        <button class="button food-row-3 food-col-2" data-food="32">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/32.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/32.png"
+          />
+        </button>
+        <button class="button food-row-3 food-col-3" data-food="33">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/33.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/33.png"
+          />
+        </button>
+        <button class="button food-row-3 food-col-4" data-food="34">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/34.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/34.png"
+          />
+        </button>
+        <button class="button food-row-3 food-col-5" data-food="35">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/35.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/35.png"
+          />
+        </button>
+        <!-- 第四排食材 -->
+        <button class="button food-row-4 food-col-1" data-food="41">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/41.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/41.png"
+          />
+        </button>
+        <button class="button food-row-4 food-col-2" data-food="42">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/42.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/42.png"
+          />
+        </button>
+        <button class="button food-row-4 food-col-3" data-food="43">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/43.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/43.png"
+          />
+        </button>
+        <button class="button food-row-4 food-col-4" data-food="44">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/44.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/44.png"
+          />
+        </button>
+        <button class="button food-row-4 food-col-5" data-food="45">
+          <img
+            class="innimg"
+            src="./assets/images/game/ingredients/45.png"
+          /><img
+            class="hovimg"
+            src="./assets/images/game/ingredients_halo/45.png"
+          />
+        </button>
+      </section>
+
+      <!-- 選擇的食材容器 -->
+      <section class="container2">
+        <div class="box" id="boxEmpty"></div>
+      </section>
+
+      <!-- 料理目標顯示 -->
+      <section class="container3">
+        <img
+          id="Q_text"
+          src="./assets/images/game/hints/1.png"
+          alt="料理名稱"
+        />
+        <img
+          id="Q_img"
+          src="./assets/images/game/dishes/1.png"
+          alt="料理圖片"
+        />
+        <button class="button" id="btn_finishDish" aria-label="完成料理">
+          <img
+            class="innimg"
+            src="./assets/images/game/btn_finishDish.png"
+            alt="完成料理"
+          />
+          <img
+            class="hovimg"
+            src="./assets/images/game/btn_finishDish_bright.png"
+            alt="完成料理（高亮）"
+          />
+        </button>
+      </section>
+
+      <!-- 料理完成標記 -->
+      <section class="container4">
+        <img
+          id="Q1check"
+          src="./assets/images/game/V.png"
+          style="display: none"
+          alt="第一道完成"
+        />
+        <img
+          id="Q2check"
+          src="./assets/images/game/V.png"
+          style="display: none"
+          alt="第二道完成"
+        />
+        <img
+          id="Q3check"
+          src="./assets/images/game/V.png"
+          style="display: none"
+          alt="第三道完成"
+        />
+        <img
+          id="Q4check"
+          src="./assets/images/game/V.png"
+          style="display: none"
+          alt="第四道完成"
+        />
+        <img
+          id="Q5check"
+          src="./assets/images/game/V.png"
+          style="display: none"
+          alt="第五道完成"
+        />
+      </section>
+    </main>
+
+    <!-- 結果頁面 1 -->
+    <main
+      id="result1"
+      style="
+        background-image: url('./assets/images/result/background_result.jpg');
+      "
+    >
+      <img
+        id="card"
+        src="./assets/images/result/card_result.png"
+        alt="成績卡"
+      />
+      <div class="flexbox Score1"><h1 id="scoreDump">0</h1></div>
+      <div class="flexbox Score2"><h1 id="score">0</h1></div>
+      <button class="button" aria-label="下一步">
+        <img
+          class="innimg"
+          src="./assets/images/general/btn_next.png"
+          alt="下一步"
+        />
+        <img
+          class="hovimg"
+          src="./assets/images/general/btn_next_bright.png"
+          alt="下一步（高亮）"
+        />
+      </button>
+    </main>
+
+    <!-- 結果頁面 2 -->
+    <main
+      id="result2"
+      style="
+        background-image: url('./assets/images/result/background_result2.jpg');
+      "
+    >
+      <button class="button" aria-label="下一步">
+        <img
+          class="innimg"
+          src="./assets/images/general/btn_next.png"
+          alt="下一步"
+        />
+        <img
+          class="hovimg"
+          src="./assets/images/general/btn_next_bright.png"
+          alt="下一步（高亮）"
+        />
+      </button>
+    </main>
+
+    <!-- 結果頁面 3 (影片) -->
+    <main
+      id="result3"
+      style="background-image: url('./assets/images/result/bg_none.jpg')"
+    >
+      <div class="video">
+        <div id="player"></div>
+      </div>
+      <button id="nextButton" class="button" aria-label="完成">
+        <img
+          class="innimg"
+          src="./assets/images/general/btn_finish.png"
+          alt="完成"
+        />
+        <img
+          class="hovimg"
+          src="./assets/images/general/btn_finish_bright.png"
+          alt="完成（高亮）"
+        />
+      </button>
+    </main>
+
+    <!-- JavaScript 檔案 -->
+    <script src="./assets/js/playboard.js"></script>
+    <script src="./assets/js/game.js"></script>
+  </body>
+</html>

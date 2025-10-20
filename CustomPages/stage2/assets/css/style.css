@@ -1,0 +1,395 @@
+/* Font Face */
+@font-face {
+    font-family: jf-openhuninn;
+    src: url('../fonts/jf-openhuninn-2.0.woff') format('woff');
+}
+
+/* Common Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* Main Layout */
+main {
+    display: flex;
+    position: fixed;
+    height: 100dvh;
+    width: 100dvw;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+/* Intro Page */
+#intro {
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+}
+
+#intro button {
+    bottom: 10px;
+    padding: 0%;
+    margin: 0%;
+    border: 0px;
+    position: absolute;
+    background-color: transparent;
+}
+
+/* Hint Container */
+.hintContainer {
+    height: 100dvh;
+    width: 100dvw;
+    z-index: 5;
+    display: none;
+    justify-content: center;
+}
+
+.hint {
+    height: 25dvh;
+    width: 75dvw;
+    margin: auto;
+}
+
+/* Food Buttons Container */
+.container1 {
+    left: -2dvw;
+}
+
+.container1 button {
+    position: absolute;
+    background-color: transparent;
+    border: 0px;
+    height: 12.5dvh;
+    width: 7.5dvw;
+}
+
+.container1 button img {
+    padding: 0%;
+    margin: 0%;
+    height: 90%;
+    width: 90%;
+    background-color: transparent;
+}
+
+.container1 button:hover img {
+    transition: 0.05s;
+    height: 100%;
+    width: 100%;
+}
+
+.container1 button:active img {
+    opacity: 0.6;
+    transition: 0.05s;
+    height: 90%;
+    width: 90%;
+}
+
+/* Food Button Positions - Row 1 */
+.food-row-1 {
+    top: 12.5dvh;
+}
+
+/* Food Button Positions - Row 2 */
+.food-row-2 {
+    top: 34dvh;
+}
+
+/* Food Button Positions - Row 3 */
+.food-row-3 {
+    top: 55.3dvh;
+}
+
+/* Food Button Positions - Row 4 */
+.food-row-4 {
+    top: 76.8dvh;
+}
+
+/* Food Button Positions - Column 1 */
+.food-col-1 {
+    left: 6dvw;
+}
+
+/* Food Button Positions - Column 2 */
+.food-col-2 {
+    left: 16.3dvw;
+}
+
+/* Food Button Positions - Column 3 */
+.food-col-3 {
+    left: 26.55dvw;
+}
+
+/* Food Button Positions - Column 4 */
+.food-col-4 {
+    left: 36.75dvw;
+}
+
+/* Food Button Positions - Column 5 */
+.food-col-5 {
+    left: 47.25dvw;
+}
+
+/* Ingredient Box Container */
+.container2 {
+    z-index: 4;
+    position: absolute;
+    top: 40.75dvh;
+    left: 59dvw;
+    height: 45dvh;
+    width: 35dvw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.container2 .box {
+    position: relative;
+    height: 8.8dvh;
+    width: 4.5dvw;
+    border: 0px solid;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin: 1.2dvw;
+    margin-top: 0;
+}
+
+.container2 .box .result-mark {
+    position: absolute;
+    left: 1.1dvw;
+    top: 0.45dvh;
+    font-family: 'jf-openhuninn';
+    font-size: 50px;
+    color: #F07B7C;
+    -webkit-text-stroke: 0.5px white;
+}
+
+.container2 .box button {
+    position: absolute;
+    top: 0.25dvh;
+    left: 6dvw;
+    height: 1.9dvh;
+    width: 1dvw;
+    border: 0px;
+    opacity: 80%;
+    background-image: url('../images/game/btn_minus.png');
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-size: 100% 100%;
+}
+
+.container2 .box button:hover {
+    opacity: 100%;
+}
+
+.container2 .box button:active {
+    opacity: 60%;
+}
+
+/* Quest Display */
+#Q_text {
+    position: absolute;
+    height: 2.9dvh;
+    max-width: 32%;
+    top: 16.5dvh;
+    left: 59.5dvw;
+}
+
+#Q_img {
+    position: absolute;
+    height: 12dvh;
+    width: 7dvw;
+    top: 39.5dvh;
+    left: 59dvw;
+}
+
+#btn_finishDish {
+    position: absolute;
+    top: 52.5dvh;
+    left: 86.25dvw;
+    border: 0px;
+    background-color: transparent;
+    z-index: 4;
+}
+
+#btn_finishDish img {
+    height: 7dvh;
+    width: 7dvw;
+}
+
+/* Quest Check Marks */
+.container4 img {
+    position: absolute;
+    height: 3.5dvh;
+    width: 2.3dvw;
+}
+
+#Q1check {
+    top: 76.75dvh;
+    left: 63.5dvw;
+}
+
+#Q2check {
+    top: 76.75dvh;
+    left: 70.5dvw;
+}
+
+#Q3check {
+    top: 76.75dvh;
+    left: 77.5dvw;
+}
+
+#Q4check {
+    top: 76.75dvh;
+    left: 84.5dvw;
+}
+
+#Q5check {
+    top: 76.75dvh;
+    left: 91.5dvw;
+}
+
+/* Result Pages */
+#result1,
+#result2,
+#result3 {
+    z-index: 6;
+    display: none;
+    justify-content: center;
+}
+
+#result1 #card {
+    margin: auto;
+    height: 55dvh;
+    width: 50dvw;
+}
+
+#result1 button,
+#result2 button,
+#result3 button {
+    bottom: 10px;
+    padding: 0%;
+    margin: 0%;
+    border: 0px;
+    position: absolute;
+    background-color: transparent;
+}
+
+#result1 button img,
+#result2 button img,
+#result3 button img {
+    height: 12dvh;
+    width: 16dvw;
+}
+
+/* Score Display */
+#scoreDump,
+#score {
+    position: relative;
+    font-family: 'jf-openhuninn';
+    font-size: 5vw;
+    color: rgb(0, 102, 255);
+    text-align: center;
+}
+
+.Score1 {
+    position: absolute;
+    top: 55dvh;
+    left: 27.7dvw;
+    width: 15dvw;
+    height: 10dvh;
+    text-align: center;
+    align-items: center;
+}
+
+.Score2 {
+    position: absolute;
+    top: 55dvh;
+    left: 54.6dvw;
+    width: 15dvw;
+    height: 10dvh;
+    text-align: center;
+    align-items: center;
+}
+
+/* Timer */
+p {
+    position: absolute;
+    left: 91.5dvw;
+    top: 27.5dvh;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url(../images/game/timer.png);
+    font-family: 'jf-openhuninn';
+    font-size: 4.5dvh;
+    color: #F07B7C;
+    height: 13.65dvh;
+    width: 5.65dvw;
+    text-align: center;
+    line-height: 15dvh;
+}
+
+/* Button Hover Effects */
+.hovimg {
+    display: none;
+}
+
+.button:hover .hovimg {
+    display: inline-block;
+}
+
+.button:hover .innimg {
+    display: none;
+}
+
+/* Video Player */
+.video {
+    display: flex;
+    position: absolute;
+    top: 18dvh;
+    width: 52.5dvw;
+    height: 61.5dvh;
+    text-align: center;
+    align-items: center;
+}
+
+#player {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#player iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* PlayBoard Next Button */
+.nextButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 30px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: 'jf-openhuninn';
+    cursor: pointer;
+    z-index: 1000;
+
+}
+
+.nextButton:hover {
+    background-color: #45a049;
+}
