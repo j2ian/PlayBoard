@@ -568,3 +568,236 @@ button.ocean-style {
 .ocean-box-give img {
   cursor: grab;
 }
+
+/* ========== 響應式設計 (RWD) ========== */
+
+/* 平板版本 (iPad / 768px - 1024px) */
+@media (max-width: 1024px) {
+  main.ocean-main {
+    font-size: 20px;
+  }
+
+  .ocean-container {
+    top: 15vh;
+    left: 15vw;
+    height: 65vh;
+    width: 70vw;
+  }
+
+  .ocean-survey-container,
+  .ocean-exam-content {
+    padding: 1.5rem;
+    border: 15px solid var(--ocean-primary-dark);
+    font-size: 20px !important;
+    --el-radio-font-size: 20px;
+    --el-checkbox-font-size: 20px;
+    --el-input-font-size: 20px;
+    --el-textarea-font-size: 20px;
+    --el-button-font-size: 18px;
+  }
+
+  .ocean-survey-container .text-2xl,
+  .ocean-exam-content .text-2xl {
+    font-size: 20px !important;
+  }
+
+  .ocean-button {
+    top: 82vh;
+    left: 40vw;
+  }
+
+  .ocean-button img {
+    height: 10vh;
+    width: 20vw;
+  }
+}
+
+/* 手機版本 (375px - 767px) */
+@media (max-width: 767px) {
+  /* 背景圖片替換為手機版 */
+  .ocean-bg-full {
+    background-image: url('../images/bg_full_mobile.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+
+  .ocean-bg-none {
+    background-image: url('../images/bg_none_mobile.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+
+  .ocean-bg-menu {
+    background-image: url('../images/bg_full_mobile.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+
+  main.ocean-main {
+    font-size: 16px;
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* 容器調整 - 手機版全寬 */
+  .ocean-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    overflow: visible;
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  .ocean-survey-container,
+  .ocean-exam-content {
+    padding: 0.75rem;
+    font-size: 16px !important;
+    border: 10px solid var(--ocean-primary-dark);
+
+    /* 調整 Element Plus 尺寸 */
+    --el-radio-font-size: 16px;
+    --el-checkbox-font-size: 16px;
+    --el-input-font-size: 16px;
+    --el-textarea-font-size: 16px;
+    --el-button-font-size: 14px;
+  }
+
+  .ocean-survey-container .text-2xl,
+  .ocean-survey-container .mb-2,
+  .ocean-exam-content .text-2xl,
+  .ocean-exam-content .mb-2 {
+    font-size: 16px !important;
+  }
+
+  .ocean-survey-container .text-3xl,
+  .ocean-exam-content .text-3xl {
+    font-size: 1.5rem !important;
+  }
+
+  .ocean-survey-container .text-lg,
+  .ocean-exam-content .text-lg {
+    font-size: 1.1rem !important;
+  }
+
+  /* 按鈕調整 */
+  .ocean-button {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin: 1.5rem auto;
+    display: block;
+    padding: 0.5rem;
+  }
+
+  .ocean-button img {
+    height: auto;
+    width: 100%;
+    max-width: 150px;
+  }
+
+  /* 表單元素調整 */
+  .ocean-survey-container .el-radio,
+  .ocean-survey-container .el-checkbox,
+  .ocean-exam-content .el-radio,
+  .ocean-exam-content .el-checkbox {
+    font-size: 16px !important;
+    padding: 0.5rem 0 !important;
+  }
+
+  .ocean-survey-container .el-radio .el-radio__label,
+  .ocean-survey-container .el-checkbox .el-checkbox__label,
+  .ocean-exam-content .el-radio .el-radio__label,
+  .ocean-exam-content .el-checkbox .el-checkbox__label {
+    font-size: 16px !important;
+  }
+
+  .ocean-survey-container .el-input__inner,
+  .ocean-survey-container .el-textarea__inner,
+  .ocean-exam-content .el-input__inner,
+  .ocean-exam-content .el-textarea__inner {
+    font-size: 16px !important;
+    padding: 0.5rem !important;
+  }
+
+  .ocean-survey-container .el-button,
+  .ocean-exam-content .el-button {
+    font-size: 14px !important;
+    padding: 8px 16px !important;
+    width: 100%;
+    margin: 0.5rem 0 !important;
+  }
+
+  /* Dialog 調整 */
+  .ocean-survey-container .el-dialog__header,
+  .ocean-survey-container .el-dialog__body,
+  .ocean-exam-content .el-dialog__header,
+  .ocean-exam-content .el-dialog__body {
+    font-size: 16px !important;
+    padding: 1rem !important;
+  }
+
+  .ocean-survey-container .el-dialog__title,
+  .ocean-exam-content .el-dialog__title {
+    font-size: 1.3rem !important;
+  }
+
+  /* 音樂控制器調整 */
+  .ocean-music-control input[type="range"] {
+    width: 60%;
+    margin: 5px;
+  }
+
+  .ocean-music-control .play-icon,
+  .ocean-music-control .mute-icon {
+    font-size: 16px;
+    margin: 3px;
+  }
+}
+
+/* 超小手機版本 (320px - 374px) */
+@media (max-width: 374px) {
+  main.ocean-main {
+    font-size: 14px;
+  }
+
+  .ocean-container {
+    padding: 0.5rem;
+  }
+
+  .ocean-survey-container,
+  .ocean-exam-content {
+    padding: 0.5rem;
+    border: 8px solid var(--ocean-primary-dark);
+    font-size: 14px !important;
+    --el-radio-font-size: 14px;
+    --el-checkbox-font-size: 14px;
+    --el-input-font-size: 14px;
+    --el-textarea-font-size: 14px;
+    --el-button-font-size: 12px;
+  }
+
+  .ocean-survey-container .text-2xl,
+  .ocean-exam-content .text-2xl {
+    font-size: 14px !important;
+  }
+
+  .ocean-survey-container .el-button,
+  .ocean-exam-content .el-button {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+  }
+
+  .ocean-button img {
+    max-width: 120px;
+  }
+}

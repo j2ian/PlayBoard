@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <div class="max-w-4xl w-full max-h-full  overflow-y-auto ocean-exam-content ocean-scrollbar">
+    <div class="max-w-4xl w-full max-h-full p-8 overflow-y-auto ocean-exam-content ocean-scrollbar">
       <!-- 載入中 -->
       <div v-if="loading" class="max-w-4xl mx-auto px-4 py-8">
         <el-skeleton :rows="8" animated />
@@ -644,5 +644,84 @@ onUnmounted(() => {
 
 .next-step-btn.primary {
   box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* 手機版響應式設計 */
+@media (max-width: 767px) {
+  .prose {
+    font-size: 14px;
+  }
+
+  .prose h1 {
+    font-size: 1.5rem;
+  }
+
+  .prose h2 {
+    font-size: 1.25rem;
+  }
+
+  .prose h3 {
+    font-size: 1.1rem;
+  }
+
+  .prose p,
+  .prose li {
+    line-height: 1.6;
+  }
+
+  .prose pre {
+    font-size: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .prose code {
+    font-size: 12px;
+  }
+
+  .prose table {
+    font-size: 12px;
+  }
+
+  .prose th,
+  .prose td {
+    padding: 0.5rem;
+  }
+
+  .next-step-btn {
+    width: 100%;
+    margin: 0.5rem 0 !important;
+  }
+
+  .next-step-btn:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 374px) {
+  .prose {
+    font-size: 13px;
+  }
+
+  .prose h1 {
+    font-size: 1.25rem;
+  }
+
+  .prose h2 {
+    font-size: 1.1rem;
+  }
+
+  .prose h3 {
+    font-size: 1rem;
+  }
+
+  .prose table {
+    font-size: 11px;
+  }
+
+  .prose th,
+  .prose td {
+    padding: 0.25rem;
+  }
 }
 </style>
