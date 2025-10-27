@@ -302,7 +302,7 @@ const routes = [
 ];
 
 // 創建路由實例
-const basePath = import.meta.env.MODE === 'production' ? '/PlayBoard/' : '/';
+const basePath = '/PlayBoard/';
 const router = createRouter({
   history: createWebHistory(basePath),
   routes,
