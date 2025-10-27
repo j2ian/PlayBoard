@@ -302,8 +302,9 @@ const routes = [
 ];
 
 // 創建路由實例
+const basePath = import.meta.env.MODE === 'production' ? '/PlayBoard/' : '/';
 const router = createRouter({
-  history: createWebHistory('/PlayBoard/'),
+  history: createWebHistory(basePath),
   routes,
   scrollBehavior() {
     // 始終滾動到頂部

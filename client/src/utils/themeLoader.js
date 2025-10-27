@@ -52,38 +52,43 @@ export const createThemeRouteComponent = (componentName) => {
  */
 const THEME_CONFIG = [
   {
-    value: 'default',
-    label: '預設主題',
-    description: '系統預設的主題樣式'
+    value: "default",
+    label: "預設主題",
+    description: "系統預設的主題樣式",
   },
   {
-    value: 'jungle',
-    label: '叢林主題',
-    description: '充滿自然氣息的叢林風格主題'
-  }
+    value: "jungle",
+    label: "叢林主題",
+    description: "充滿自然氣息的叢林風格主題",
+  },
+  {
+    value: "ocean",
+    label: "海洋主題",
+    description: "海洋風格主題",
+  },
   // 未來新增主題時在這裡加入：
   // {
   //   value: 'theme-a',
   //   label: '主題 A',
   //   description: '主題 A 的說明'
   // }
-]
+];
 
 /**
  * 取得所有可用的主題列表（僅主題名稱）
  * @returns {Array<string>} 主題名稱陣列
  */
 export const getAvailableThemes = () => {
-  return THEME_CONFIG.map(theme => theme.value)
-}
+  return THEME_CONFIG.map((theme) => theme.value);
+};
 
 /**
  * 取得完整的主題設定清單（包含 label 和 description）
  * @returns {Array<{value: string, label: string, description: string}>} 主題設定陣列
  */
 export const getThemeOptions = () => {
-  return THEME_CONFIG
-}
+  return THEME_CONFIG;
+};
 
 /**
  * 取得特定主題的設定
@@ -91,8 +96,8 @@ export const getThemeOptions = () => {
  * @returns {{value: string, label: string, description: string} | null} 主題設定物件
  */
 export const getThemeConfig = (themeValue) => {
-  return THEME_CONFIG.find(theme => theme.value === themeValue) || null
-}
+  return THEME_CONFIG.find((theme) => theme.value === themeValue) || null;
+};
 
 /**
  * 驗證主題是否存在
@@ -100,5 +105,5 @@ export const getThemeConfig = (themeValue) => {
  * @returns {boolean} 主題是否存在
  */
 export const isThemeAvailable = (theme) => {
-  return THEME_CONFIG.some(t => t.value === theme)
-}
+  return THEME_CONFIG.some((t) => t.value === theme);
+};

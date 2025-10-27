@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [vue(), tailwindcss()],
-    base: '/PlayBoard/',
+    base: mode === 'production' ? '/PlayBoard/' : '/',
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))
