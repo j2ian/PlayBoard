@@ -13,7 +13,7 @@
           <DocumentRemove />
         </el-icon>
         <h2 class="text-2xl font-semibold text-gray-800 mb-2">PlayBook不存在</h2>
-        <p class="text-gray-600 mb-6">您要查看的學習路徑可能已被刪除或不存在。</p>
+        <p class="text-gray-600 mb-6">你要查看的學習路徑可能已被刪除或不存在。</p>
         <el-button type="primary" @click="goHome">返回首頁</el-button>
       </div>
     </div>
@@ -183,7 +183,7 @@
           </el-icon>
           <h3 class="text-xl font-semibold text-green-800 mb-2">🎉 恭喜完成！</h3>
           <p class="text-green-600 mb-4">
-            您已成功完成「{{ playbook.title }}」的所有步驟
+            你已成功完成「{{ playbook.title }}」的所有步驟
           </p>
           <div class="text-sm text-green-600">
             <div>完成時間：{{ formatDate(userProgress.completedAt) }}</div>
@@ -196,8 +196,8 @@
     <!-- 用戶名稱對話框 -->
     <el-dialog v-model="showNameDialog" title="歡迎來到學習旅程" width="400px" :close-on-click-modal="false">
       <div class="text-center">
-        <p class="mb-4">請輸入您的姓名，讓我們個人化您的學習體驗：</p>
-        <el-input v-model="userName" placeholder="輸入您的姓名" @keyup.enter="confirmStartPlayBook" />
+        <p class="mb-4">請輸入你的姓名，讓我們個人化你的學習體驗：</p>
+        <el-input v-model="userName" placeholder="輸入你的姓名" @keyup.enter="confirmStartPlayBook" />
       </div>
       <template #footer>
         <el-button @click="skipName">跳過</el-button>
@@ -451,7 +451,7 @@ const reviewPlayBook = () => {
 const resetProgress = async () => {
   try {
     await ElMessageBox.confirm(
-      '確定要重新開始此PlayBook嗎？這將清除您的所有進度。',
+      '確定要重新開始此PlayBook嗎？這將清除你的所有進度。',
       '確認重置',
       {
         confirmButtonText: '確定',

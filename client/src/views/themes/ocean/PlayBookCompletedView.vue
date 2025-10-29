@@ -27,7 +27,7 @@
           </div>
 
           <p class="text-xl text-green-600 mb-8">
-            您已成功完成「{{ playbook.title }}」的所有學習步驟
+            你已成功完成「{{ playbook.title }}」的所有學習步驟
           </p>
 
           <!-- 完成統計 -->

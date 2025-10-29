@@ -195,7 +195,7 @@
         </el-icon>
         <h2 class="text-3xl font-bold text-green-800 mb-4">🎉 恭喜完成！</h2>
         <p class="text-lg text-green-600 mb-6">
-          您已成功完成「{{ playbook?.title }}」的所有步驟
+          你已成功完成「{{ playbook?.title }}」的所有步驟
         </p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div class="bg-green-50 rounded-lg p-4">

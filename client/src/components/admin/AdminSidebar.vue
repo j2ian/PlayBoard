@@ -5,7 +5,7 @@
     active-text-color="#3498db">
 
     <div class="sidebar-header flex items-center justify-between h-16 px-4 bg-[#1a2530]">
-      <h3 v-if="!isCollapse" class="text-white text-lg font-medium truncate">PlayBoard 管理</h3>
+      <h3 v-if="!isCollapse" class="text-white text-lg font-medium truncate">PlayBoard</h3>
       <el-icon @click="toggleSidebar" class="text-white cursor-pointer hover:text-blue-300">
         <component :is="isCollapse ? 'Expand' : 'Fold'" />
       </el-icon>
@@ -87,7 +87,13 @@
       </el-icon>
       <template #title><span class="text-red-400">登出</span></template>
     </el-menu-item>
+
+    <!-- 版本資訊 -->
+    <div v-if="!isCollapse" class="px-4 py-3 text-center text-gray-400 text-xs border-t border-gray-700">
+      v{{ appVersion }}
+    </div>
   </el-menu>
+
 </template>
 
 <script setup>
@@ -120,6 +126,9 @@ const emit = defineEmits(['toggle-sidebar'])
 
 const router = useRouter()
 const route = useRoute()
+
+// 版本號
+const appVersion = __APP_VERSION__
 
 // 當前活動菜單
 const activeMenu = ref('1')

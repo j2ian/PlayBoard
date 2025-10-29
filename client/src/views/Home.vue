@@ -5,7 +5,7 @@
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
           <h1 class="text-3xl md:text-4xl font-semibold leading-snug">歡迎來到 PlayBoard</h1>
-          <p class="text-[color:var(--pb-text-secondary)] mt-2">您的學習路徑與互動內容中心</p>
+          <p class="text-[color:var(--pb-text-secondary)] mt-2">你的學習路徑與互動內容中心</p>
         </div>
         <div class="shrink-0 flex gap-3">
           <router-link to="/admin" v-if="isLoggedIn">
