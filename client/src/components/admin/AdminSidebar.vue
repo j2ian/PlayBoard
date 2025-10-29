@@ -80,6 +80,12 @@
       </el-menu-item>
     </el-sub-menu>
 
+    <el-menu-item index="7" @click="openDocs">
+      <el-icon>
+        <Reading />
+      </el-icon>
+      <template #title>說明文件</template>
+    </el-menu-item>
 
     <el-menu-item index="6" @click="handleLogout" class="mt-auto">
       <el-icon class="text-red-400">
@@ -182,6 +188,11 @@ const navigateTo = (path) => {
 // 切換側邊欄
 const toggleSidebar = () => {
   emit('toggle-sidebar')
+}
+
+// 開啟說明文件（新視窗）
+const openDocs = () => {
+  window.open('/PlayBoard/docs', '_blank', 'noopener,noreferrer')
 }
 
 // 登出處理

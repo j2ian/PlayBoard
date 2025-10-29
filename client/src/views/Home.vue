@@ -8,6 +8,9 @@
           <p class="text-[color:var(--pb-text-secondary)] mt-2">你的學習路徑與互動內容中心</p>
         </div>
         <div class="shrink-0 flex gap-3">
+          <a href="/PlayBoard/docs" target="_blank" rel="noopener noreferrer">
+            <el-button size="large">說明文件</el-button>
+          </a>
           <router-link to="/admin" v-if="isLoggedIn">
             <el-button type="primary" size="large">後台管理</el-button>
           </router-link>
@@ -45,6 +48,15 @@
           <h3 class="font-medium mb-1">客製化頁面</h3>
           <p class="text-sm text-[color:var(--pb-text-secondary)]">載入互動內容，打造專屬體驗</p>
         </div>
+      </div>
+
+      <h2 class="text-2xl md:text-3xl font-semibold mb-6 mt-12">學習資源</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="/PlayBoard/docs" target="_blank" rel="noopener noreferrer" class="pb-card p-6 hover:shadow-lg transition-shadow cursor-pointer">
+          <div class="text-3xl mb-3">📖</div>
+          <h3 class="font-medium mb-1">說明文件</h3>
+          <p class="text-sm text-[color:var(--pb-text-secondary)]">完整的使用指南與開發文件</p>
+        </a>
       </div>
     </section>
   </div>
