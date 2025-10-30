@@ -49,6 +49,7 @@ async function validateZipFile(zipPath) {
       ".ogg",
       ".mp4",
       ".webm",
+      ".m4a",
     ];
     const extractedFiles = [];
 
@@ -236,6 +237,7 @@ function getFileType(ext) {
     ".json": "data",
     ".txt": "text",
     ".md": "text",
+    ".m4a": "audio",
   };
 
   return typeMap[ext] || "other";
