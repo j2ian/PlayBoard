@@ -274,6 +274,26 @@ exports.submitSurveyResponse = async (req, res) => {
       });
     }
 
+    // 驗證必填題目
+    const requiredQuestionErrors = [];
+    survey.questions.forEach((question, index) => {
+      if (question.isRequired) {
+        const answer = responses[index.toString()];
+        // 檢查是否為空或未回答
+        if (!answer || (typeof answer === 'string' && !answer.trim()) || (Array.isArray(answer) && answer.length === 0)) {
+          requiredQuestionErrors.push(`題目 ${index + 1}："${question.text}" 為必填項`);
+        }
+      }
+    });
+
+    if (requiredQuestionErrors.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: '以下必填題目未回答：',
+        errors: requiredQuestionErrors
+      });
+    }
+
     // 創建問卷回答
     const surveyResponse = await SurveyResponse.create({
       survey: req.params.id,

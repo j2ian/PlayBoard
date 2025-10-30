@@ -1,34 +1,14 @@
 <template>
   <AdminLayout title="儀表板">
     <!-- 統計卡片 -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
-      <StatCard 
-        title="用戶總數" 
-        :value="0" 
-        icon="User" 
-        color="blue" 
-      />
-      
-      <StatCard 
-        title="遊戲總數" 
-        :value="0" 
-        icon="VideoPlay" 
-        color="green" 
-      />
-      
-      <StatCard 
-        title="今日訪問" 
-        :value="0" 
-        icon="DataLine" 
-        color="purple" 
-      />
-      
-      <StatCard 
-        title="數據總量" 
-        value="0 MB" 
-        icon="DataAnalysis" 
-        color="orange" 
-      />
+    <div class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+      <StatCard title="用戶總數" :value="0" icon="User" color="blue" />
+
+      <StatCard title="遊戲總數" :value="0" icon="VideoPlay" color="green" />
+
+      <StatCard title="今日訪問" :value="0" icon="DataLine" color="purple" />
+
+      <StatCard title="數據總量" value="0 MB" icon="DataAnalysis" color="orange" />
     </div>
 
     <!-- 歡迎卡片 -->
@@ -39,14 +19,14 @@
     </el-card>
 
     <!-- 最近活動 -->
-    <el-card>
+    <el-card class="hidden">
       <template #header>
         <div class="flex items-center justify-between">
           <span class="text-lg font-medium">最近活動</span>
           <el-button type="primary" plain size="small">查看所有</el-button>
         </div>
       </template>
-      
+
       <el-empty description="暫無活動記錄"></el-empty>
     </el-card>
   </AdminLayout>
@@ -57,4 +37,3 @@ import AdminLayout from '@/components/admin/AdminLayout.vue'
 import StatCard from '@/components/admin/StatCard.vue'
 import { User, VideoPlay, DataLine, DataAnalysis } from '@element-plus/icons-vue'
 </script>
-

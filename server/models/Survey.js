@@ -29,6 +29,15 @@ const SurveyQuestionSchema = new Schema({
     type: Boolean,
     default: true, // true: 正面，false: 負面
     required: true
+  },
+  isRequired: {
+    type: Boolean,
+    default: false, // true: 必填，false: 非必填
+    required: true
+  },
+  order: {
+    type: Number,
+    default: 0 // 題目順序
   }
 });
 

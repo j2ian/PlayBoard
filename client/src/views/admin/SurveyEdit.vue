@@ -24,14 +24,36 @@
           <div v-for="(question, index) in survey.questions" :key="index" class="mb-6 p-4 border border-gray-200 rounded-lg">
             <div class="flex items-center justify-between mb-3">
               <h4 class="text-md font-medium text-gray-700">第 {{ index + 1 }} 題</h4>
-              <el-button 
-                type="danger" 
-                size="small" 
-                @click="removeQuestion(index)"
-                :disabled="survey.questions.length === 1"
-              >
-                <el-icon><Delete /></el-icon>
-              </el-button>
+              <div class="flex items-center gap-2">
+                <!-- 上下移動按鈕 -->
+                <el-button
+                  type="primary"
+                  size="small"
+                  @click="moveQuestionUp(index)"
+                  :disabled="index === 0"
+                  plain
+                >
+                  <el-icon><ArrowUp /></el-icon>
+                </el-button>
+                <el-button
+                  type="primary"
+                  size="small"
+                  @click="moveQuestionDown(index)"
+                  :disabled="index === survey.questions.length - 1"
+                  plain
+                >
+                  <el-icon><ArrowDown /></el-icon>
+                </el-button>
+                <!-- 刪除按鈕 -->
+                <el-button
+                  type="danger"
+                  size="small"
+                  @click="removeQuestion(index)"
+                  :disabled="survey.questions.length === 1"
+                >
+                  <el-icon><Delete /></el-icon>
+                </el-button>
+              </div>
             </div>
             
             <el-form-item :label="`題目類型`" :prop="`questions.${index}.type`" required>
@@ -46,14 +68,21 @@
             </el-form-item>
             
             <el-form-item :label="`題目內容`" :prop="`questions.${index}.text`" required>
-              <el-input 
-                v-model="question.text" 
-                type="textarea" 
-                :rows="2" 
+              <el-input
+                v-model="question.text"
+                type="textarea"
+                :rows="2"
                 placeholder="請輸入題目內容"
               />
             </el-form-item>
-            
+
+            <!-- 必填選項 -->
+            <div class="mb-4 flex items-center">
+              <el-checkbox v-model="question.isRequired">
+                <span class="text-sm text-gray-700">此題為必填</span>
+              </el-checkbox>
+            </div>
+
             <!-- 李克特量表說明 -->
             <div v-if="question.type === 'likert'" class="mb-3 p-3 bg-blue-50 border border-blue-200 rounded">
               <h5 class="text-sm font-medium text-blue-800 mb-2">滿意度量表選項：</h5>
@@ -125,7 +154,7 @@
   import { ElMessage } from 'element-plus'
   import AdminLayout from '@/components/admin/AdminLayout.vue'
   import SurveyService from '@/services/survey.service'
-  import { Plus, Delete, Minus } from '@element-plus/icons-vue'
+  import { Plus, Delete, Minus, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
   
   const router = useRouter()
   const route = useRoute()
@@ -181,11 +210,16 @@
   
   // 新增問題
   const addQuestion = () => {
+    const newOrder = survey.value.questions.length > 0
+      ? Math.max(...survey.value.questions.map(q => q.order || 0)) + 1
+      : 0
     survey.value.questions.push({
       type: 'likert',
       text: '',
       options: [],
-      isPositive: true
+      isPositive: true,
+      isRequired: false,
+      order: newOrder
     })
   }
   
@@ -195,7 +229,25 @@
       survey.value.questions.splice(index, 1)
     }
   }
-  
+
+  // 上移題目
+  const moveQuestionUp = (index) => {
+    if (index > 0) {
+      const temp = survey.value.questions[index]
+      survey.value.questions[index] = survey.value.questions[index - 1]
+      survey.value.questions[index - 1] = temp
+    }
+  }
+
+  // 下移題目
+  const moveQuestionDown = (index) => {
+    if (index < survey.value.questions.length - 1) {
+      const temp = survey.value.questions[index]
+      survey.value.questions[index] = survey.value.questions[index + 1]
+      survey.value.questions[index + 1] = temp
+    }
+  }
+
   // 題目類型改變時的處理
   const onQuestionTypeChange = (index) => {
     const question = survey.value.questions[index]
@@ -225,19 +277,19 @@
   // 提交問卷
   const submitSurvey = async () => {
     if (!surveyForm.value) return
-    
+
     try {
       await surveyForm.value.validate()
-      
+
       // 驗證問題內容
       for (let i = 0; i < survey.value.questions.length; i++) {
         const question = survey.value.questions[i]
-        
+
         if (!question.text.trim()) {
           ElMessage.error(`第 ${i + 1} 題的題目內容不能為空`)
           return
         }
-        
+
         if ((question.type === 'single' || question.type === 'multiple')) {
           // 檢查選項
           const validOptions = question.options.filter(opt => opt.trim())
@@ -247,10 +299,13 @@
           }
           question.options = validOptions
         }
+
+        // 更新 order 值為目前的索引位置
+        question.order = i
       }
-      
+
       submitting.value = true
-      
+
       const id = route.params.id
       const response = await SurveyService.updateSurvey(id, survey.value)
       

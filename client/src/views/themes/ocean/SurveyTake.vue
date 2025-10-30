@@ -74,6 +74,9 @@
                 <el-tag :type="getTypeTagType(question.type)" size="small" class="ml-2">
                   {{ getTypeLabel(question.type) }}
                 </el-tag>
+                <el-tag v-if="question.isRequired" type="danger" size="small" class="ml-2">
+                  必填
+                </el-tag>
               </h3>
               <p class="text-gray-700">{{ question.text }}</p>
             </div>
@@ -151,9 +154,9 @@
 
         <!-- 提交按鈕 -->
         <el-card class="text-center">
-          <el-button 
-            type="primary" 
-            size="large" 
+          <el-button
+            type="primary"
+            size="large"
             @click="submitSurvey"
             :loading="submitting"
             :disabled="!canSubmit"
@@ -161,7 +164,7 @@
             {{ submitting ? '提交中...' : '提交問卷' }}
           </el-button>
           <div class="mt-2 text-sm text-gray-500">
-            請確認所有題目都已回答完成
+            請確認所有必填題目都已回答完成
           </div>
         </el-card>
       </div>
@@ -227,26 +230,29 @@ onMounted(async () => {
 const canSubmit = computed(() => {
   if (!studentInfo.value.name.trim()) return false
   if (!survey.value) return false
-  
-  // 檢查所有必要的問題是否都已回答
+
+  // 只檢查必填的問題是否都已回答
   for (let i = 0; i < survey.value.questions.length; i++) {
     const question = survey.value.questions[i]
     const response = responses.value[i]
-    
-    if (question.type === 'likert' && (!response || response < 1 || response > 5)) {
-      return false
-    }
-    if (question.type === 'text' && (!response || !response.trim())) {
-      return false
-    }
-    if (question.type === 'single' && (response === undefined || response === null)) {
-      return false
-    }
-    if (question.type === 'multiple' && (!response || response.length === 0)) {
-      return false
+
+    // 若題目標記為必填，檢查是否有回答
+    if (question.isRequired) {
+      if (question.type === 'likert' && (!response || response < 1 || response > 5)) {
+        return false
+      }
+      if (question.type === 'text' && (!response || !response.trim())) {
+        return false
+      }
+      if (question.type === 'single' && (response === undefined || response === null)) {
+        return false
+      }
+      if (question.type === 'multiple' && (!response || response.length === 0)) {
+        return false
+      }
     }
   }
-  
+
   return true
 })
 
@@ -338,9 +344,9 @@ const submitSurvey = async () => {
     
     // 驗證學生資訊
     await studentInfoForm.value.validate()
-    
+
     if (!canSubmit.value) {
-      ElMessage.warning('請完成所有題目的回答')
+      ElMessage.warning('請完成所有必填題目的回答')
       return
     }
     
@@ -375,7 +381,7 @@ const submitSurvey = async () => {
     if (response.data.success) {
       submitted.value = true
       ElMessage.success('問卷提交成功，感謝您的參與！')
-      
+
       // 如果是 PlayBook 模式，更新步驟進度並開始倒數
       if (isPlayBookMode.value) {
         await updatePlayBookProgress()
@@ -384,7 +390,19 @@ const submitSurvey = async () => {
     }
   } catch (error) {
     console.error('提交問卷失敗:', error)
-    ElMessage.error('提交問卷失敗，請稍後再試')
+
+    // 處理後端返回的必填題目驗證錯誤
+    if (error.response?.data?.errors && Array.isArray(error.response.data.errors)) {
+      const errorMessages = error.response.data.errors.join('\n')
+      ElMessage.error({
+        message: `${error.response.data.message}：\n${errorMessages}`,
+        duration: 5000
+      })
+    } else if (error.response?.data?.message) {
+      ElMessage.error(error.response.data.message)
+    } else {
+      ElMessage.error('提交問卷失敗，請稍後再試')
+    }
   } finally {
     submitting.value = false
   }
