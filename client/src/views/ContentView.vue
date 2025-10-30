@@ -27,9 +27,11 @@
     <!-- 內容不存在 -->
     <div v-else-if="!content" class="max-w-4xl mx-auto px-4 py-8">
       <div class="text-center py-16">
-        <el-icon size="64" class="text-gray-400 mb-4"><DocumentRemove /></el-icon>
+        <el-icon size="64" class="text-gray-400 mb-4">
+          <DocumentRemove />
+        </el-icon>
         <h2 class="text-2xl font-semibold text-gray-800 mb-2">內容不存在</h2>
-        <p class="text-gray-600 mb-6">您要查看的內容可能已被刪除或不存在。</p>
+        <p class="text-gray-600 mb-6">你要查看的內容可能已被刪除或不存在。</p>
         <el-button type="primary" @click="goHome">返回首頁</el-button>
       </div>
     </div>
@@ -39,52 +41,48 @@
       <!-- 文章標題區域 -->
       <header class="mb-8">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ content.title }}</h1>
-        
+
         <!-- 文章摘要 -->
         <div v-if="content.excerpt" class="text-xl text-gray-600 mb-6 leading-relaxed">
           {{ content.excerpt }}
         </div>
-        
+
         <!-- 文章元資訊 -->
         <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
           <div class="flex items-center gap-1">
-            <el-icon><Calendar /></el-icon>
+            <el-icon>
+              <Calendar />
+            </el-icon>
             <time :datetime="content.publishedAt">
               {{ formatDate(content.publishedAt || content.createdAt) }}
             </time>
           </div>
           <div class="flex items-center gap-1">
-            <el-icon><User /></el-icon>
+            <el-icon>
+              <User />
+            </el-icon>
             <span>{{ content.createdBy?.username || '匿名作者' }}</span>
           </div>
           <div class="flex items-center gap-1">
-            <el-icon><View /></el-icon>
+            <el-icon>
+              <View />
+            </el-icon>
             <span>{{ content.viewCount || 0 }} 次瀏覽</span>
           </div>
           <div class="flex items-center gap-1">
-            <el-icon><Document /></el-icon>
+            <el-icon>
+              <Document />
+            </el-icon>
             <span>{{ getContentTypeLabel(content.contentType) }}</span>
           </div>
         </div>
-        
+
         <!-- 分類和標籤 -->
         <div class="flex flex-wrap gap-2 mb-6">
-          <el-tag 
-            type="warning" 
-            size="small" 
-            effect="plain"
-            class="px-3 py-1"
-          >
+          <el-tag type="warning" size="small" effect="plain" class="px-3 py-1">
             {{ content.category || '一般' }}
           </el-tag>
-          <el-tag
-            v-for="tag in content.tags"
-            :key="tag"
-            type="info"
-            size="small"
-            effect="plain"
-            class="px-3 py-1"
-          >
+          <el-tag v-for="tag in content.tags" :key="tag" type="info" size="small" effect="plain" class="px-3 py-1">
             {{ tag }}
           </el-tag>
         </div>
@@ -92,11 +90,7 @@
 
       <!-- 特色圖片 -->
       <div v-if="content.featuredImage" class="mb-8">
-        <img 
-          :src="content.featuredImage.url" 
-          :alt="content.title"
-          class="w-full rounded-lg shadow-lg"
-        />
+        <img :src="content.featuredImage.url" :alt="content.title" class="w-full rounded-lg shadow-lg" />
         <p v-if="showImageCaption" class="text-sm text-gray-500 mt-2 text-center">
           {{ content.featuredImage.originalName }}
         </p>
@@ -105,25 +99,15 @@
       <!-- 文章內容 -->
       <div class="prose prose-lg max-w-none">
         <!-- HTML內容 -->
-        <div 
-          v-if="content.contentType === 'html'" 
-          v-html="content.content" 
-          class="rich-content"
-        ></div>
-        
+        <div v-if="content.contentType === 'html'" v-html="content.content" class="rich-content"></div>
+
         <!-- Markdown內容（暫時以純文字顯示，可以後續整合markdown解析器） -->
-        <div 
-          v-else-if="content.contentType === 'markdown'" 
-          class="markdown-content whitespace-pre-wrap"
-        >
+        <div v-else-if="content.contentType === 'markdown'" class="markdown-content whitespace-pre-wrap">
           {{ content.content }}
         </div>
-        
+
         <!-- 純文字內容 -->
-        <div 
-          v-else 
-          class="plain-content whitespace-pre-wrap font-sans"
-        >
+        <div v-else class="plain-content whitespace-pre-wrap font-sans">
           {{ content.content }}
         </div>
       </div>
@@ -132,17 +116,10 @@
       <div v-if="content.images && content.images.length > 0" class="mt-12">
         <h3 class="text-xl font-semibold text-gray-800 mb-6">相關圖片</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div 
-            v-for="(image, index) in content.images" 
-            :key="index"
-            class="group cursor-pointer"
-            @click="previewImage(image)"
-          >
-            <img 
-              :src="image.url" 
-              :alt="image.originalName"
-              class="w-full h-48 object-cover rounded-lg shadow-md group-hover:shadow-lg transition-shadow"
-            />
+          <div v-for="(image, index) in content.images" :key="index" class="group cursor-pointer"
+            @click="previewImage(image)">
+            <img :src="image.url" :alt="image.originalName"
+              class="w-full h-48 object-cover rounded-lg shadow-md group-hover:shadow-lg transition-shadow" />
             <p class="text-sm text-gray-600 mt-2">{{ image.originalName }}</p>
           </div>
         </div>
@@ -154,23 +131,24 @@
           <!-- 分享按鈕 -->
           <div class="flex items-center gap-2">
             <span class="text-sm text-gray-600">分享：</span>
-            <el-button 
-              @click="copyCurrentUrl" 
-              size="small" 
-              type="primary" 
-              plain
-            >
-              <el-icon><Link /></el-icon>複製連結
+            <el-button @click="copyCurrentUrl" size="small" type="primary" plain>
+              <el-icon>
+                <Link />
+              </el-icon>複製連結
             </el-button>
           </div>
-          
+
           <!-- 返回按鈕 -->
           <div class="flex gap-2">
             <el-button @click="goBack" size="small" plain>
-              <el-icon><ArrowLeft /></el-icon>返回
+              <el-icon>
+                <ArrowLeft />
+              </el-icon>返回
             </el-button>
             <el-button @click="goHome" size="small" plain>
-              <el-icon><House /></el-icon>首頁
+              <el-icon>
+                <House />
+              </el-icon>首頁
             </el-button>
           </div>
         </div>
@@ -180,11 +158,8 @@
     <!-- 圖片預覽對話框 -->
     <el-dialog v-model="imagePreviewVisible" title="圖片預覽" width="80%" center>
       <div v-if="previewImageData" class="text-center">
-        <img 
-          :src="previewImageData.url" 
-          :alt="previewImageData.originalName"
-          class="max-w-full max-h-96 object-contain"
-        />
+        <img :src="previewImageData.url" :alt="previewImageData.originalName"
+          class="max-w-full max-h-96 object-contain" />
         <p class="text-sm text-gray-600 mt-4">{{ previewImageData.originalName }}</p>
       </div>
     </el-dialog>
@@ -196,9 +171,9 @@ import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import ContentService from '@/services/content.service'
-import { 
-  Calendar, User, View, Document, DocumentRemove, Link, 
-  ArrowLeft, House 
+import {
+  Calendar, User, View, Document, DocumentRemove, Link,
+  ArrowLeft, House
 } from '@element-plus/icons-vue'
 
 const router = useRouter()
@@ -218,7 +193,7 @@ const fetchContent = async () => {
   try {
     const slug = route.params.slug
     const response = await ContentService.getPublicContent(slug)
-    
+
     if (response.data.success) {
       content.value = response.data.data
       // 設置頁面標題
@@ -277,10 +252,10 @@ const copyCurrentUrl = async () => {
       document.body.appendChild(textArea)
       textArea.focus()
       textArea.select()
-      
+
       const successful = document.execCommand('copy')
       document.body.removeChild(textArea)
-      
+
       if (successful) {
         ElMessage.success('連結已複製到剪貼簿')
       } else {
@@ -324,10 +299,21 @@ const goHome = () => {
   color: #111827;
 }
 
-.prose :deep(h1) { font-size: 2.5rem; }
-.prose :deep(h2) { font-size: 2rem; }
-.prose :deep(h3) { font-size: 1.5rem; }
-.prose :deep(h4) { font-size: 1.25rem; }
+.prose :deep(h1) {
+  font-size: 2.5rem;
+}
+
+.prose :deep(h2) {
+  font-size: 2rem;
+}
+
+.prose :deep(h3) {
+  font-size: 1.5rem;
+}
+
+.prose :deep(h4) {
+  font-size: 1.25rem;
+}
 
 /* 段落樣式 */
 .prose :deep(p) {
@@ -453,9 +439,17 @@ const goHome = () => {
   .prose {
     font-size: 1rem;
   }
-  
-  .prose :deep(h1) { font-size: 2rem; }
-  .prose :deep(h2) { font-size: 1.5rem; }
-  .prose :deep(h3) { font-size: 1.25rem; }
+
+  .prose :deep(h1) {
+    font-size: 2rem;
+  }
+
+  .prose :deep(h2) {
+    font-size: 1.5rem;
+  }
+
+  .prose :deep(h3) {
+    font-size: 1.25rem;
+  }
 }
 </style>

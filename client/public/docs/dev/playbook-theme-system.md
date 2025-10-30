@@ -28,13 +28,23 @@ client/src/
 │       │   ├── ExamTake.vue
 │       │   ├── SurveyTake.vue
 │       │   └── README.md
-│       └── jungle/                     # 叢林主題（範例）
+│       ├── jungle/                     # 叢林主題
+│       │   ├── images/                 # 主題圖片資源
+│       │   │   ├── bg_none.jpg
+│       │   │   ├── bg_menu.jpg
+│       │   │   └── bg_full.jpg
+│       │   ├── styles/                 # 主題樣式檔案
+│       │   │   └── theme.css
+│       │   ├── PlayBookPlayer.vue
+│       │   ├── PlayBookStepPlayer.vue
+│       │   ├── PlayBookStepContentView.vue
+│       │   ├── PlayBookCompletedView.vue
+│       │   ├── ExamTake.vue
+│       │   ├── SurveyTake.vue
+│       │   └── README.md
+│       └── ocean/                      # 海洋主題
 │           ├── images/                 # 主題圖片資源
-│           │   ├── bg_none.jpg
-│           │   ├── bg_menu.jpg
-│           │   └── bg_full.jpg
 │           ├── styles/                 # 主題樣式檔案
-│           │   └── theme.css
 │           ├── PlayBookPlayer.vue
 │           ├── PlayBookStepPlayer.vue
 │           ├── PlayBookStepContentView.vue
@@ -79,6 +89,11 @@ const THEME_CONFIG = [
     value: 'jungle',
     label: '叢林主題',
     description: '充滿自然氣息的叢林風格主題'
+  },
+  {
+    value: 'ocean',
+    label: '海洋主題',
+    description: '海洋風格主題'
   }
 ]
 
@@ -235,6 +250,11 @@ const THEME_CONFIG = [
     description: '充滿自然氣息的叢林風格主題'
   },
   {
+    value: 'ocean',
+    label: '海洋主題',
+    description: '海洋風格主題'
+  },
+  {
     value: 'theme-a',           // 新增：主題的值（必須與資料夾名稱相同）
     label: '主題 A',             // 新增：顯示名稱
     description: '主題 A 的說明' // 新增：描述
@@ -300,15 +320,25 @@ client/src/views/themes/
 │   ├── ExamTake.vue
 │   ├── SurveyTake.vue
 │   └── README.md
-└── jungle/
+├── jungle/
+│   ├── images/                          # 主題圖片資源
+│   │   ├── bg_none.jpg
+│   │   ├── bg_menu.jpg
+│   │   ├── bg_full.jpg
+│   │   └── icons/
+│   │       └── leaf.svg
+│   ├── styles/                          # 主題樣式
+│   │   └── theme.css
+│   ├── PlayBookPlayer.vue
+│   ├── PlayBookStepPlayer.vue
+│   ├── PlayBookStepContentView.vue
+│   ├── PlayBookCompletedView.vue
+│   ├── ExamTake.vue
+│   ├── SurveyTake.vue
+│   └── README.md
+└── ocean/
     ├── images/                          # 主題圖片資源
-    │   ├── bg_none.jpg
-    │   ├── bg_menu.jpg
-    │   ├── bg_full.jpg
-    │   └── icons/
-    │       └── leaf.svg
     ├── styles/                          # 主題樣式
-    │   └── theme.css
     ├── PlayBookPlayer.vue
     ├── PlayBookStepPlayer.vue
     ├── PlayBookStepContentView.vue
@@ -319,10 +349,10 @@ client/src/views/themes/
 ```
 
 **優點：**
-- ✅ 刪除主題時只需刪除一個資料夾
-- ✅ 複製主題時所有資源一併複製
-- ✅ 資源路徑相對化，不依賴外部路徑
-- ✅ 主題更加獨立和可攜帶
+- 刪除主題時只需刪除一個資料夾
+- 複製主題時所有資源一併複製
+- 資源路徑相對化，不依賴外部路徑
+- 主題更加獨立和可攜帶
 
 ### 使用圖片資源
 
@@ -521,23 +551,23 @@ SVG 圖示可以直接內嵌或作為圖片使用：
 
 ### 資源管理最佳實踐總結
 
-#### ✅ 正確做法
+#### 正確做法
 
 ```
-✓ 主題資料夾內建立 images/、styles/、fonts/ 等子資料夾
-✓ Vue 組件使用相對路徑：url('./images/bg.jpg')
-✓ CSS 檔案使用相對路徑：url('../images/bg.jpg')
-✓ 所有資源集中在主題資料夾內
-✓ 建立 README.md 說明主題資源結構
+主題資料夾內建立 images/、styles/、fonts/ 等子資料夾
+Vue 組件使用相對路徑：url('./images/bg.jpg')
+CSS 檔案使用相對路徑：url('../images/bg.jpg')
+所有資源集中在主題資料夾內
+建立 README.md 說明主題資源結構
 ```
 
-#### ❌ 避免做法
+#### 避免做法
 
 ```
-✗ 不要使用絕對路徑：url('@/assets/themes/...')
-✗ 不要將資源放在主題資料夾外部
-✗ 不要使用外部 CDN 資源（除非必要）
-✗ 不要在多個主題間共用圖片（應各自複製）
+不要使用絕對路徑：url('@/assets/themes/...')
+不要將資源放在主題資料夾外部
+不要使用外部 CDN 資源（除非必要）
+不要在多個主題間共用圖片（應各自複製）
 ```
 
 #### 優點

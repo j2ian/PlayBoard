@@ -1,10 +1,7 @@
 <template>
   <div class="min-h-screen">
     <!-- 頂部進度條（customPage 時隱藏） -->
-    <div 
-      class="bg-white shadow-sm border-b border-gray-200"
-      v-if="!(currentStep && currentStep.type === 'customPage')"
-    >
+    <div class="bg-white shadow-sm border-b border-gray-200" v-if="!(currentStep && currentStep.type === 'customPage')">
       <div class="max-w-4xl mx-auto px-4 py-3">
         <div class="flex items-center justify-between mb-2">
           <router-link to="/" class="text-lg font-semibold text-[color:var(--pb-color-primary)]">
@@ -14,7 +11,7 @@
             {{ playbook?.title || '載入中...' }}
           </div>
         </div>
-        
+
         <!-- 進度條 -->
         <div v-if="userProgress" class="w-full">
           <div class="flex justify-between items-center mb-1">
@@ -25,11 +22,8 @@
               {{ Math.round((currentStepNumber / totalSteps) * 100) }}% 完成
             </span>
           </div>
-          <el-progress 
-            :percentage="Math.round((currentStepNumber / totalSteps) * 100)"
-            :stroke-width="6"
-            :show-text="false"
-          />
+          <el-progress :percentage="Math.round((currentStepNumber / totalSteps) * 100)" :stroke-width="6"
+            :show-text="false" />
         </div>
       </div>
     </div>
@@ -41,13 +35,8 @@
 
     <!-- 步驟內容（customPage 全屏 iframe，隱藏外層導覽） -->
     <div v-else-if="currentStep && currentStep.type === 'customPage'" class="w-full h-screen">
-      <iframe 
-        v-if="customPageSrc"
-        class="w-full h-full border-0"
-        :src="customPageSrc"
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
-        ref="customPageFrame"
-      />
+      <iframe v-if="customPageSrc" class="w-full h-full border-0" :src="customPageSrc"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation" ref="customPageFrame" />
       <div v-else class="w-full h-full flex items-center justify-center">
         <el-alert type="warning" :title="customPageWarning" :closable="false" />
       </div>
@@ -58,7 +47,8 @@
       <!-- 步驟標題 -->
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex items-center gap-3 mb-4">
-          <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold text-lg">
+          <div
+            class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold text-lg">
             {{ currentStep.stepNumber }}
           </div>
           <div class="flex-1">
@@ -73,26 +63,28 @@
             </div>
           </div>
         </div>
-        
+
         <p v-if="currentStep.description" class="text-gray-600 mb-4">
           {{ currentStep.description }}
         </p>
-        
+
         <!-- 步驟內容預覽 -->
         <div v-if="currentStep.resource" class="bg-gray-50 rounded-lg p-4 mb-4">
           <div class="flex items-start gap-3">
             <div class="flex-1">
               <h3 class="font-medium text-gray-800 mb-2">{{ currentStep.resource.title }}</h3>
-              
+
               <!-- Content預覽 -->
               <div v-if="currentStep.type === 'content'" class="text-sm text-gray-600">
                 <p v-if="currentStep.resource.excerpt">{{ currentStep.resource.excerpt }}</p>
               </div>
-              
+
               <!-- Exam預覽 -->
               <div v-else-if="currentStep.type === 'exam'" class="text-sm text-gray-600">
                 <p v-if="currentStep.resource.description">{{ currentStep.resource.description }}</p>
-                <div v-if="currentStep.resource.questionCount || (appConfig?.features?.showDifficultyFields && currentStep.resource.timeLimit)" class="flex gap-4 mt-2">
+                <div
+                  v-if="currentStep.resource.questionCount || (appConfig?.features?.showDifficultyFields && currentStep.resource.timeLimit)"
+                  class="flex gap-4 mt-2">
                   <span v-if="currentStep.resource.questionCount">
                     📝 {{ currentStep.resource.questionCount }} 題
                   </span>
@@ -101,7 +93,7 @@
                   </span>
                 </div>
               </div>
-              
+
               <!-- Survey預覽 -->
               <div v-else-if="currentStep.type === 'survey'" class="text-sm text-gray-600">
                 <p v-if="currentStep.resource.description">{{ currentStep.resource.description }}</p>
@@ -109,7 +101,7 @@
                   📋 {{ currentStep.resource.questions.length }} 個問題
                 </div>
               </div>
-              
+
               <!-- CustomPage預覽 -->
               <div v-else-if="currentStep.type === 'customPage'" class="text-sm text-gray-600">
                 <p v-if="currentStep.resource.description">{{ currentStep.resource.description }}</p>
@@ -129,57 +121,55 @@
             </div>
           </div>
         </div>
-        
+
         <!-- 操作按鈕 -->
         <div class="flex justify-between items-center">
           <div class="flex gap-2">
             <!-- 返回PlayBook總覽 -->
             <el-button @click="backToOverview" plain>
-              <el-icon><ArrowLeft /></el-icon>
+              <el-icon>
+                <ArrowLeft />
+              </el-icon>
               返回總覽
             </el-button>
-            
+
             <!-- 上一步 -->
-            <el-button 
-              v-if="hasPreviousStep"
-              @click="goToPreviousStep"
-              plain
-            >
-              <el-icon><ArrowLeft /></el-icon>
+            <el-button v-if="hasPreviousStep" @click="goToPreviousStep" plain>
+              <el-icon>
+                <ArrowLeft />
+              </el-icon>
               上一步
             </el-button>
           </div>
-          
+
           <div class="flex gap-2">
             <!-- 開始/繼續步驟 -->
-            <el-button 
-              type="primary" 
-              size="large"
-              @click="startCurrentStep"
-              :loading="startingStep"
-            >
-              <el-icon><CaretRight /></el-icon>
+            <el-button type="primary" size="large" @click="startCurrentStep" :loading="startingStep">
+              <el-icon>
+                <CaretRight />
+              </el-icon>
               {{ isStepCompleted(currentStep.stepNumber) ? '重新學習' : '開始學習' }}
             </el-button>
-            
+
             <!-- 下一步（如果已完成當前步驟） -->
-            <el-button 
-              v-if="isStepCompleted(currentStep.stepNumber) && hasNextStep"
-              type="success" 
-              size="large"
-              @click="goToNextStep"
-            >
+            <el-button v-if="isStepCompleted(currentStep.stepNumber) && hasNextStep" type="success" size="large"
+              @click="goToNextStep">
               下一步
-              <el-icon><ArrowRight /></el-icon>
+              <el-icon>
+                <ArrowRight />
+              </el-icon>
             </el-button>
           </div>
         </div>
       </div>
-      
+
       <!-- 已完成步驟的成果展示 -->
-      <div v-if="isStepCompleted(currentStep.stepNumber)" class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+      <div v-if="isStepCompleted(currentStep.stepNumber)"
+        class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
         <div class="flex items-center gap-2 mb-2">
-          <el-icon class="text-green-600" size="20"><CircleCheck /></el-icon>
+          <el-icon class="text-green-600" size="20">
+            <CircleCheck />
+          </el-icon>
           <span class="font-medium text-green-800">此步驟已完成</span>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-green-600">
@@ -198,10 +188,12 @@
     <!-- 完成慶祝 -->
     <div v-else-if="isAllCompleted" class="max-w-4xl mx-auto px-4 py-8">
       <div class="bg-white rounded-lg shadow-md p-8 text-center">
-        <el-icon size="64" class="text-green-500 mb-4"><Trophy /></el-icon>
+        <el-icon size="64" class="text-green-500 mb-4">
+          <Trophy />
+        </el-icon>
         <h2 class="text-3xl font-bold text-green-800 mb-4">🎉 恭喜完成！</h2>
         <p class="text-lg text-green-600 mb-6">
-          您已成功完成「{{ playbook?.title }}」的所有步驟
+          你已成功完成「{{ playbook?.title }}」的所有步驟
         </p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div class="bg-green-50 rounded-lg p-4">
@@ -233,7 +225,9 @@
     <!-- 錯誤狀態 -->
     <div v-else class="max-w-4xl mx-auto px-4 py-8">
       <div class="text-center py-16">
-        <el-icon size="64" class="text-gray-400 mb-4"><Warning /></el-icon>
+        <el-icon size="64" class="text-gray-400 mb-4">
+          <Warning />
+        </el-icon>
         <h2 class="text-2xl font-semibold text-gray-800 mb-2">出現錯誤</h2>
         <p class="text-gray-600 mb-6">無法載入步驟內容</p>
         <el-button type="primary" @click="backToOverview">返回總覽</el-button>
@@ -243,7 +237,9 @@
     <!-- 下一步確認對話框 -->
     <el-dialog v-model="showNextStepDialog" title="進入下一步" width="400px">
       <div class="text-center">
-        <el-icon size="48" class="text-green-500 mb-4"><CircleCheck /></el-icon>
+        <el-icon size="48" class="text-green-500 mb-4">
+          <CircleCheck />
+        </el-icon>
         <p class="mb-4">恭喜完成這個步驟！</p>
         <p class="text-gray-600 mb-4">
           準備好進入下一步了嗎？
@@ -267,7 +263,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import PlayBookService from '@/services/playbook.service'
 import appConfig from '@/config/app.config'
-import { 
+import {
   ArrowLeft, ArrowRight, CaretRight, CircleCheck, Trophy, Warning
 } from '@element-plus/icons-vue'
 
@@ -393,7 +389,7 @@ const fetchPlayBook = async () => {
   try {
     const slug = route.params.slug
     const response = await PlayBookService.getPublicPlayBook(slug)
-    
+
     if (response.data && response.data.success) {
       playbook.value = response.data.data
       document.title = `${playbook.value.title} - 步驟 ${currentStepNumber.value} - PlayBoard`
@@ -424,25 +420,25 @@ const fetchUserProgress = async () => {
     console.log('開始獲取用戶進度 (StepPlayer)...')
     console.log('PlayBook ID:', playbook.value._id)
     console.log('User ID:', userId.value)
-    
+
     const response = await PlayBookService.getOrCreateProgress(
       playbook.value._id,
       userId.value,
       PlayBookService.getUserName() || '匿名用戶'
     )
-    
+
     console.log('API回應 (StepPlayer):', response)
-    
+
     if (response.data && response.data.success) {
       userProgress.value = response.data.data
       console.log('用戶進度載入成功 (StepPlayer):', userProgress.value)
-      
+
       // 驗證 completedSteps 是否為陣列
       if (!Array.isArray(userProgress.value.completedSteps)) {
         console.warn('completedSteps 不是陣列，修正為空陣列')
         userProgress.value.completedSteps = []
       }
-      
+
       PlayBookService.savePlayBookProgress(playbook.value._id, userProgress.value)
     } else {
       console.error('API回應格式錯誤 (StepPlayer):', response)
@@ -450,13 +446,13 @@ const fetchUserProgress = async () => {
   } catch (error) {
     console.error('獲取用戶進度失敗 (StepPlayer):', error)
     console.error('錯誤詳情:', error.message)
-    
+
     // 嘗試從本地載入
     const localProgress = PlayBookService.getLocalProgress(playbook.value._id)
     if (localProgress) {
       console.log('使用本地保存的進度 (StepPlayer)')
       userProgress.value = localProgress
-      
+
       // 確保 completedSteps 是陣列
       if (!Array.isArray(userProgress.value.completedSteps)) {
         userProgress.value.completedSteps = []
@@ -478,15 +474,15 @@ const fetchUserProgress = async () => {
 // 開始當前步驟
 const startCurrentStep = () => {
   startingStep.value = true
-  
+
   try {
     const step = currentStep.value
     const stepType = step.type
     const resourceId = step.resourceId
-    
+
     // 記錄步驟開始時間
     stepStartTime.value = Date.now()
-    
+
     // 構建查詢參數
     const query = {
       playbook: playbook.value._id,
@@ -495,7 +491,7 @@ const startCurrentStep = () => {
       userId: userId.value,
       returnTo: 'stepPlayer'
     }
-    
+
     switch (stepType) {
       case 'content':
         // 導航到專用的內容顯示頁面
@@ -540,7 +536,7 @@ const calculateStepTimeSpent = () => {
 const completeCurrentStep = async (result = null) => {
   try {
     const timeSpent = calculateStepTimeSpent()
-    
+
     // 更新步驟進度，包含時間記錄
     await PlayBookService.updateStepProgress(
       playbook.value._id,
@@ -555,13 +551,13 @@ const completeCurrentStep = async (result = null) => {
       },
       timeSpent
     )
-    
+
     // 重新獲取進度
     await fetchUserProgress()
-    
+
     // 重置時間追蹤
     stepStartTime.value = null
-    
+
     ElMessage.success('步驟已完成')
   } catch (error) {
     console.error('完成步驟失敗:', error)
@@ -712,6 +708,7 @@ watch(() => ({ completed: route.query.completed, step: route.query.step }), (nv,
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

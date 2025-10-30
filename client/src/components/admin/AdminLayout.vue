@@ -1,10 +1,7 @@
 <template>
   <div class="admin-layout flex h-screen overflow-hidden bg-gray-50">
     <!-- 側邊欄 -->
-    <AdminSidebar 
-      :is-collapse="isCollapse" 
-      @toggle-sidebar="toggleSidebar" 
-    />
+    <AdminSidebar :is-collapse="isCollapse" @toggle-sidebar="toggleSidebar" />
 
     <!-- 主要內容區域 -->
     <div class="flex-1 flex flex-col overflow-hidden">
@@ -16,17 +13,17 @@
           </el-icon>
           <h1 class="text-xl font-medium text-gray-800">{{ title }}</h1>
         </div>
-        
+
         <el-dropdown>
           <div class="user-info flex items-center cursor-pointer">
             <span class="username mr-2 text-sm font-medium hidden md:block">{{ username }}</span>
             <el-avatar :size="32" class="bg-blue-500">{{ userInitial }}</el-avatar>
           </div>
-          
+
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>個人資料</el-dropdown-item>
-              <el-dropdown-item>設置</el-dropdown-item>
+              <!-- <el-dropdown-item>個人資料</el-dropdown-item>
+              <el-dropdown-item>設置</el-dropdown-item> -->
               <el-dropdown-item divided @click="handleLogout">登出</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -37,8 +34,11 @@
       <div class="content-body p-6 overflow-y-auto">
         <slot></slot>
       </div>
+
+
     </div>
   </div>
+
 </template>
 
 <script setup>
@@ -84,12 +84,12 @@ onMounted(() => {
   if (!AuthService.isAdmin()) {
     router.push('/')
   }
-  
+
   // 響應式設計 - 在小屏幕上預設摺疊側邊欄
   if (window.innerWidth < 768) {
     isCollapse.value = true
   }
-  
+
   // 監聽視窗大小變化
   window.addEventListener('resize', () => {
     if (window.innerWidth < 768) {
@@ -109,10 +109,10 @@ onMounted(() => {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .stat-card .el-icon {
     margin-right: 0;
     margin-bottom: 0.5rem;
   }
 }
-</style> 
+</style>

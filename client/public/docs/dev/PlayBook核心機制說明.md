@@ -14,7 +14,7 @@ PlayBook 是 PlayBoard 系統的核心功能，它是一個結構化的學習路
 
 ### 2. 步驟類型說明
 - **content**: 內容學習步驟，關聯到 Content 模型
-- **exam**: 測驗評估步驟，關聯到 Exam 模型  
+- **exam**: 測驗評估步驟，關聯到 Exam 模型
 - **survey**: 問卷調查步驟，關聯到 Survey 模型
 
 ## 模型結構
@@ -27,21 +27,21 @@ PlayBook 是 PlayBoard 系統的核心功能，它是一個結構化的學習路
 
 | 欄位名稱 | 類型 | 必填 | 預設值 | 說明 |
 |---------|------|------|--------|------|
-| `title` | String | ✅ | - | PlayBook 標題，最大 100 字元 |
-| `slug` | String | ✅ | - | URL 識別符，唯一且符合格式規範 |
-| `description` | String | ❌ | - | 描述，最大 1000 字元 |
-| `steps` | [PlayBookStep] | ❌ | [] | 步驟陣列 |
-| `status` | String | ❌ | 'draft' | 狀態：'draft' \| 'published' |
-| `estimatedTime` | Number | ❌ | 0 | 預估完成時間（分鐘） |
-| `tags` | [String] | ❌ | [] | 標籤陣列，最多 10 個 |
-| `category` | String | ❌ | '一般' | 分類 |
-| `difficulty` | String | ❌ | 'beginner' | 難度：'beginner' \| 'intermediate' \| 'advanced' |
-| `displayType` | String | ❌ | 'overview' | 展示模式：'overview' \| 'stepByStep' |
-| `viewCount` | Number | ❌ | 0 | 瀏覽次數 |
-| `completionCount` | Number | ❌ | 0 | 完成次數 |
-| `publishedAt` | Date | ❌ | - | 發布時間 |
-| `createdBy` | ObjectId | ✅ | - | 創建者 ID |
-| `lastModifiedBy` | ObjectId | ❌ | - | 最後修改者 ID |
+| `title` | String | 是 | - | PlayBook 標題，最大 100 字元 |
+| `slug` | String | 是 | - | URL 識別符，唯一且符合格式規範 |
+| `description` | String | 否 | - | 描述，最大 1000 字元 |
+| `steps` | [PlayBookStep] | 否 | [] | 步驟陣列 |
+| `status` | String | 否 | 'draft' | 狀態：'draft' \| 'published' |
+| `estimatedTime` | Number | 否 | 0 | 預估完成時間（分鐘） |
+| `tags` | [String] | 否 | [] | 標籤陣列，最多 10 個 |
+| `category` | String | 否 | '一般' | 分類 |
+| `difficulty` | String | 否 | 'beginner' | 難度：'beginner' \| 'intermediate' \| 'advanced' |
+| `displayType` | String | 否 | 'overview' | 展示模式：'overview' \| 'stepByStep' |
+| `viewCount` | Number | 否 | 0 | 瀏覽次數 |
+| `completionCount` | Number | 否 | 0 | 完成次數 |
+| `publishedAt` | Date | 否 | - | 發布時間 |
+| `createdBy` | ObjectId | 是 | - | 創建者 ID |
+| `lastModifiedBy` | ObjectId | 否 | - | 最後修改者 ID |
 
 #### 虛擬欄位
 
@@ -116,12 +116,12 @@ PlayBookSchema.pre('save', function(next) {
   } else if (this.isModified('status') && this.status !== 'published' && this.publishedAt) {
     this.publishedAt = undefined;
   }
-  
+
   // 步驟變更時自動計算預估時間
   if (this.isModified('steps')) {
     this.estimatedTime = this.calculateEstimatedTime();
   }
-  
+
   next();
 });
 ```
@@ -135,11 +135,11 @@ PlayBookSchema.methods.calculateEstimatedTime = function() {
     exam: 10,     // 測驗平均 10 分鐘
     survey: 3     // 問卷平均 3 分鐘
   };
-  
+
   if (!this.steps || !Array.isArray(this.steps)) {
     return 0;
   }
-  
+
   return this.steps.reduce((total, step) => {
     return total + (timeByType[step.type] || 5);
   }, 0);
@@ -186,7 +186,7 @@ PlayBookSchema.methods.reorderSteps = function(newOrder) {
     step.stepNumber = index + 1;
     return step;
   });
-  
+
   this.steps = reorderedSteps;
   return this.save();
 };
@@ -200,7 +200,7 @@ PlayBookSchema.statics.validateStepResources = async function(steps) {
   const Content = mongoose.model('Content');
   const Exam = mongoose.model('Exam');
   const Survey = mongoose.model('Survey');
-  
+
   for (const step of steps) {
     let model;
     switch (step.type) {
@@ -209,18 +209,18 @@ PlayBookSchema.statics.validateStepResources = async function(steps) {
       case 'survey': model = Survey; break;
       default: throw new Error(`未知的步驟類型: ${step.type}`);
     }
-    
+
     const resource = await model.findById(step.resourceId);
     if (!resource) {
       throw new Error(`找不到${step.type}資源: ${step.resourceId}`);
     }
-    
+
     // 檢查資源是否可用
     if (step.type === 'content' && resource.status !== 'published') {
       throw new Error(`內容資源未發布: ${step.resourceId}`);
     }
   }
-  
+
   return true;
 };
 ```

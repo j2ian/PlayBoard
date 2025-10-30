@@ -14,7 +14,7 @@
     <!-- 歡迎卡片 -->
     <el-card class="mb-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white">
       <h2 class="text-xl font-bold mb-2">歡迎來到 PlayBoard 管理後台！</h2>
-      <p class="mb-2">這裡是您管理 PlayBoard 平台的中心。您可以管理用戶、遊戲內容、系統設置等。</p>
+      <p class="mb-2">這裡是你管理 PlayBoard 平台的中心。你可以管理用戶、遊戲內容、系統設置等。</p>
       <p>當前系統仍在開發中，更多功能將陸續推出。</p>
     </el-card>
 
