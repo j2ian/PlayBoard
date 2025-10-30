@@ -1,0 +1,803 @@
+/* 顏色定義 - 使用 CSS 變數方便修改 */
+:root {
+  /* 主色系 - 藍色主題 */
+  --ocean-primary-dark: #3080b4;      /* 深藍色 - 邊框、按鈕主色 */
+  --ocean-primary-light: #5CA3D4;     /* 中藍色 - 懸停、強調色 */
+  --ocean-text: #323232;              /* 深灰色 - 主要文字 */
+  --ocean-bg-light: #E3f8ff;          /* 淡藍色 - 背景色 */
+  --ocean-bg-form: #D0EEFF;           /* 淺藍色 - 表單背景、輸入框 */
+  --ocean-border: #3080b4;            /* 深藍色 - 邊框 */
+
+  /* 衍生色 */
+  --ocean-primary-lighter: #A8D8F0;   /* 更淡的藍 */
+  --ocean-primary-darker: #1F5A7D;    /* 更深的藍 */
+  --ocean-success: #5CA3D4;           /* 成功色 */
+  --ocean-success-dark: #1F5A7D;      /* 成功色深 */
+  --ocean-light-bg: #F0F9FF;          /* 超淡背景 */
+  --ocean-lighter-bg: #F5FCFF;        /* 極淡背景 */
+}
+
+/* ========== 背景樣式 ========== */
+.ocean-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.ocean-bg-menu {
+  background-image: url('../images/bg_menu.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.ocean-bg-full {
+  background-image: url('../images/bg_full.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.ocean-bg-none {
+  background-image: url('../images/bg_none.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.ocean-bg-color{
+  background-color: var(--ocean-bg-form) !important;
+}
+
+.ocean-bg-color-primary{
+  background-color: var(--ocean-primary-dark) !important;
+}
+
+.ocean-bg-color-second{
+  background-color: var(--ocean-bg-light) !important;
+}
+
+/* ========== 主要容器 ========== */
+main.ocean-main {
+  font-size: 25px;
+  color: var(--ocean-text);
+  min-height: 100vh;
+  width: 100vw;
+}
+
+/* ========== 問卷/內容容器 ========== */
+.ocean-container {
+  position: absolute;
+  top: 18vh;
+  left: 25vw;
+  height: 62vh;
+  width: 50vw;
+  overflow: overlay;
+}
+
+.ocean-survey-container {
+  padding: 2rem;
+  background-color: var(--ocean-bg-light);
+  border: 20px solid var(--ocean-primary-dark);
+  border-radius: 1rem;
+  color: var(--ocean-text) !important;
+  font-size: 25px !important;
+
+  /* 覆蓋 Element Plus CSS 變數 */
+  --el-radio-font-size: 25px;
+  --el-checkbox-font-size: 25px;
+  --el-radio-text-color: var(--ocean-text);
+  --el-checkbox-text-color: var(--ocean-text);
+  --el-input-font-size: 25px;
+  --el-textarea-font-size: 25px;
+  --el-button-font-size: 20px;
+}
+
+.ocean-survey-container .text-2xl {
+  font-size: 25px !important;
+}
+
+.ocean-survey-container .mb-2 {
+  font-size: 25px !important;
+}
+
+/* Element Plus 表單元素樣式覆蓋（for Survey） */
+.ocean-survey-container .el-radio-group,
+.ocean-survey-container .el-checkbox-group {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.75rem !important;
+}
+
+.ocean-survey-container .el-radio,
+.ocean-survey-container .el-checkbox {
+  font-size: 25px !important;
+  color: var(--ocean-text) !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  line-height: 1 !important;
+  padding: 0.5rem 0 !important;
+}
+
+.ocean-survey-container .el-radio .el-radio__label,
+.ocean-survey-container .el-checkbox .el-checkbox__label {
+  font-size: 25px !important;
+  color: var(--ocean-text) !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  line-height: 1 !important;
+}
+
+/* 更強力的覆蓋 */
+.ocean-survey-container .el-radio-group .el-radio .el-radio__label,
+.ocean-survey-container .el-checkbox-group .el-checkbox .el-checkbox__label {
+  font-size: 25px !important;
+  color: var(--ocean-text) !important;
+}
+
+.ocean-survey-container .el-radio__input.is-checked .el-radio__inner {
+  border-color: var(--ocean-text) !important;
+  background-color: var(--ocean-bg-form) !important;
+}
+
+.ocean-survey-container .el-checkbox__input.is-checked .el-checkbox__inner {
+  border-color: var(--ocean-text) !important;
+  background-color: var(--ocean-bg-form) !important;
+}
+
+.ocean-survey-container .el-radio__inner {
+  border-color: var(--ocean-text) !important;
+  background-color: var(--ocean-bg-form) !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.ocean-survey-container .el-radio__input {
+  margin-top: 0 !important;
+  align-self: flex-start !important;
+  line-height: 1 !important;
+}
+
+.ocean-survey-container .el-checkbox__inner {
+  border-color: var(--ocean-text) !important;
+  background-color: var(--ocean-bg-form) !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.ocean-survey-container .el-checkbox__input {
+  margin-top: 0 !important;
+  align-self: flex-start !important;
+  line-height: 1 !important;
+}
+
+.ocean-survey-container .el-input__inner,
+.ocean-survey-container .el-textarea__inner {
+  font-size: 25px !important;
+  color: var(--ocean-text) !important;
+  background-color: var(--ocean-bg-form) !important;
+  border-color: var(--ocean-text) !important;
+}
+
+.ocean-survey-container .el-button {
+  font-size: 20px !important;
+}
+
+.ocean-survey-container .el-button--primary {
+  background-color: var(--ocean-primary-dark) !important;
+  border-color: var(--ocean-primary-dark) !important;
+  color: #ffffff !important;
+}
+
+.ocean-survey-container .el-button--primary:hover {
+  background-color: var(--ocean-primary-light) !important;
+  border-color: var(--ocean-primary-light) !important;
+}
+
+.ocean-survey-container .el-button--primary:active {
+  background-color: var(--ocean-primary-darker) !important;
+  border-color: var(--ocean-primary-darker) !important;
+}
+
+.ocean-survey-container .el-button.is-plain {
+  background-color: var(--ocean-bg-form) !important;
+  border-color: var(--ocean-primary-dark) !important;
+  color: var(--ocean-text) !important;
+}
+
+.ocean-survey-container .el-button.is-plain:hover {
+  background-color: var(--ocean-primary-light) !important;
+  border-color: var(--ocean-primary-light) !important;
+  color: #ffffff !important;
+}
+
+/* Dialog 結果顯示 (Survey) */
+.ocean-survey-container .el-dialog__header,
+.ocean-survey-container .el-dialog__body {
+  font-size: 20px !important;
+  color: var(--ocean-text) !important;
+}
+
+.ocean-survey-container .el-dialog__title {
+  font-size: 25px !important;
+  color: var(--ocean-text) !important;
+}
+
+.ocean-survey-container .text-3xl {
+  font-size: 2.5rem !important;
+}
+
+.ocean-survey-container .text-lg {
+  font-size: 1.5rem !important;
+}
+
+.ocean-exam-content {
+  background-color: var(--ocean-bg-form);
+  border: 20px solid var(--ocean-primary-dark);
+  border-radius: 1rem;
+  color: var(--ocean-text) !important;
+  font-size: 25px !important;
+
+  /* 覆蓋 Element Plus CSS 變數 */
+  --el-radio-font-size: 25px;
+  --el-checkbox-font-size: 25px;
+  --el-radio-text-color: var(--ocean-text);
+  --el-checkbox-text-color: var(--ocean-text);
+  --el-input-font-size: 25px;
+  --el-textarea-font-size: 25px;
+  --el-button-font-size: 20px;
+}
+
+.ocean-exam-content .text-2xl {
+  font-size: 25px !important;
+}
+
+.ocean-exam-content .mb-2 {
+  font-size: 25px !important;
+}
+
+/* ========== 按鈕樣式 ========== */
+/* 全域 ocean 主題按鈕配色 */
+.ocean-bg,
+.ocean-bg-menu,
+.ocean-bg-full,
+.ocean-bg-none {
+  --el-color-primary: var(--ocean-primary-dark);
+  --el-color-primary-light-3: var(--ocean-primary-light);
+  --el-color-primary-light-5: var(--ocean-bg-form);
+  --el-color-primary-light-7: var(--ocean-bg-light);
+  --el-color-primary-light-8: var(--ocean-light-bg);
+  --el-color-primary-light-9: var(--ocean-lighter-bg);
+  --el-color-primary-dark-2: var(--ocean-primary-darker);
+  --el-color-success: var(--ocean-primary-light);
+  --el-color-success-light-3: var(--ocean-primary-lighter);
+  --el-color-success-dark-2: var(--ocean-success-dark);
+}
+
+.ocean-button {
+  position: absolute;
+  top: 85vh;
+  left: 42.5vw;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.ocean-button img {
+  height: 12vh;
+  width: 16vw;
+  transition: opacity 0.3s ease;
+}
+
+.ocean-button .hov-img {
+  display: none;
+}
+
+.ocean-button:hover .hov-img {
+  display: inline-block;
+}
+
+.ocean-button:hover .inn-img {
+  display: none;
+}
+
+/* ========== 表單元素 ========== */
+.ocean-form-control {
+  font-size: 1.05vw;
+  color: var(--ocean-text);
+  background-color: var(--ocean-bg-form);
+  border-color: var(--ocean-text);
+}
+
+.ocean-form-control:focus {
+  color: var(--ocean-text);
+  background-color: var(--ocean-bg-form);
+  border-color: var(--ocean-text);
+  box-shadow: 0 0 0 0.25rem rgba(99, 74, 32, 0.25);
+}
+
+.ocean-form-check-input {
+  cursor: pointer;
+  border-color: var(--ocean-text);
+  background-color: var(--ocean-bg-form);
+}
+
+.ocean-form-check-input:checked {
+  border-color: var(--ocean-text);
+  background-color: var(--ocean-bg-form);
+}
+
+.ocean-form-check-input:checked[type=radio] {
+  --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23000'/%3e%3c/svg%3e");
+}
+
+.ocean-form-check-input:checked[type=checkbox] {
+  --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+/* Element Plus 表單元素樣式覆蓋（for Exam/Survey） */
+.ocean-exam-content .el-radio-group,
+.ocean-exam-content .el-checkbox-group {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.75rem !important;
+}
+
+.ocean-exam-content .el-radio,
+.ocean-exam-content .el-checkbox {
+  font-size: 25px !important;
+  color: var(--ocean-text) !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  line-height: 1 !important;
+  padding: 0.5rem 0 !important;
+}
+
+.ocean-exam-content .el-radio .el-radio__label,
+.ocean-exam-content .el-checkbox .el-checkbox__label {
+  font-size: 25px !important;
+  color: var(--ocean-text) !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  line-height: 1 !important;
+}
+
+/* 更強力的覆蓋 */
+.ocean-exam-content .el-radio-group .el-radio .el-radio__label,
+.ocean-exam-content .el-checkbox-group .el-checkbox .el-checkbox__label {
+  font-size: 25px !important;
+  color: var(--ocean-text) !important;
+}
+
+.ocean-exam-content .el-radio__input.is-checked .el-radio__inner {
+  border-color: var(--ocean-text) !important;
+  background-color: var(--ocean-bg-form) !important;
+}
+
+.ocean-exam-content .el-checkbox__input.is-checked .el-checkbox__inner {
+  border-color: var(--ocean-text) !important;
+  background-color: var(--ocean-bg-form) !important;
+}
+
+.ocean-exam-content .el-radio__inner {
+  border-color: var(--ocean-text) !important;
+  background-color: var(--ocean-bg-form) !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.ocean-exam-content .el-radio__input {
+  margin-top: 0 !important;
+  align-self: flex-start !important;
+  line-height: 1 !important;
+}
+
+.ocean-exam-content .el-checkbox__inner {
+  border-color: var(--ocean-text) !important;
+  background-color: var(--ocean-bg-form) !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.ocean-exam-content .el-checkbox__input {
+  margin-top: 0 !important;
+  align-self: flex-start !important;
+  line-height: 1 !important;
+}
+
+.ocean-exam-content .el-input__inner,
+.ocean-exam-content .el-textarea__inner {
+  font-size: 25px !important;
+  color: var(--ocean-text) !important;
+  background-color: var(--ocean-bg-form) !important;
+  border-color: var(--ocean-text) !important;
+}
+
+.ocean-exam-content .el-button {
+  font-size: 20px !important;
+}
+
+.ocean-exam-content .el-button--primary {
+  background-color: var(--ocean-primary-dark) !important;
+  border-color: var(--ocean-primary-dark) !important;
+  color: #ffffff !important;
+}
+
+.ocean-exam-content .el-button--primary:hover {
+  background-color: var(--ocean-primary-light) !important;
+  border-color: var(--ocean-primary-light) !important;
+}
+
+.ocean-exam-content .el-button--primary:active {
+  background-color: var(--ocean-primary-darker) !important;
+  border-color: var(--ocean-primary-darker) !important;
+}
+
+.ocean-exam-content .el-button.is-plain {
+  background-color: var(--ocean-bg-form) !important;
+  border-color: var(--ocean-primary-dark) !important;
+  color: var(--ocean-text) !important;
+}
+
+.ocean-exam-content .el-button.is-plain:hover {
+  background-color: var(--ocean-primary-light) !important;
+  border-color: var(--ocean-primary-light) !important;
+  color: #ffffff !important;
+}
+
+.ocean-exam-content .el-button--success {
+  background-color: var(--ocean-primary-light) !important;
+  border-color: var(--ocean-primary-light) !important;
+  color: #ffffff !important;
+}
+
+.ocean-exam-content .el-button--success:hover {
+  background-color: var(--ocean-success-dark) !important;
+  border-color: var(--ocean-success-dark) !important;
+}
+
+/* Dialog 結果顯示 */
+.ocean-exam-content .el-dialog__header,
+.ocean-exam-content .el-dialog__body {
+  font-size: 20px !important;
+  color: var(--ocean-text) !important;
+}
+
+.ocean-exam-content .el-dialog__title {
+  font-size: 25px !important;
+  color: var(--ocean-text) !important;
+}
+
+.ocean-exam-content .text-3xl {
+  font-size: 2.5rem !important;
+}
+
+.ocean-exam-content .text-lg {
+  font-size: 1.5rem !important;
+}
+
+/* ========== 音樂控制器 ========== */
+.ocean-music-control {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.ocean-music-control input[type="range"] {
+  top: 0;
+  left: 30px;
+  margin: 5px;
+  width: 5%;
+  line-height: 20px;
+}
+
+.ocean-music-control .play-icon,
+.ocean-music-control .mute-icon {
+  margin: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--ocean-primary-light);
+}
+
+/* ========== 自定義滾動條 ========== */
+.ocean-scrollbar::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  background-color: var(--ocean-bg-form);
+}
+
+.ocean-scrollbar::-webkit-scrollbar {
+  width: 15px;
+  background-color: #F5F5F5;
+}
+
+.ocean-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: var(--ocean-primary-light);
+  background-image: -webkit-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, .2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, .2) 50%,
+    rgba(255, 255, 255, .2) 75%,
+    transparent 75%,
+    transparent
+  );
+}
+
+/* ========== 播放器 ========== */
+.ocean-player {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.ocean-player iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* ========== 工具類 ========== */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+button.ocean-style {
+  cursor: pointer;
+}
+
+.ocean-box-give img {
+  cursor: grab;
+}
+
+/* ========== 響應式設計 (RWD) ========== */
+
+/* 平板版本 (iPad / 768px - 1024px) */
+@media (max-width: 1024px) {
+  main.ocean-main {
+    font-size: 20px;
+  }
+
+  .ocean-container {
+    top: 15vh;
+    left: 15vw;
+    height: 65vh;
+    width: 70vw;
+  }
+
+  .ocean-survey-container,
+  .ocean-exam-content {
+    padding: 1.5rem;
+    border: 15px solid var(--ocean-primary-dark);
+    font-size: 20px !important;
+    --el-radio-font-size: 20px;
+    --el-checkbox-font-size: 20px;
+    --el-input-font-size: 20px;
+    --el-textarea-font-size: 20px;
+    --el-button-font-size: 18px;
+  }
+
+  .ocean-survey-container .text-2xl,
+  .ocean-exam-content .text-2xl {
+    font-size: 20px !important;
+  }
+
+  .ocean-button {
+    top: 82vh;
+    left: 40vw;
+  }
+
+  .ocean-button img {
+    height: 10vh;
+    width: 20vw;
+  }
+}
+
+/* 手機版本 (375px - 767px) */
+@media (max-width: 767px) {
+  /* 背景圖片替換為手機版 */
+  .ocean-bg-full {
+    background-image: url('../images/bg_full_mobile.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+
+  .ocean-bg-none {
+    background-image: url('../images/bg_none_mobile.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+
+  .ocean-bg-menu {
+    background-image: url('../images/bg_full_mobile.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+
+  main.ocean-main {
+    font-size: 16px;
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* 容器調整 - 手機版全寬 */
+  .ocean-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    overflow: visible;
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  .ocean-survey-container,
+  .ocean-exam-content {
+    padding: 0.75rem;
+    font-size: 16px !important;
+    border: 10px solid var(--ocean-primary-dark);
+
+    /* 調整 Element Plus 尺寸 */
+    --el-radio-font-size: 16px;
+    --el-checkbox-font-size: 16px;
+    --el-input-font-size: 16px;
+    --el-textarea-font-size: 16px;
+    --el-button-font-size: 14px;
+  }
+
+  .ocean-survey-container .text-2xl,
+  .ocean-survey-container .mb-2,
+  .ocean-exam-content .text-2xl,
+  .ocean-exam-content .mb-2 {
+    font-size: 16px !important;
+  }
+
+  .ocean-survey-container .text-3xl,
+  .ocean-exam-content .text-3xl {
+    font-size: 1.5rem !important;
+  }
+
+  .ocean-survey-container .text-lg,
+  .ocean-exam-content .text-lg {
+    font-size: 1.1rem !important;
+  }
+
+  /* 按鈕調整 */
+  .ocean-button {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin: 1.5rem auto;
+    display: block;
+    padding: 0.5rem;
+  }
+
+  .ocean-button img {
+    height: auto;
+    width: 100%;
+    max-width: 150px;
+  }
+
+  /* 表單元素調整 */
+  .ocean-survey-container .el-radio,
+  .ocean-survey-container .el-checkbox,
+  .ocean-exam-content .el-radio,
+  .ocean-exam-content .el-checkbox {
+    font-size: 16px !important;
+    padding: 0.5rem 0 !important;
+  }
+
+  .ocean-survey-container .el-radio .el-radio__label,
+  .ocean-survey-container .el-checkbox .el-checkbox__label,
+  .ocean-exam-content .el-radio .el-radio__label,
+  .ocean-exam-content .el-checkbox .el-checkbox__label {
+    font-size: 16px !important;
+  }
+
+  .ocean-survey-container .el-input__inner,
+  .ocean-survey-container .el-textarea__inner,
+  .ocean-exam-content .el-input__inner,
+  .ocean-exam-content .el-textarea__inner {
+    font-size: 16px !important;
+    padding: 0.5rem !important;
+  }
+
+  .ocean-survey-container .el-button,
+  .ocean-exam-content .el-button {
+    font-size: 14px !important;
+    padding: 8px 16px !important;
+    width: 100%;
+    margin: 0.5rem 0 !important;
+  }
+
+  /* Dialog 調整 */
+  .ocean-survey-container .el-dialog__header,
+  .ocean-survey-container .el-dialog__body,
+  .ocean-exam-content .el-dialog__header,
+  .ocean-exam-content .el-dialog__body {
+    font-size: 16px !important;
+    padding: 1rem !important;
+  }
+
+  .ocean-survey-container .el-dialog__title,
+  .ocean-exam-content .el-dialog__title {
+    font-size: 1.3rem !important;
+  }
+
+  /* 音樂控制器調整 */
+  .ocean-music-control input[type="range"] {
+    width: 60%;
+    margin: 5px;
+  }
+
+  .ocean-music-control .play-icon,
+  .ocean-music-control .mute-icon {
+    font-size: 16px;
+    margin: 3px;
+  }
+}
+
+/* 超小手機版本 (320px - 374px) */
+@media (max-width: 374px) {
+  main.ocean-main {
+    font-size: 14px;
+  }
+
+  .ocean-container {
+    padding: 0.5rem;
+  }
+
+  .ocean-survey-container,
+  .ocean-exam-content {
+    padding: 0.5rem;
+    border: 8px solid var(--ocean-primary-dark);
+    font-size: 14px !important;
+    --el-radio-font-size: 14px;
+    --el-checkbox-font-size: 14px;
+    --el-input-font-size: 14px;
+    --el-textarea-font-size: 14px;
+    --el-button-font-size: 12px;
+  }
+
+  .ocean-survey-container .text-2xl,
+  .ocean-exam-content .text-2xl {
+    font-size: 14px !important;
+  }
+
+  .ocean-survey-container .el-button,
+  .ocean-exam-content .el-button {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+  }
+
+  .ocean-button img {
+    max-width: 120px;
+  }
+}
