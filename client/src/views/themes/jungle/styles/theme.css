@@ -373,6 +373,12 @@ main.jungle-main {
   background-color: #D2E6B3 !important;
 }
 
+.jungle-exam-content .el-radio__input.is-checked .el-radio__inner::after {
+  width: 12px !important;
+  height: 12px !important;
+  background-color: #11191f !important;
+}
+
 .jungle-exam-content .el-checkbox__input.is-checked .el-checkbox__inner {
   border-color: #634A20 !important;
   background-color: #D2E6B3 !important;

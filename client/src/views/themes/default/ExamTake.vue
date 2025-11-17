@@ -249,4 +249,19 @@ onUnmounted(() => {
     clearInterval(countdownTimer)
   }
 })
-</script> 
+</script>
+
+<style scoped>
+/* 放大單選按鈕的白色圓點 */
+:deep(.el-radio__inner::after) {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+/* 放大複選框的勾選標記 */
+:deep(.el-checkbox__inner::after) {
+  width: 5px !important;
+  height: 9px !important;
+  left: 6px !important;
+}
+</style> 
