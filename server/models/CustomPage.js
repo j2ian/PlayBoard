@@ -157,17 +157,18 @@ CustomPageSchema.virtual('isReady').get(function() {
   return this.status === 'ready';
 });
 
-// 中間件：自動生成 slug
+// 中間件：自動生成 slug（僅在創建時）
 CustomPageSchema.pre('validate', function(next) {
-  if ((this.isModified('title') || !this.slug) && this.title) {
+  // 只在新建頁面且沒有 slug 時才生成，避免修改標題時影響現有 URL
+  if (this.isNew && !this.slug && this.title) {
     const base = slugify(this.title, { lower: true, strict: true });
     let generated = base;
-    
+
     if (!generated || generated.trim() === '') {
       const random = Math.random().toString(36).slice(2, 8);
       generated = `custom-page-${random}`;
     }
-    
+
     this.slug = generated;
   }
   next();

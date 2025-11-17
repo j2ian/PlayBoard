@@ -14,14 +14,33 @@
       v-loading="loading"
     >
       <el-form-item label="頁面標題" prop="title">
-        <el-input 
-          v-model="form.title" 
+        <el-input
+          v-model="form.title"
           placeholder="請輸入頁面標題"
           maxlength="200"
           show-word-limit
         />
       </el-form-item>
-      
+
+      <el-form-item label="URL 標識符">
+        <el-input
+          :model-value="customPage?.slug"
+          disabled
+          placeholder="系統自動生成"
+        >
+          <template #append>
+            <el-tooltip content="點擊複製訪問連結" placement="top">
+              <el-button @click="copyPublicUrl" icon="Link">
+                複製連結
+              </el-button>
+            </el-tooltip>
+          </template>
+        </el-input>
+        <div class="text-sm text-gray-500 mt-1">
+          URL 標識符在頁面創建時生成，之後不會隨標題改變
+        </div>
+      </el-form-item>
+
       <el-form-item label="頁面描述" prop="description">
         <el-input 
           v-model="form.description" 
@@ -330,7 +349,21 @@ export default {
     const handleClose = () => {
       emit('update:modelValue', false);
     };
-    
+
+    // 複製公開連結
+    const copyPublicUrl = () => {
+      if (props.customPage?.slug) {
+        const baseUrl = window.location.origin;
+        const publicUrl = `${baseUrl}/PlayBoard/custom-pages/${props.customPage.slug}/play`;
+
+        navigator.clipboard.writeText(publicUrl).then(() => {
+          ElMessage.success('已複製連結到剪貼簿');
+        }).catch(() => {
+          ElMessage.error('複製失敗');
+        });
+      }
+    };
+
     return {
       visible,
       formRef,
@@ -347,7 +380,8 @@ export default {
       getStatusText,
       formatDate,
       handleSave,
-      handleClose
+      handleClose,
+      copyPublicUrl
     };
   }
 };
