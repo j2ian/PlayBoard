@@ -3,10 +3,10 @@ import apiClient from './api';
 
 class ExamService {
   getAllExams(params) {
-    return apiClient.get('/exams', { params });
+    return apiClient.get('/exams', { params, skipAuthRedirect: true });
   }
   getExam(id) {
-    return apiClient.get(`/exams/${id}`);
+    return apiClient.get(`/exams/${id}`, { skipAuthRedirect: true });
   }
   createExam(examData) {
     return apiClient.post('/exams', examData);

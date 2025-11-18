@@ -14,7 +14,7 @@ class SurveyService {
 
   // 獲取問卷內容（學生用，無需認證）
   getSurveyForStudent(id) {
-    return apiClient.get(`/surveys/${id}/public`);
+    return apiClient.get(`/surveys/${id}/public`, { skipAuthRedirect: true });
   }
 
   // 創建問卷（管理員用）
@@ -34,7 +34,7 @@ class SurveyService {
 
   // 提交問卷回答（學生用）
   submitSurveyResponse(id, responseData) {
-    return apiClient.post(`/surveys/${id}/responses`, responseData);
+    return apiClient.post(`/surveys/${id}/responses`, responseData, { skipAuthRedirect: true });
   }
 
   // 獲取問卷回答統計（管理員用）

@@ -42,30 +42,30 @@ class ContentService {
   }
 
   // ===== 公開API =====
-  
+
   // 獲取公開內容列表
   getPublicContents(params) {
-    return apiClient.get('/contents/public', { params });
+    return apiClient.get('/contents/public', { params, skipAuthRedirect: true });
   }
 
   // 獲取公開內容（根據slug）
   getPublicContent(slug) {
-    return apiClient.get(`/contents/public/${slug}`);
+    return apiClient.get(`/contents/public/${slug}`, { skipAuthRedirect: true });
   }
 
   // 獲取公開內容（根據ID）
   getPublicContentById(id) {
-    return apiClient.get(`/contents/public/by-id/${id}`);
+    return apiClient.get(`/contents/public/by-id/${id}`, { skipAuthRedirect: true });
   }
 
   // 獲取分類列表
   getCategories() {
-    return apiClient.get('/contents/categories');
+    return apiClient.get('/contents/categories', { skipAuthRedirect: true });
   }
 
   // 獲取標籤列表
   getTags() {
-    return apiClient.get('/contents/tags');
+    return apiClient.get('/contents/tags', { skipAuthRedirect: true });
   }
 
   // ===== 工具方法 =====

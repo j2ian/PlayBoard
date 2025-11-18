@@ -42,20 +42,20 @@ class PlayBookService {
   }
 
   // ==================== 公開API ====================
-  
+
   // 獲取公開PlayBook列表
   getPublicPlayBooks(params = {}) {
-    return apiClient.get('/playbooks/public', { params });
+    return apiClient.get('/playbooks/public', { params, skipAuthRedirect: true });
   }
 
   // 根據slug獲取公開PlayBook
   getPublicPlayBook(slug) {
-    return apiClient.get(`/playbooks/public/${slug}`);
+    return apiClient.get(`/playbooks/public/${slug}`, { skipAuthRedirect: true });
   }
 
   // 獲取分類列表
   getCategories() {
-    return apiClient.get('/playbooks/categories');
+    return apiClient.get('/playbooks/categories', { skipAuthRedirect: true });
   }
 
   // ==================== 用戶進度API ====================
@@ -69,7 +69,7 @@ class PlayBookService {
       const response = await apiClient.post(`/playbooks/${playBookId}/progress`, {
         userId,
         userName
-      });
+      }, { skipAuthRedirect: true });
       
       console.log('API 回應:', response)
       
@@ -105,7 +105,7 @@ class PlayBookService {
   // 重置用戶在指定PlayBook的進度（伺服器端）
   async resetProgress(playBookId, userId) {
     try {
-      const response = await apiClient.post(`/playbooks/${playBookId}/progress/reset`, { userId });
+      const response = await apiClient.post(`/playbooks/${playBookId}/progress/reset`, { userId }, { skipAuthRedirect: true });
       // 清除本地備份
       this.clearPlayBookProgress(playBookId);
       return response;
@@ -134,7 +134,7 @@ class PlayBookService {
           timeRecord
         },
         timeSpent
-      });
+      }, { skipAuthRedirect: true });
       
       // 更新成功後，同步更新本地進度
       if (response.data && response.data.success) {

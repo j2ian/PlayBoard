@@ -36,17 +36,22 @@ apiClient.interceptors.response.use(
   (error) => {
     // 處理 401 未授權錯誤
     if (error.response && error.response.status === 401) {
-      // 如果 token 無效，登出用戶
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-      
-      // 如果不是登入頁，重定向到登入頁面
-      const currentPath = window.location.pathname;
-      if (currentPath !== '/login') {
-        window.location.href = '/login?redirect=' + currentPath;
+      // 檢查是否應該跳過自動重定向（用於公開 API）
+      const skipAuthRedirect = error.config?.skipAuthRedirect;
+
+      if (!skipAuthRedirect) {
+        // 如果 token 無效，登出用戶
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+
+        // 如果不是登入頁，重定向到登入頁面
+        const currentPath = window.location.pathname;
+        if (currentPath !== '/login') {
+          window.location.href = '/login?redirect=' + currentPath;
+        }
       }
     }
-    
+
     return Promise.reject(error);
   }
 );

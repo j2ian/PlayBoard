@@ -58,13 +58,13 @@ const customPageService = {
   // 獲取可用的客製化頁面
   async getAvailableCustomPages() {
     // 與其他 service 保持一致：回傳完整 axios response，呼叫端以 response.data.success 判斷
-    return api.get('/custom-pages/available');
+    return api.get('/custom-pages/available', { skipAuthRedirect: true });
   },
 
   // 訪問客製化頁面（公開）
   async getCustomPagePublic(slug) {
     try {
-      const response = await api.get(`/custom-pages/public/${slug}`);
+      const response = await api.get(`/custom-pages/public/${slug}`, { skipAuthRedirect: true });
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
